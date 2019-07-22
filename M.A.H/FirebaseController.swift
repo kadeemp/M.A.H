@@ -37,4 +37,21 @@ class FirebaseController {
     func createDBUser(uid:String, userData:Dictionary<String,Any>) {
         REF_USERS.child(uid).updateChildValues(userData)
     }
+    static func downloadImage(imageName:String, completion: @escaping ((UIImage) -> ()))  {
+        let imageRef = "Meme folder/\(imageName)"
+        let storage = Storage.storage()
+
+        let haroldRef = storage.reference(withPath: imageRef)
+
+        haroldRef.getData(maxSize: 1 * 1024 * 1024, completion: {(data, error) in
+            if let error = error {
+                // Uh-oh, an error occurred!
+                print(error)
+            } else {
+                // Data for "images/island.jpg" is returned
+                let image = UIImage(data: data!)
+                completion(image!)
+            }
+        })
+    }
 }
