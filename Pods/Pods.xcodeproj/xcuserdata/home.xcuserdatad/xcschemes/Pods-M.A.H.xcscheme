@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1100"
+   LastUpgradeVersion = "0930"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "36C32C3C2463DC34D2EF3DE758511F31"
+               BlueprintIdentifier = "6FEBFAF30051CA3C1EB09EA82EB10B71"
                BuildableName = "Pods_M_A_H.framework"
                BlueprintName = "Pods-M.A.H"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -29,6 +29,8 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
       </Testables>
+      <AdditionalOptions>
+      </AdditionalOptions>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
@@ -40,6 +42,17 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "6FEBFAF30051CA3C1EB09EA82EB10B71"
+            BuildableName = "Pods_M_A_H.framework"
+            BlueprintName = "Pods-M.A.H"
+            ReferencedContainer = "container:Pods.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
+      <AdditionalOptions>
+      </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
