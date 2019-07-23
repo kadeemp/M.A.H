@@ -80,6 +80,7 @@ PODS:
     - nanopb/encode (= 0.3.901)
   - nanopb/decode (0.3.901)
   - nanopb/encode (0.3.901)
+  - SwiftyGif (5.1.1)
 
 DEPENDENCIES:
   - Alamofire (~> 4.7)
@@ -89,6 +90,7 @@ DEPENDENCIES:
   - Firebase/Core
   - Firebase/Database
   - Firebase/Storage
+  - SwiftyGif
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -107,6 +109,7 @@ SPEC REPOS:
     - GTMSessionFetcher
     - leveldb-library
     - nanopb
+    - SwiftyGif
 
 SPEC CHECKSUMS:
   Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
@@ -124,7 +127,8 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 61bb0f61a4cb560030f1222021178008a5727a23
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
+  SwiftyGif: f7702483db93586a41f04f4927cd682852a2fa10
 
-PODFILE CHECKSUM: 05c61a6cae6c4d614f9558bc5b0f52da183c821b
+PODFILE CHECKSUM: 3256120c912f394e5ef21093d73c273346037a73
 
 COCOAPODS: 1.6.0
