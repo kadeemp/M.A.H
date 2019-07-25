@@ -46,10 +46,91 @@ class FirebaseController {
     func createDBUser(uid:String, userData:Dictionary<String,Any>) {
         REF_USERS.child(uid).updateChildValues(userData)
     }
-    let gifs = ["MERYL STREEP YES.gif", "CardiBIHateThat.gif", "ImIntoThat.gif", "SusConceited.gif", "OKURRRRRR.gif", "Waka_Okay...gif", "ImSorryWHAT.gif", "WoooooordCardiB.gif", "ObamaPoints.gif", "kenanFaceThanos.gif", "StephCurrySMH.gif", "WendyWiliamsStare.gif", "BlackhousewivesofatlantaWHOSAIDTHAT.gif", "UNIMPRESSED NEIL DEGRASSE.gif", "JudgingJustinT.gif", "INCREDULOUS COME ON.gif", "StanleyEyeRoll.gif", "spideyPoints.gif", "NickYoungWTF.gif", "annoyedObama.gif", "STOP IT MICHAEL JORDAN.gif", "HardenEyeRoll.gif", "ThinkAboutIt.gif"]
 
 
 
+    //MARK: // Login Support
+
+
+    func returnDisplayName( completion: @escaping (String) -> ())  {
+        if let thisUser = Auth.auth().currentUser {
+            REF_USERS.child(thisUser.uid).observeSingleEvent(of: .value, with: {(userSnapshot) in
+                guard let userSnapshot = userSnapshot.children.allObjects as? [DataSnapshot] else { return }
+                for user in userSnapshot {
+                    if user.key ==
+                        FirebaseUserKeys.displayName {
+                        guard let result = user.value  as? String else {return}
+                        completion(result)
+                    }
+                }
+            })
+        } else {
+            print("cound not load \(#function)")
+        }
+
+    }
+
+    func registerUser(firstName:String, lastName:String, displayName:String, completion: @escaping (_ status:Bool,_ error:Error?) -> ()) {
+
+        guard let user = Auth.auth().currentUser else {
+            print("user not signed in")
+            return }
+        let userData = ["provider":user.providerID , "email":user.email!, "firstName": firstName, "fullName": user.displayName, "displayName":displayName] as [String : Any]
+        FirebaseController.instance.createDBUser(uid: user.uid, userData: userData)
+        completion(true, nil)
+
+    }
+
+    func loginUser(withEmail email:String, andPassword password:String, completion: @escaping (_ status:Bool,_ error:Error?) -> ()) {
+        Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
+            if error != nil {
+                completion(false, error)
+                return
+            }
+            completion(true, nil)
+        }
+    }
+
+    func searchEmails(forSearchQuery query: String, handler: @escaping (_ emailArray: [String]) -> ()) {
+        var emailArray = [String]()
+
+        REF_USERS.observeSingleEvent(of:.value) { (userSnapshot) in
+            guard let userSnapshot = userSnapshot.children.allObjects as? [DataSnapshot] else { return }
+            for user in userSnapshot {
+                let email = user.childSnapshot(forPath: "email").value as? String
+
+                if ((email?.contains(query))!||((email?.capitalized.contains(query)))!) == true  {
+                    emailArray.append(email!)
+                }
+            }
+            handler(emailArray)
+        }
+    }
+
+    func isDuplicateEmail(_ emailString:String, completion: @escaping (Bool) -> ()){
+
+        REF_USERS.observeSingleEvent(of:.value) { (userSnapshot) in
+            print(userSnapshot)
+            guard let userSnapshot = userSnapshot.children.allObjects as? [DataSnapshot] else {
+                print("failed")
+                return
+            }
+
+            for user in userSnapshot {
+                let email = user.childSnapshot(forPath: "email").value as? String
+                print(emailString, "\n" , email! , "\n", "-------------_")
+
+                if email!.lowercased() == emailString.lowercased()  {
+                    print("isduplicate email is \(true)")
+                    completion(true)
+                    return
+                }
+            }
+            print("isduplicate email is \(false)")
+            completion(false)
+        }
+
+    }
 
     //MARK: Image Management
 
@@ -111,7 +192,7 @@ class FirebaseController {
     //MARK: Gif Management
 
     func uploadGifs(_ gifList:[String]) {
-        for gif in gifs {
+        for gif in gifList {
             REF_GIFS.childByAutoId().updateChildValues(["fileName":gif, "playedBy":""])
         }
     }

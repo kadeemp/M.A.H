@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		376819AECA3A5D60329F6E2F /* Pods_M_A_H.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03ECB90DC98F63EC987F9453 /* Pods_M_A_H.framework */; };
 		F438B39D22E933C9008314AE /* Extension+UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F438B39C22E933C9008314AE /* Extension+UIImageView.swift */; };
+		F438B3A322EA1050008314AE /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F438B3A222EA1050008314AE /* Constants.swift */; };
 		F45DACD222C5D25A004090C1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45DACD122C5D25A004090C1 /* AppDelegate.swift */; };
 		F45DACD422C5D25A004090C1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45DACD322C5D25A004090C1 /* ViewController.swift */; };
 		F45DACD722C5D25A004090C1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F45DACD522C5D25A004090C1 /* Main.storyboard */; };
@@ -24,6 +25,7 @@
 		03ECB90DC98F63EC987F9453 /* Pods_M_A_H.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_M_A_H.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7F765A56BFF834DCC60BE0D /* Pods-M.A.H.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-M.A.H.debug.xcconfig"; path = "Target Support Files/Pods-M.A.H/Pods-M.A.H.debug.xcconfig"; sourceTree = "<group>"; };
 		F438B39C22E933C9008314AE /* Extension+UIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIImageView.swift"; sourceTree = "<group>"; };
+		F438B3A222EA1050008314AE /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		F45DACCE22C5D25A004090C1 /* M.A.H.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = M.A.H.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F45DACD122C5D25A004090C1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F45DACD322C5D25A004090C1 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -59,6 +61,27 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		F438B3A422EA114E008314AE /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		F438B3A522EA1158008314AE /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		F438B3A622EA1160008314AE /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
 		F45DACC522C5D25A004090C1 = {
 			isa = PBXGroup;
 			children = (
@@ -81,6 +104,9 @@
 		F45DACD022C5D25A004090C1 /* M.A.H */ = {
 			isa = PBXGroup;
 			children = (
+				F438B3A622EA1160008314AE /* Controllers */,
+				F438B3A522EA1158008314AE /* Views */,
+				F438B3A422EA114E008314AE /* Models */,
 				F45DACD122C5D25A004090C1 /* AppDelegate.swift */,
 				F45DACD322C5D25A004090C1 /* ViewController.swift */,
 				F483A3D322E39AC000D099BE /* FirebaseController.swift */,
@@ -91,6 +117,7 @@
 				F45DACD822C5D25A004090C1 /* M_A_H.xcdatamodeld */,
 				F483A3D522E39E9900D099BE /* Podfile */,
 				F438B39C22E933C9008314AE /* Extension+UIImageView.swift */,
+				F438B3A222EA1050008314AE /* Constants.swift */,
 			);
 			path = M.A.H;
 			sourceTree = "<group>";
@@ -242,6 +269,7 @@
 				F438B39D22E933C9008314AE /* Extension+UIImageView.swift in Sources */,
 				F45DACDA22C5D25A004090C1 /* M_A_H.xcdatamodeld in Sources */,
 				F45DACD222C5D25A004090C1 /* AppDelegate.swift in Sources */,
+				F438B3A322EA1050008314AE /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
