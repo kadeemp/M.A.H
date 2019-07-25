@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftyGif
 
 extension UIImageView {
     func setGifTo(gifTitle:String) {

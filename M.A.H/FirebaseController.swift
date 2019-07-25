@@ -70,13 +70,21 @@ class FirebaseController {
 
     }
 
-    func registerUser(firstName:String, lastName:String, displayName:String, completion: @escaping (_ status:Bool,_ error:Error?) -> ()) {
+    func registerUser(firstName:String, lastName:String, displayName:String, email:String, password:String, completion: @escaping (_ status:Bool,_ error:Error?) -> ()) {
+        Auth.auth().createUser(withEmail: email, password: password) { (registrationComplete, error) in
+            if error != nil {
+                print(error)
 
-        guard let user = Auth.auth().currentUser else {
-            print("user not signed in")
-            return }
-        let userData = ["provider":user.providerID , "email":user.email!, "firstName": firstName, "fullName": user.displayName, "displayName":displayName] as [String : Any]
-        FirebaseController.instance.createDBUser(uid: user.uid, userData: userData)
+            } else {
+                print(Auth.auth().currentUser)
+                print(registrationComplete)
+            }
+        }
+//        guard let user = Auth.auth().currentUser else {
+//            print("user not signed in")
+//            return }
+//        let userData = ["provider":user.providerID , "email":user.email!, "firstName": firstName, "fullName": user.displayName, "displayName":displayName] as [String : Any]
+//        FirebaseController.instance.createDBUser(uid: user.uid, userData: userData)
         completion(true, nil)
 
     }
