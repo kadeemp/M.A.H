@@ -47,7 +47,9 @@ class FirebaseController {
         REF_USERS.child(uid).updateChildValues(userData)
     }
 
-
+    func createSession(code:String, hostID:String, host:String) {
+        REF_SESSIONS.childByAutoId().updateChildValues(["code":code, "hostID":hostID, "host":host])
+    }
 
     //MARK: // Login Support
 
@@ -74,10 +76,12 @@ class FirebaseController {
         Auth.auth().createUser(withEmail: email, password: password) { (registrationComplete, error) in
             if error != nil {
                 print(error)
+                completion(false, error)
 
             } else {
                 print(Auth.auth().currentUser)
                 print(registrationComplete)
+                completion(true, nil)
             }
         }
 //        guard let user = Auth.auth().currentUser else {
@@ -85,7 +89,7 @@ class FirebaseController {
 //            return }
 //        let userData = ["provider":user.providerID , "email":user.email!, "firstName": firstName, "fullName": user.displayName, "displayName":displayName] as [String : Any]
 //        FirebaseController.instance.createDBUser(uid: user.uid, userData: userData)
-        completion(true, nil)
+
 
     }
 

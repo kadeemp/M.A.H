@@ -36,19 +36,29 @@ class SignUpViewController: UIViewController {
         , displayName:displayName.text!, email: emailTxtField.text!, password: passwordTxtField.text! ) { (complete, error) in
             if complete {
                 print("successful registration")
-                if let user = Auth.auth().currentUser {
-                    var userData:[String:Any] = [:]
-                    userData["email"] = self.emailTxtField.text!
-                    userData["firstName"] = self.firstNameTxTField.text!
-                    let fullName = self.firstNameTxTField.text! + " "
-                        + self.lastNameTxtField.text!
-                    userData["fullName"] = fullName
-                    FirebaseController.instance.createDBUser(uid: user.uid, userData: userData)
-                    print("user saved to database")
-                } else {
-                    print("Error signing user in during registration")
-                }
-
+                FirebaseController.instance.loginUser(withEmail: self.emailTxtField.text!, andPassword: self.passwordTxtField.text!, completion: { (loginComplete, error) in
+                    if loginComplete {
+                        var userData:[String:Any] = [:]
+                        userData["email"] = self.emailTxtField.text!
+                        userData["firstName"] = self.firstNameTxTField.text!
+                        let fullName = self.firstNameTxTField.text! + " "
+                            + self.lastNameTxtField.text!
+                        userData["fullName"] = fullName
+                        let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
+                        changeRequest?.displayName = fullName
+                        changeRequest?.commitChanges(completion: { (error) in
+                            if error != nil {
+                                print(error)
+                                print("error commiting profile changes")
+                            }
+                        })
+                        FirebaseController.instance.createDBUser(uid: Auth.auth().currentUser!.uid, userData: userData)
+                        print("user saved to database")
+                    } else {
+                        print("Error signing user in during registration")
+                        print(error)
+                    }
+                })
 
             } else {
                 print(error)

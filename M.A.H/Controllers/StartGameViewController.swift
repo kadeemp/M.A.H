@@ -18,6 +18,20 @@ class StartGameViewController: UIViewController {
     }
     
     @IBAction func startGamePressed(_ sender: Any) {
+        var uid = UUID().description
+        print(uid)
+        var code = ""
+        let codeCharacters = Array(uid)
+        var counter = 0
+        while counter < 4 {
+                code += String(codeCharacters[counter])
+                counter += 1
+        }
+
+print(Auth.auth().currentUser?.displayName)
+        if code.count == 4 && Auth.auth().currentUser != nil {
+            FirebaseController.instance.createSession(code: code, hostID: Auth.auth().currentUser!.uid, host: "me")
+        }
     }
     @IBAction func findGamePressed(_ sender: Any) {
 
