@@ -113,7 +113,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CRJ-Lk-jEQ">
-                                <rect key="frame" x="157" y="446" width="100" height="60"/>
+                                <rect key="frame" x="157" y="372.5" width="100" height="60"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="GaR-4E-G0r"/>
@@ -135,7 +135,7 @@
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="KWZ-7k-RR2">
-                                <rect key="frame" x="20" y="107" width="374" height="324"/>
+                                <rect key="frame" x="20" y="107" width="374" height="250.5"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="LJU-YR-AQP">
                                         <rect key="frame" x="0.0" y="0.0" width="374" height="30"/>
@@ -191,24 +191,8 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Display Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2lR-xC-Ma1">
-                                        <rect key="frame" x="0.0" y="258.5" width="138" height="27.5"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="23"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="u2i-ZW-M4t">
-                                        <rect key="frame" x="0.0" y="294" width="374" height="30"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="30" id="ZLJ-8m-JgX"/>
-                                        </constraints>
-                                        <nil key="textColor"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                    </textField>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="u2i-ZW-M4t" firstAttribute="width" secondItem="KWZ-7k-RR2" secondAttribute="width" id="831-aP-NZK"/>
                                     <constraint firstItem="oVa-sB-QrP" firstAttribute="width" secondItem="KWZ-7k-RR2" secondAttribute="width" id="JB7-2w-YEf"/>
                                     <constraint firstItem="Qkp-C3-ulD" firstAttribute="width" secondItem="KWZ-7k-RR2" secondAttribute="width" id="MWd-Hh-CxC"/>
                                     <constraint firstItem="LJU-YR-AQP" firstAttribute="width" secondItem="KWZ-7k-RR2" secondAttribute="width" id="aGg-6s-d3O"/>
@@ -230,7 +214,6 @@
                         <viewLayoutGuide key="safeArea" id="9Jj-2K-dii"/>
                     </view>
                     <connections>
-                        <outlet property="displayName" destination="u2i-ZW-M4t" id="JLM-uV-keU"/>
                         <outlet property="emailTxtField" destination="LJU-YR-AQP" id="QRZ-jw-Tra"/>
                         <outlet property="firstNameTxTField" destination="Qkp-C3-ulD" id="t3V-23-SlX"/>
                         <outlet property="lastNameTxtField" destination="vzR-cY-AGc" id="5wz-au-QNz"/>

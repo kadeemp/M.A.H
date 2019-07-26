@@ -24,13 +24,13 @@ class StartGameViewController: UIViewController {
         let codeCharacters = Array(uid)
         var counter = 0
         while counter < 4 {
-                code += String(codeCharacters[counter])
-                counter += 1
+            code += String(codeCharacters[counter])
+            counter += 1
         }
 
-print(Auth.auth().currentUser?.displayName)
+        print(Auth.auth().currentUser?.displayName)
         if code.count == 4 && Auth.auth().currentUser != nil {
-            FirebaseController.instance.createSession(code: code, hostID: Auth.auth().currentUser!.uid, host: "me")
+            FirebaseController.instance.createSession(code: code, hostID: Auth.auth().currentUser!.uid, host: (Auth.auth().currentUser?.displayName)!)
         }
     }
     @IBAction func findGamePressed(_ sender: Any) {
@@ -59,13 +59,13 @@ print(Auth.auth().currentUser?.displayName)
     }
     
     /*
-    // MARK: - Navigation
+     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destination.
+     // Pass the selected object to the new view controller.
+     }
+     */
 
 }
