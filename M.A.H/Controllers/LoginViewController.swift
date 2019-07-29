@@ -23,6 +23,7 @@ class LoginViewController: UIViewController {
     @IBAction func loginBtnPressed(_ sender: Any) {
         FirebaseController.instance.loginUser(withEmail: emailTxtField.text!, andPassword: passwordTxtField.text!) { (success, error) in
             if success {
+                self.performSegue(withIdentifier: "toStartGame", sender: self)
                 print("successful login")
             } else {
                 print(error)

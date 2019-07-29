@@ -47,51 +47,96 @@ class FirebaseController {
         REF_USERS.child(uid).updateChildValues(userData)
     }
 
-    func createSession(code:String, hostID:String, host:String) {
-        REF_SESSIONS.childByAutoId().updateChildValues(["code":code, "hostID":hostID, "host":host])
-    }
+    //MARK:- Sessions
+    func searchSessionsByCode(code: String, handler: @escaping (_ success:Bool,_ session:Session?) -> ()) {
 
-    //MARK: // Login Support
+        REF_SESSIONS.observeSingleEvent(of: .value) { (userSnapshot) in
+            guard let sessionSnapshot = userSnapshot.children.allObjects as? [DataSnapshot] else { return }
+            var found = false
+            for session in sessionSnapshot {
+                let returedCode = session.childSnapshot(forPath: "code").value as? String
 
-
-    func returnDisplayName( completion: @escaping (String) -> ())  {
-        if let thisUser = Auth.auth().currentUser {
-            REF_USERS.child(thisUser.uid).observeSingleEvent(of: .value, with: {(userSnapshot) in
-                guard let userSnapshot = userSnapshot.children.allObjects as? [DataSnapshot] else { return }
-                for user in userSnapshot {
-                    if user.key ==
-                        FirebaseUserKeys.displayName {
-                        guard let result = user.value  as? String else {return}
-                        completion(result)
-                    }
+                if returedCode == code {
+                    let host = session.childSnapshot(forPath: "host").value as? String
+                    let code = session.childSnapshot(forPath: "code").value as? String
+                    let hostID = session.childSnapshot(forPath: "hostID").value as? String
+                    let members = session.childSnapshot(forPath: "members").value as? [String]
+                    let newSession = Session(host: host!, id: hostID!, code:code! , members: members ?? [])
+                    found = true
+                    handler(found,newSession)
+                    return
+                } else {
+                    found = false
                 }
-            })
-        } else {
-            print("cound not load \(#function)")
+            }
+               handler(found, nil)
         }
-
     }
 
-    func registerUser(firstName:String, lastName:String, displayName:String, email:String, password:String, completion: @escaping (_ status:Bool,_ error:Error?) -> ()) {
-        Auth.auth().createUser(withEmail: email, password: password) { (registrationComplete, error) in
-            if error != nil {
-                print(error)
-                completion(false, error)
+    func createSession(code:String, hostID:String, host:String) {
+        REF_SESSIONS.childByAutoId().updateChildValues(["code":code, "hostID":hostID, "host":host, "members":[Auth.auth().currentUser!.uid]])
+    }
 
-            } else {
-                print(Auth.auth().currentUser)
-                print(registrationComplete)
-                completion(true, nil)
+    func loadLobby(by Code:String, completion: @escaping ((_ session:Session) -> ())) {
+        REF_SESSIONS.observe(.value) { (sessionSnapshot) in
+            guard let sessionSnapshot = sessionSnapshot.children.allObjects as? [DataSnapshot] else {
+                return
+            }
+            for session in sessionSnapshot {
+                print(session.childSnapshot(forPath: "code" ).value as? String, Code)
+                if session.childSnapshot(forPath: "code" ).value as? String == Code {
+                    let host = session.childSnapshot(forPath: "host").value as? String
+                    let hostID = session.childSnapshot(forPath: "hostID").value as? String
+                    let code = session.childSnapshot(forPath: "code").value as? String
+                    let members = session.childSnapshot(forPath: "members").value as? [String]
+                    let newSession = Session(host: host!, id: hostID!,code:code!, members: members ?? [])
+                    completion(newSession)
+                }
             }
         }
-//        guard let user = Auth.auth().currentUser else {
-//            print("user not signed in")
-//            return }
-//        let userData = ["provider":user.providerID , "email":user.email!, "firstName": firstName, "fullName": user.displayName, "displayName":displayName] as [String : Any]
-//        FirebaseController.instance.createDBUser(uid: user.uid, userData: userData)
-
-
     }
+    func addUserToSession(code:String ,userID:String)  {
+        REF_SESSIONS.observeSingleEvent(of: .value) { (sessionSnapshot ) in
+            guard let sessionSnapshot = sessionSnapshot.children.allObjects as? [DataSnapshot] else {
+                return
+            }
+            for session in sessionSnapshot {
+                if session.childSnapshot(forPath: "code").value as! String == code {
+                    var members = session.childSnapshot(forPath: "members").value as! [String]
+                    members.append(userID)
+                    self.REF_SESSIONS.child(session.key).updateChildValues(["members":members])
+                }
+            }
+        }
+    }
+
+        //MARK: Login Support
+
+    func returnDisplayName(userID:String, completion: @escaping (String) -> ())  {
+
+                REF_USERS.observeSingleEvent(of: .value, with: {(userSnapshot) in
+                    guard let userSnapshot = userSnapshot.children.allObjects as? [DataSnapshot] else { return }
+                    for user in userSnapshot {
+                        if user.key == userID {
+                            let displayName = user.childSnapshot(forPath:FirebaseUserKeys.fullName).value as? String
+                            completion(displayName!)
+                        }
+                    }
+                })
+            }
+
+        func registerUser(firstName:String, lastName:String, displayName:String, email:String, password:String, completion: @escaping (_ status:Bool,_ error:Error?) -> ()) {
+            Auth.auth().createUser(withEmail: email, password: password) { (registrationComplete, error) in
+                if error != nil {
+                    print(error)
+                    completion(false, error)
+                } else {
+                    print(Auth.auth().currentUser)
+                    print(registrationComplete)
+                    completion(true, nil)
+                }
+            }
+        }
 
     func loginUser(withEmail email:String, andPassword password:String, completion: @escaping (_ status:Bool,_ error:Error?) -> ()) {
         Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
@@ -262,14 +307,14 @@ class FirebaseController {
         var returnedData:Data? = nil
 
         let gifToDownload = storage.reference(withPath: imageRef)
-
+        
         gifToDownload.getData(maxSize: 1 * 2024 * 2024, completion: {(data, error) in
             if let error = error {
                 // Uh-oh, an error occurred!
                 print(error)
             } else {
 
-              returnedData = data!
+                returnedData = data!
             }
         })
         return returnedData

@@ -16,6 +16,7 @@ class SignUpViewController: UIViewController {
     @IBOutlet var firstNameTxTField: UITextField!
     @IBOutlet var lastNameTxtField: UITextField!
 
+    @IBOutlet var submitBtn: UIButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +33,7 @@ class SignUpViewController: UIViewController {
     }
 
     @IBAction func submitTxtField(_ sender: Any) {
+        submitBtn.isEnabled = false
         let fullName = self.firstNameTxTField.text! + " "
             + self.lastNameTxtField.text!
         FirebaseController.instance.registerUser(firstName: firstNameTxTField.text!, lastName: lastNameTxtField.text!
@@ -40,6 +42,7 @@ class SignUpViewController: UIViewController {
                 print("successful registration")
                 FirebaseController.instance.loginUser(withEmail: self.emailTxtField.text!, andPassword: self.passwordTxtField.text!, completion: { (loginComplete, error) in
                     if loginComplete {
+                        self.performSegue(withIdentifier: "toStartGame", sender: self)
                         var userData:[String:Any] = [:]
                         userData["email"] = self.emailTxtField.text!
                         userData["firstName"] = self.firstNameTxTField.text!
@@ -62,6 +65,7 @@ class SignUpViewController: UIViewController {
                 })
 
             } else {
+                self.submitBtn.isEnabled = true
                 print(error)
             }
         }
