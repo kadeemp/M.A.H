@@ -61,7 +61,8 @@ class FirebaseController {
                     let code = session.childSnapshot(forPath: "code").value as? String
                     let hostID = session.childSnapshot(forPath: "hostID").value as? String
                     let members = session.childSnapshot(forPath: "members").value as? [String]
-                    let newSession = Session(host: host!, id: hostID!, code:code! , members: members ?? [])
+                    let key = session.childSnapshot(forPath: "key").value as? String
+                    let newSession = Session(host: host!, id: hostID!, code:code! , members: members ?? [], key:key!)
                     found = true
                     handler(found,newSession)
                     return
@@ -74,9 +75,13 @@ class FirebaseController {
     }
 
     func createSession(code:String, hostID:String, host:String) {
-        REF_SESSIONS.childByAutoId().updateChildValues(["code":code, "hostID":hostID, "host":host, "members":[Auth.auth().currentUser!.uid]])
+        if let key = REF_SESSIONS.childByAutoId().key {
+            REF_SESSIONS.child(key).updateChildValues(["code":code, "hostID":hostID, "host":host, "members":[Auth.auth().currentUser!.uid]])
+        }
     }
-
+    func removeMemberFrom(session:Session, members:[String], completion: @escaping (() -> ())) {
+        REF_SESSIONS.child(session.key).updateChildValues(["members" : members])
+    }
     func loadLobby(by Code:String, completion: @escaping ((_ session:Session) -> ())) {
         REF_SESSIONS.observe(.value) { (sessionSnapshot) in
             guard let sessionSnapshot = sessionSnapshot.children.allObjects as? [DataSnapshot] else {
@@ -89,7 +94,8 @@ class FirebaseController {
                     let hostID = session.childSnapshot(forPath: "hostID").value as? String
                     let code = session.childSnapshot(forPath: "code").value as? String
                     let members = session.childSnapshot(forPath: "members").value as? [String]
-                    let newSession = Session(host: host!, id: hostID!,code:code!, members: members ?? [])
+                    let key = session.childSnapshot(forPath: "key").value as? String
+                    let newSession = Session(host: host!, id: hostID!,code:code!, members: members ?? [], key:key!)
                     completion(newSession)
                 }
             }

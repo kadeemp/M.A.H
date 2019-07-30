@@ -17,6 +17,8 @@ class StartGameViewController: UIViewController {
     @IBOutlet var enterLobby: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+
         if (userDefaults.string(forKey: "code") != nil)  {
             enterLobby.isHidden = false
 

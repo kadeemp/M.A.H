@@ -8,34 +8,28 @@
 
 import UIKit
 import Firebase
+
 class LobbyViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return users.count
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = lobbyTableView.dequeueReusableCell(withIdentifier: "cell")
-        cell?.textLabel?.text   = users[indexPath.row]
-        return cell!
-    }
 
     let defaults = UserDefaults.standard
     var users:[String] = []
+    var session:Session?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        lobbyTableView.dataSource = self
         lobbyTableView.delegate = self
 
         lobbyCodeLabel.text = defaults.string(forKey: "code") ?? "Code not set"
         
         FirebaseController.instance.loadLobby(by: defaults.string(forKey: "code") ?? "") { (session ) in
-            self.hostLabel.text = session.host
+            self.hostLabel.text = "\(session.members.count)/6"
+            self.session = session
             print(session.members)
             for member in session.members {
                 FirebaseController.instance.returnDisplayName(userID:member , completion: { (fullName) in
-                    if !self.users.contains(fullName) && fullName != session.host {
+                    // && fullName != session.host
+                    if !self.users.contains(fullName)  {
                         self.users.append(fullName)
                         self.lobbyTableView.reloadData()
                     }
@@ -62,14 +56,51 @@ class LobbyViewController: UIViewController, UITableViewDataSource, UITableViewD
         defaults.set("", forKey: "code")
         self.dismiss(animated: true, completion: nil)
     }
-    /*
-    // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return users.count
     }
-    */
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = lobbyTableView.dequeueReusableCell(withIdentifier: "cell")
+        cell?.textLabel?.text   = users[indexPath.row]
+        if let session = session {
+            if let user = Auth.auth().currentUser?.uid {
+                if session.id == user {
+                    cell?.textLabel?.textColor = UIColor.orange
+                }
+            }
+
+        }
+        return cell!
+    }
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        if let session = session {
+            if let userID = Auth.auth().currentUser?.uid {
+                if (session.id == userID) && session.members[indexPath.row] != userID  {
+                    return .delete
+                }
+                else {
+                    return .none
+                }
+            }
+
+        }
+        return .none
+    }
+
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            users.remove(at: indexPath.row)
+            lobbyTableView.deleteRows(at: [indexPath], with: .fade)
+            if let session = session {
+                var members = session.members
+                members.remove(at: indexPath.row)
+                FirebaseController.instance.removeMemberFrom(session: session, members: members, completion: {
+                    self.lobbyTableView.reloadData()
+                })
+            }
+        }
+    }
 
 }
