@@ -76,7 +76,7 @@ class FirebaseController {
 
     func createSession(code:String, hostID:String, host:String) {
         if let key = REF_SESSIONS.childByAutoId().key {
-            REF_SESSIONS.child(key).updateChildValues(["code":code, "hostID":hostID, "host":host, "members":[Auth.auth().currentUser!.uid]])
+            REF_SESSIONS.child(key).updateChildValues(["code":code, "hostID":hostID, "host":host, "members":[Auth.auth().currentUser!.uid], "key":key])
         }
     }
     func removeMemberFrom(session:Session, members:[String], completion: @escaping (() -> ())) {
@@ -88,7 +88,6 @@ class FirebaseController {
                 return
             }
             for session in sessionSnapshot {
-                print(session.childSnapshot(forPath: "code" ).value as? String, Code)
                 if session.childSnapshot(forPath: "code" ).value as? String == Code {
                     let host = session.childSnapshot(forPath: "host").value as? String
                     let hostID = session.childSnapshot(forPath: "hostID").value as? String

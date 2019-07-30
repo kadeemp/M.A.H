@@ -66,7 +66,7 @@ class LobbyViewController: UIViewController, UITableViewDataSource, UITableViewD
         cell?.textLabel?.text   = users[indexPath.row]
         if let session = session {
             if let user = Auth.auth().currentUser?.uid {
-                if session.id == user {
+                if session.hostID == user {
                     cell?.textLabel?.textColor = UIColor.orange
                 }
             }
@@ -77,7 +77,7 @@ class LobbyViewController: UIViewController, UITableViewDataSource, UITableViewD
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         if let session = session {
             if let userID = Auth.auth().currentUser?.uid {
-                if (session.id == userID) && session.members[indexPath.row] != userID  {
+                if (session.hostID == userID) && session.members[indexPath.row] != userID  {
                     return .delete
                 }
                 else {
