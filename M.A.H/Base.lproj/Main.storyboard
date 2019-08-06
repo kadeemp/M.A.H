@@ -451,6 +451,7 @@
                         <outlet property="hostLabel" destination="BkY-iV-Irk" id="Xqq-PZ-mq0"/>
                         <outlet property="lobbyCodeLabel" destination="qUV-t8-DNM" id="KRk-Pb-zyh"/>
                         <outlet property="lobbyTableView" destination="LK7-k6-Fpf" id="hBu-sE-KCO"/>
+                        <outlet property="startGame" destination="aGN-82-aS1" id="Hm9-oh-QiX"/>
                         <segue destination="Yv9-IW-VfQ" kind="presentation" identifier="showMemes" id="N9P-sl-dtq"/>
                         <segue destination="PfT-Nr-Z57" kind="presentation" identifier="showPrompts" id="d4h-XK-c2y"/>
                     </connections>

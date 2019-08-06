@@ -20,12 +20,26 @@ class LobbyViewController: UIViewController, UITableViewDataSource, UITableViewD
         lobbyTableView.dataSource = self
         lobbyTableView.delegate = self
 
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Leave Lobby", style: .plain, target: self, action: #selector(leaveLobby(_:)))
         lobbyCodeLabel.text = defaults.string(forKey: "code") ?? "Code not set"
         
-        FirebaseController.instance.loadLobby(by: defaults.string(forKey: "code") ?? "") { (session ) in
+        FirebaseController.instance.loadLobby(by: defaults.string(forKey: "code") ?? "") { (session) in
+            if session.members.count > 1 {
+                //TODO: add them as a host and start new member group with them
+                //or kick them and make them start another
+            }
+
+            if let user = Auth.auth().currentUser?.uid {
+                 print(session.hostID,user)
+                if session.hostID == user {
+
+                } else {
+                    self.startGame.isHidden = true
+                }
+            }
+
             self.hostLabel.text = "\(session.members.count)/6"
             self.session = session
-            print(session.members)
             for member in session.members {
                 FirebaseController.instance.returnDisplayName(userID:member , completion: { (fullName) in
                     // && fullName != session.host
@@ -38,10 +52,31 @@ class LobbyViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
         // Do any additional setup after loading the view.
     }
+    @objc func leaveLobby() {
+
+        if let session = session {
+
+            if let user = Auth.auth().currentUser?.uid {
+
+                if user == session.hostID {
+                    //  TODO:- Create an alert that lets them know this will kill the room. or reassign the host
+                } else if session.members.count == 1 {
+                    //TODO:- Delete the session
+                }
+                FirebaseController.instance.removeMemberFrom(session: session, memberID: user) { (mems) in
+
+                    self.navigationController?.popViewController(animated: true)
+                    self.defaults.set("", forKey: "code")
+                }
+            }
+        }
+    }
     
+    @IBOutlet var startGame: UIButton!
     @IBOutlet var lobbyCodeLabel: UILabel!
     @IBOutlet var hostLabel: UILabel!
     @IBOutlet var lobbyTableView: UITableView!
+
     @IBAction func showMemes(_ sender: Any) {
         performSegue(withIdentifier: "showMemes", sender: self)
     }
@@ -50,6 +85,13 @@ class LobbyViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
 
     @IBAction func createGame(_ sender: Any) {
+        if let session = session {
+            if session.members.count > 2 {
+                //create game
+                //performSegue
+                FirebaseController.instance.createGame(session: session)
+            }
+        }
     }
 
     @IBAction func leaveLobby(_ sender: Any) {
@@ -66,14 +108,16 @@ class LobbyViewController: UIViewController, UITableViewDataSource, UITableViewD
         cell?.textLabel?.text   = users[indexPath.row]
         if let session = session {
             if let user = Auth.auth().currentUser?.uid {
-                if session.hostID == user {
+                if session.hostID == session.members[indexPath.row] {
                     cell?.textLabel?.textColor = UIColor.orange
+                } else {
+                    cell?.textLabel?.textColor = UIColor.black
                 }
             }
-
         }
         return cell!
     }
+
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         if let session = session {
             if let userID = Auth.auth().currentUser?.uid {
@@ -95,10 +139,9 @@ class LobbyViewController: UIViewController, UITableViewDataSource, UITableViewD
             lobbyTableView.deleteRows(at: [indexPath], with: .fade)
             if let session = session {
                 var members = session.members
-                members.remove(at: indexPath.row)
-                FirebaseController.instance.removeMemberFrom(session: session, members: members, completion: {
+                FirebaseController.instance.removeMemberFrom(session: session, memberID: session.members[indexPath.row]) {(mems) in
                     self.lobbyTableView.reloadData()
-                })
+                }
             }
         }
     }

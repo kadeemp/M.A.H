@@ -13,22 +13,27 @@ class StartGameViewController: UIViewController {
 
     let userDefaults = UserDefaults.standard
     var windw:UIWindow?
+    var session:Session?
 
     @IBOutlet var enterLobby: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        enterLobby.isHidden = true
 
-        if (userDefaults.string(forKey: "code") != nil)  {
-            enterLobby.isHidden = false
-
-        } else {
-            enterLobby.isHidden = true
-        }
-
-        print(userDefaults.string(forKey: "code"),1)
         // Do any additional setup after loading the view.
     }
+    override func viewWillAppear(_ animated: Bool) {
+        if let code = userDefaults.string(forKey: "code") {
+            FirebaseController.instance.searchSessionsByCode(code: code) { (found, newSession) in
+                if found {
+                    self.enterLobby.isHidden = false
+                } else {
+                    self.enterLobby.isHidden = true
+                }
+            }
+        }
+    }
+
     @IBAction func enterLobbyPressed(_ sender: Any) {
         if (userDefaults.string(forKey: "code") != (nil ?? "")) {
             self.performSegue(withIdentifier: "toLobby", sender: self)

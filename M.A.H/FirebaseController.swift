@@ -21,7 +21,10 @@ class FirebaseController {
     private var _REF_USERS = DB_BASE.child("users")
     private var _REF_SESSIONS = DB_BASE.child("sessions")
     private var _REF_GIFS = DB_BASE.child("gifs")
+    private var _REF_GAMES = DB_BASE.child("games")
     private var _REF_IMAGES = DB_BASE.child("images")
+    private var _REF_PROMPTS = DB_BASE.child("prompts")
+
 
     var REF_BASE: DatabaseReference {
         return _REF_BASE
@@ -42,11 +45,98 @@ class FirebaseController {
     var REF_IMAGES:DatabaseReference {
         return _REF_IMAGES
     }
-
-    func createDBUser(uid:String, userData:Dictionary<String,Any>) {
-        REF_USERS.child(uid).updateChildValues(userData)
+    var REF_GAMES:DatabaseReference {
+        return _REF_GAMES
+    }
+    var REF_PROMPTS:DatabaseReference {
+        return _REF_PROMPTS
     }
 
+    //MARK:- Games
+
+    func createGame(session:Session) {
+        let gameKey = REF_GAMES.childByAutoId().key!
+        let scoreboard = addMemberstodictionary(session: session)
+
+        createMemeDeck(gameKey: gameKey) { (deck) in
+            self.createPromptDeck(gameKey: gameKey, completion: { (prompts) in
+                self.REF_GAMES.child(gameKey).updateChildValues(["key":gameKey,"prompts":prompts,"moderator":session.members.randomElement(), "round":1, "scoreboard":scoreboard, "meme deck":deck] )
+            })
+        }
+
+    }
+
+    //MARK:- Prompts
+
+    func createPromptDeck(gameKey:String,completion:@escaping (([String:[String:String]]) -> ())) {
+        var result :[String:[String:String]] = [:]
+        let queue = DispatchQueue.init(label: "queue")
+        loadPromptstringsWithcompletion { (prompts) in
+            queue.async(execute: {
+                for prompt in prompts {
+                    guard let key = self.REF_GAMES.child(gameKey).childByAutoId().key else {
+                        print("error  creating key")
+                        return
+                    }
+                    result[key] =  ["prompt":prompt, "playedby":""]
+                }
+                    completion(result)
+            })
+        }
+    }
+
+    func loadPromptstringsWithcompletion(competion:(@escaping ([String]) -> ())) {
+        var result:[String] = []
+        REF_PROMPTS.observeSingleEvent(of: .value) { (snapshot) in
+            guard let data = snapshot.children.allObjects as? [DataSnapshot] else {
+                return
+            }
+            for prompt in data {
+                let returnedPrompt = prompt.childSnapshot(forPath: "prompt").value as? String
+                if let returnedPrompt = returnedPrompt {
+                    result.append(returnedPrompt)
+                }
+            }
+            competion(result)
+        }
+    }
+
+    func createMemeDeck(gameKey:String,completion:@escaping (([String:[String:String]]) -> ())) {
+        var result :[String:[String:String]] = [:]
+        let queue = DispatchQueue.init(label: "queue")
+        loadGifsStringsWithCompletion(competion: { gifs in
+            queue.async {
+                for gif in gifs {
+                    guard let key = self.REF_GAMES.child(gameKey).child("meme-deck").childByAutoId().key else {
+                        print("error creating key")
+                        return
+                    }
+
+                    result[key] = ["cardKey":key, "fileName":gif, "fileType":"gif","playedby":""]
+                }
+            }
+            queue.async(execute: {
+                self.loadGifsStringsWithCompletion(competion: { (images) in
+                    for image in images {
+                        guard let key = self.REF_GAMES.child(gameKey).child("meme-deck").childByAutoId().key else {
+                            print("error creating key")
+                            return
+                        }
+                        result[key] = ["cardKey":key, "fileName":image, "fileType":"image","playedby":""]
+                    }
+                    completion(result)
+                })
+            })
+        })
+    }
+
+    func addMemberstodictionary(session:Session) -> [String:Int] {
+        var result:[String:Int] = [:]
+        for member in session.members {
+            result[member] = 0
+        }
+        return result
+    }
     //MARK:- Sessions
     func searchSessionsByCode(code: String, handler: @escaping (_ success:Bool,_ session:Session?) -> ()) {
 
@@ -70,17 +160,37 @@ class FirebaseController {
                     found = false
                 }
             }
-               handler(found, nil)
+            handler(found, nil)
         }
     }
 
     func createSession(code:String, hostID:String, host:String) {
         if let key = REF_SESSIONS.childByAutoId().key {
-            REF_SESSIONS.child(key).updateChildValues(["code":code, "hostID":hostID, "host":host, "members":[Auth.auth().currentUser!.uid], "key":key])
+            REF_SESSIONS.child(key).updateChildValues(["code":code, "hostID":hostID, "host":host, "members":[Auth.auth().currentUser!.uid], "key":key, "isGameActive":false, "gameID":""])
         }
     }
-    func removeMemberFrom(session:Session, members:[String], completion: @escaping (() -> ())) {
+    func updateSessionMembers(session:Session, members:[String], completion: @escaping (() -> ())) {
         REF_SESSIONS.child(session.key).updateChildValues(["members" : members])
+    }
+    func removeMemberFrom(session:Session, memberID:String, completion:@escaping (([String]) -> ())) {
+
+        var members = session.members
+        if session.members.count == 1 {
+            REF_SESSIONS.child(session.key).updateChildValues(["members" : []])
+            completion([])
+            return
+        } else {
+            for i in 0..<members.count   {
+                if members[i] == memberID {
+
+                    members.remove(at: i)
+                    REF_SESSIONS.child(session.key).updateChildValues(["members":members])
+                    completion(members)
+                    return
+                }
+            }
+        }
+
     }
     func loadLobby(by Code:String, completion: @escaping ((_ session:Session) -> ())) {
         REF_SESSIONS.observe(.value) { (sessionSnapshot) in
@@ -115,33 +225,38 @@ class FirebaseController {
         }
     }
 
-        //MARK: Login Support
+    //MARK: Login Support
+
+    func createDBUser(uid:String, userData:Dictionary<String,Any>) {
+        REF_USERS.child(uid).updateChildValues(userData)
+    }
 
     func returnDisplayName(userID:String, completion: @escaping (String) -> ())  {
 
-                REF_USERS.observeSingleEvent(of: .value, with: {(userSnapshot) in
-                    guard let userSnapshot = userSnapshot.children.allObjects as? [DataSnapshot] else { return }
-                    for user in userSnapshot {
-                        if user.key == userID {
-                            let displayName = user.childSnapshot(forPath:FirebaseUserKeys.fullName).value as? String
-                            completion(displayName!)
-                        }
-                    }
-                })
-            }
-
-        func registerUser(firstName:String, lastName:String, displayName:String, email:String, password:String, completion: @escaping (_ status:Bool,_ error:Error?) -> ()) {
-            Auth.auth().createUser(withEmail: email, password: password) { (registrationComplete, error) in
-                if error != nil {
-                    print(error)
-                    completion(false, error)
-                } else {
-                    print(Auth.auth().currentUser)
-                    print(registrationComplete)
-                    completion(true, nil)
+        REF_USERS.observeSingleEvent(of: .value, with: {(userSnapshot) in
+            guard let userSnapshot = userSnapshot.children.allObjects as? [DataSnapshot] else { return }
+            for user in userSnapshot {
+                if user.key == userID {
+                    let displayName = user.childSnapshot(forPath:FirebaseUserKeys.fullName).value as? String
+                    completion(displayName!)
+                    break
                 }
             }
+        })
+    }
+
+    func registerUser(firstName:String, lastName:String, displayName:String, email:String, password:String, completion: @escaping (_ status:Bool,_ error:Error?) -> ()) {
+        Auth.auth().createUser(withEmail: email, password: password) { (registrationComplete, error) in
+            if error != nil {
+                print(error)
+                completion(false, error)
+            } else {
+                print(Auth.auth().currentUser)
+                print(registrationComplete)
+                completion(true, nil)
+            }
         }
+    }
 
     func loginUser(withEmail email:String, andPassword password:String, completion: @escaping (_ status:Bool,_ error:Error?) -> ()) {
         Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
@@ -265,10 +380,13 @@ class FirebaseController {
             guard let data = data.children.allObjects as? [DataSnapshot] else {
                 return
             }
-
             for gif in data {
-                let fileName = gif.childSnapshot(forPath: "fileName") as! String
-                strings.append(fileName)
+                let fileName = gif.childSnapshot(forPath: "fileName").value as? String
+                if let fileName = fileName {
+                    strings.append(fileName)
+                } else {
+                    print("error parsing filename", #function)
+                }
             }
         }
         return strings
@@ -282,12 +400,10 @@ class FirebaseController {
             }
 
             for gif in data {
-                print(gif.childSnapshot(forPath: "fileName").value as! String )
                 strings.append(gif.childSnapshot(forPath: "fileName").value as! String )
             }
             competion(strings)
         }
-
     }
 
     func downloadGif(gifName:String, completion: @escaping ((Data) -> ()))  {
