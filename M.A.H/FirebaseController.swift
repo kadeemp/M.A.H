@@ -59,8 +59,17 @@ class FirebaseController {
         let scoreboard = addMemberstodictionary(session: session)
 
         createMemeDeck(gameKey: gameKey) { (deck) in
-            self.createPromptDeck(gameKey: gameKey, completion: { (prompts) in
-                self.REF_GAMES.child(gameKey).updateChildValues(["key":gameKey,"prompts":prompts,"moderator":session.members.randomElement(), "round":1, "scoreboard":scoreboard, "meme deck":deck] )
+            self.createPromptDeck(gameKey: gameKey,
+                                  completion: {
+                                    (prompts) in
+                                                    self.REF_GAMES.child(gameKey).updateChildValues(["key":gameKey,
+                                                                 "prompts":prompts,
+                                                                 "moderator":session.members.randomElement()!,
+                                                                 "round":1, "scoreboard":scoreboard,
+                                                                 "meme deck":deck,
+                                                                 "sessionID":session.key]
+
+                                                                 )
             })
         }
 
