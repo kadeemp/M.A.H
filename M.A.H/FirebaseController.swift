@@ -54,7 +54,7 @@ class FirebaseController {
 
     //MARK:- Games
 
-    func createGame(session:Session) {
+    func createGame(session:Session, completion: @escaping (()->())) {
         let gameKey = REF_GAMES.childByAutoId().key!
         let scoreboard = addMemberstodictionary(session: session)
 
@@ -62,17 +62,28 @@ class FirebaseController {
             self.createPromptDeck(gameKey: gameKey,
                                   completion: {
                                     (prompts) in
-                                                    self.REF_GAMES.child(gameKey).updateChildValues(["key":gameKey,
-                                                                 "prompts":prompts,
-                                                                 "moderator":session.members.randomElement()!,
-                                                                 "round":1, "scoreboard":scoreboard,
-                                                                 "meme deck":deck,
-                                                                 "sessionID":session.key]
-
-                                                                 )
+                                    self.REF_GAMES.child(gameKey).updateChildValues(["key":gameKey,
+                                                                                     "prompts":prompts,
+                                                                                     "moderator":session.members.randomElement()!,
+                                                                                     "round":1, "scoreboard":scoreboard,
+                                                                                     "meme deck":deck,
+                                                                                     "sessionID":session.key]
+                                    )
+                                    self._REF_SESSIONS.child(session.key).updateChildValues(["gameID":gameKey])
+                                    completion()
             })
         }
+    }
 
+    func loadHand(session:Session) {
+        REF_GAMES.child(session.gameID!).child("meme deck").observeSingleEvent(of: .value) { (datasnapshot) in
+            guard let data = datasnapshot.children.allObjects as? [DataSnapshot] else {
+                return
+            }
+            for member in session.members {
+                
+            }
+        }
     }
 
     //MARK:- Prompts
@@ -89,7 +100,7 @@ class FirebaseController {
                     }
                     result[key] =  ["prompt":prompt, "playedby":""]
                 }
-                    completion(result)
+                completion(result)
             })
         }
     }
@@ -161,7 +172,8 @@ class FirebaseController {
                     let hostID = session.childSnapshot(forPath: "hostID").value as? String
                     let members = session.childSnapshot(forPath: "members").value as? [String]
                     let key = session.childSnapshot(forPath: "key").value as? String
-                    let newSession = Session(host: host!, id: hostID!, code:code! , members: members ?? [], key:key!)
+                    let gameID = session.childSnapshot(forPath: "gameID").value as? String
+                    let newSession = Session(host: host!, id: hostID!, code:code! , members: members ?? [], key:key!, gameID: gameID)
                     found = true
                     handler(found,newSession)
                     return
@@ -213,7 +225,8 @@ class FirebaseController {
                     let code = session.childSnapshot(forPath: "code").value as? String
                     let members = session.childSnapshot(forPath: "members").value as? [String]
                     let key = session.childSnapshot(forPath: "key").value as? String
-                    let newSession = Session(host: host!, id: hostID!,code:code!, members: members ?? [], key:key!)
+                    let gameID = session.childSnapshot(forPath: "gameID").value as? String
+                    let newSession = Session(host: host!, id: hostID!,code:code!, members: members ?? [], key:key!, gameID: gameID)
                     completion(newSession)
                 }
             }

@@ -30,7 +30,7 @@ class LobbyViewController: UIViewController, UITableViewDataSource, UITableViewD
             }
 
             if let user = Auth.auth().currentUser?.uid {
-                 print(session.hostID,user)
+                print(session.hostID,user)
                 if session.hostID == user {
 
                 } else {
@@ -85,13 +85,23 @@ class LobbyViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
 
     @IBAction func createGame(_ sender: Any) {
+        
         if let session = session {
-            if session.members.count > 2 {
+            //Change back to 2
+
+            FirebaseController.instance.createGame(session: session) {
+                self.performSegue(withIdentifier: "toGameScreen", sender: self)
+
+            }
+            if session.members.count > 0 {
                 //create game
                 //performSegue
-                FirebaseController.instance.createGame(session: session)
+
             }
         }
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+
     }
 
     @IBAction func leaveLobby(_ sender: Any) {

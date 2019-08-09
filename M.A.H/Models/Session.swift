@@ -14,12 +14,14 @@ struct Session {
     let members:[String]
     let code:String
     let key:String
+    let gameID:String?
 
-    init(host:String, id:String, code:String, members:[String], key:String ) {
+    init(host:String, id:String, code:String, members:[String], key:String, gameID:String? ) {
         self.host = host
         self.hostID = id
         self.members = members
         self.code = code
         self.key = key
+        self.gameID = gameID
     }
 }

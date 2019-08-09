@@ -8,7 +8,61 @@
 
 import UIKit
 
-class GameScreenViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDragDelegate {
+class GameScreenViewController: UIViewController{
+    var isCardVisible = false
+
+    var cards = ["0","1","2","3","4"]
+    
+    @IBOutlet var tableHolderView: UIView!
+    @IBOutlet var scoreboardButton: UIButton!
+    @IBOutlet var drawerBottomConstraint: NSLayoutConstraint!
+    @IBOutlet var tableImageView: UIImageView!
+    @IBOutlet var promptDeckImageView: UIButton!
+    @IBOutlet var memeDeckimageview: UIButton!
+    @IBOutlet var cardDrawer: UIView!
+    @IBOutlet var cardCollectionView: UICollectionView!
+    @IBOutlet var slideUpIndicatorButton: UIButton!
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        cardCollectionView.dragInteractionEnabled = true
+        cardCollectionView.delegate = self
+        cardCollectionView.dataSource = self
+        cardCollectionView.dragDelegate = self
+        cardCollectionView.dropDelegate = self
+
+        let dropI = UIDropInteraction(delegate: self)
+        self.tableHolderView.addInteraction(dropI)
+
+    }
+
+    @IBAction func slideupIndicatorTriggered(_ sender: Any) {
+        if !isCardVisible {
+            isCardVisible = true
+            DispatchQueue.main.async {
+                UIView.animate(withDuration: 0.5) {
+                    self.drawerBottomConstraint.constant = 0
+                    self.view.layoutIfNeeded()
+                }}} else {
+                    self.isCardVisible = false
+                    DispatchQueue.main.async {
+                        UIView.animate(withDuration: 0.5) {
+                            self.drawerBottomConstraint.constant = -280
+                            self.view.layoutIfNeeded()
+                        }
+                    }
+            }
+
+        }
+    }
+
+
+extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDragDelegate, UICollectionViewDropDelegate , UIDropInteractionDelegate {
+
+    func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
+
+    }
+
     func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
 
         return dragItems(for: indexPath)
@@ -27,11 +81,6 @@ class GameScreenViewController: UIViewController, UICollectionViewDelegate, UICo
         return true
     }
 
-    func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        let item = cards.remove(at: sourceIndexPath.item)
-        cards.insert(item, at: destinationIndexPath.item)
-        print(cards)
-    }
 
     func dragItems(for indexPath: IndexPath) -> [UIDragItem] {
 
@@ -51,45 +100,14 @@ class GameScreenViewController: UIViewController, UICollectionViewDelegate, UICo
         return [dragItem]
 
     }
-    fileprivate var longPressGesture: UILongPressGestureRecognizer!
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        cardCollectionView.dragInteractionEnabled = true
-        cardCollectionView.delegate = self
-        cardCollectionView.dataSource = self
-        cardCollectionView.dragDelegate = self
-
-        // Do any additional setup after loading the view.
+    func dropInteraction(_ interaction: UIDropInteraction, performDrop session: UIDropSession) {
+        //
+        print("dropped")
     }
-    var isCardVisible = false
+    func dropInteraction(_ interaction: UIDropInteraction, sessionDidUpdate session: UIDropSession) -> UIDropProposal {
+        print("\(session.location(in: self.view))")
 
-    var cards = ["0","1","2","3","4"]
-    
-    @IBOutlet var scoreboardButton: UIButton!
-    @IBOutlet var drawerBottomConstraint: NSLayoutConstraint!
-    @IBOutlet var tableImageView: UIImageView!
-    @IBOutlet var promptDeckImageView: UIButton!
-    @IBOutlet var memeDeckimageview: UIButton!
-    @IBOutlet var cardDrawer: UIView!
-    @IBOutlet var cardCollectionView: UICollectionView!
-
-    @IBOutlet var slideUpIndicatorButton: UIButton!
-    @IBAction func slideupIndicatorTriggered(_ sender: Any) {
-        if !isCardVisible {
-            isCardVisible = true
-            UIView.animate(withDuration: 0.5) {
-                self.drawerBottomConstraint.constant = 0
-                self.view.layoutIfNeeded()
-            }} else {
-            isCardVisible = false
-                UIView.animate(withDuration: 0.5) {
-                    self.drawerBottomConstraint.constant = -280
-                    self.view.layoutIfNeeded()
-
-            }
-
-        }
+        return UIDropProposal(operation: .move)
     }
 }
 
