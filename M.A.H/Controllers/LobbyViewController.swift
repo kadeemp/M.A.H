@@ -101,7 +101,12 @@ class LobbyViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toGameScreen" {
+            let destVC = segue.destination as! GameScreenViewController
+            destVC.session = session!
 
+
+        }
     }
 
     @IBAction func leaveLobby(_ sender: Any) {

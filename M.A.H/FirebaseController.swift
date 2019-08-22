@@ -52,6 +52,41 @@ class FirebaseController {
         return _REF_PROMPTS
     }
 
+    func revealPrompt(gameId:String) {
+REF_GAMES.child(gameID).child("")
+    }
+
+    func returnPromptFromDeck(gameID:String, completion:@escaping ((PromptCard)->())) {
+        REF_GAMES.child(gameID).child("prompts").observeSingleEvent(of: .value) { (datasnapshot) in
+            guard let prompts = datasnapshot.children.allObjects as? [DataSnapshot] else {
+                print("Error getting prompt")
+                return }
+            
+            var shuffledPropmpts = prompts.shuffled()
+
+            if let prompt = shuffledPropmpts.randomElement() {
+                let playedBy = prompt.childSnapshot(forPath: "playedBy").value as? String
+                let cardPrompt = prompt.childSnapshot(forPath: "prompt").value as? String
+
+                let card = PromptCard(cardKey: prompt.key, prompt: cardPrompt!, playedBy: playedBy, isRevealed: false)
+                completion(card)
+            } else {
+                print("Error getting prompt")
+            }
+
+        }
+    }
+    func loadModerator(gameKey:String,completion: @escaping ((String) -> ())) {
+
+        REF_GAMES.child(gameKey).child("moderator").observeSingleEvent(of: .value) { (datasnapshot) in
+            guard let moderator = datasnapshot.value as? String else {
+                return
+            }
+            completion(moderator)
+        }
+
+    }
+
     //MARK:- Games
 
     func createGame(session:Session, completion: @escaping (()->())) {
@@ -69,19 +104,74 @@ class FirebaseController {
                                                                                      "meme deck":deck,
                                                                                      "sessionID":session.key]
                                     )
-                                    self._REF_SESSIONS.child(session.key).updateChildValues(["gameID":gameKey])
+                                    self._REF_SESSIONS.child(session.key).updateChildValues(["gameID":gameKey, "state":0])
+                                    self.loadHand(session: session)
                                     completion()
             })
         }
     }
+    func returnHand(comletion:@escaping (([MemeCard]) -> ())) {
+        var cards:[MemeCard] = []
+        guard let user = Auth.auth().currentUser?.uid  else {
+            return
+        }
+        DispatchQueue.main.async {
+            self.REF_USERS.child(user).child("hand").observeSingleEvent(of: .value) { (snapshot) in
+                guard let data = snapshot.children.allObjects as? [DataSnapshot] else {
+                    return
+                }
+                for cardData in data {
+                    let fileName = cardData.childSnapshot(forPath: "fileName").value as? String
+                    let fileType = cardData.childSnapshot(forPath: "fileType").value as? String
+                    let playedBy = cardData.childSnapshot(forPath: "playedBy").value as? String
+                    let cardKey = cardData.childSnapshot(forPath: "cardKey").value as? String
+
+                    let card = MemeCard(cardKey: cardKey!, fileName: fileName!, fileType: fileType!, playedBy: playedBy, cardType: "meme", isRevealed: false)
+                    print(card)
+                    cards.append(card)
+                }
+                print("completed")
+                comletion(cards)
+            }
+        }
+        DispatchQueue.main.async {
+
+        }
+
+
+
+
+
+    }
 
     func loadHand(session:Session) {
+        let handCount = 5
         REF_GAMES.child(session.gameID!).child("meme deck").observeSingleEvent(of: .value) { (datasnapshot) in
-            guard let data = datasnapshot.children.allObjects as? [DataSnapshot] else {
+            guard let data = datasnapshot.children.allObjects as? [DataSnapshot?] else {
                 return
             }
-            for member in session.members {
-                
+            var dataArray = data.shuffled()
+            var cardDictionary:[String:[String:Any]] = [:]
+            if !dataArray.isEmpty {
+                for member in session.members {
+                    var memberHand:[MemeCard] = []
+                    while memberHand.count < 5 {
+                        guard  let cardData = dataArray.removeLast() else {
+                            return
+                        }
+                        let fileName = cardData.childSnapshot(forPath: "fileName").value as? String
+                        let fileType = cardData.childSnapshot(forPath: "fileType").value as? String
+                        let playedBy = cardData.childSnapshot(forPath: "playedBy").value as? String
+                        let cardKey = cardData.childSnapshot(forPath: "cardKey").value as? String
+
+                        cardDictionary[cardKey!] = ["cardKey": cardKey!, "fileName": fileName!, "fileType": fileType!, "playedBy": playedBy, "cardType": "meme", "isRevealed": false]
+
+                        let card = MemeCard(cardKey: cardKey!, fileName: fileName!, fileType: fileType!, playedBy: playedBy, cardType: "meme", isRevealed: false)
+                        memberHand.append(card)
+                    }
+                    self.REF_USERS.child(member).child("hand").removeValue()
+                    self.REF_USERS.child(member).child("hand").updateChildValues(cardDictionary)
+                }
             }
         }
     }
@@ -173,7 +263,7 @@ class FirebaseController {
                     let members = session.childSnapshot(forPath: "members").value as? [String]
                     let key = session.childSnapshot(forPath: "key").value as? String
                     let gameID = session.childSnapshot(forPath: "gameID").value as? String
-                    let newSession = Session(host: host!, id: hostID!, code:code! , members: members ?? [], key:key!, gameID: gameID)
+                    let newSession = Session(host: host!, id: hostID!, code:code! , members: members ?? [], key:key!, gameID: gameID, state: 0)
                     found = true
                     handler(found,newSession)
                     return
@@ -187,7 +277,7 @@ class FirebaseController {
 
     func createSession(code:String, hostID:String, host:String) {
         if let key = REF_SESSIONS.childByAutoId().key {
-            REF_SESSIONS.child(key).updateChildValues(["code":code, "hostID":hostID, "host":host, "members":[Auth.auth().currentUser!.uid], "key":key, "isGameActive":false, "gameID":""])
+            REF_SESSIONS.child(key).updateChildValues(["code":code, "hostID":hostID, "host":host, "members":[Auth.auth().currentUser!.uid], "key":key, "isGameActive":false, "gameID":"", "state":0])
         }
     }
     func updateSessionMembers(session:Session, members:[String], completion: @escaping (() -> ())) {
@@ -226,7 +316,7 @@ class FirebaseController {
                     let members = session.childSnapshot(forPath: "members").value as? [String]
                     let key = session.childSnapshot(forPath: "key").value as? String
                     let gameID = session.childSnapshot(forPath: "gameID").value as? String
-                    let newSession = Session(host: host!, id: hostID!,code:code!, members: members ?? [], key:key!, gameID: gameID)
+                    let newSession = Session(host: host!, id: hostID!,code:code!, members: members ?? [], key:key!, gameID: gameID, state: 0)
                     completion(newSession)
                 }
             }
