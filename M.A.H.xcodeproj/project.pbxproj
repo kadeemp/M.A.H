@@ -19,6 +19,8 @@
 		F438B3B122EB765D008314AE /* MemesCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F438B3B022EB765D008314AE /* MemesCollectionViewController.swift */; };
 		F438B3B322EB7675008314AE /* PropmtsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F438B3B222EB7675008314AE /* PropmtsCollectionViewController.swift */; };
 		F438B3B522EBF7D8008314AE /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = F438B3B422EBF7D8008314AE /* Session.swift */; };
+		F44F468C231614C8009585EA /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44F468B231614C8009585EA /* Game.swift */; };
+		F451CBBE23104F44008FDFE8 /* CardTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F451CBBD23104F44008FDFE8 /* CardTable.swift */; };
 		F45CEC0722FA26B000119E3E /* GameScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45CEC0622FA26B000119E3E /* GameScreenViewController.swift */; };
 		F45CEC0C22FE206200119E3E /* MemeCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45CEC0B22FE206200119E3E /* MemeCard.swift */; };
 		F45CEC0E22FE406500119E3E /* CardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45CEC0D22FE406500119E3E /* CardCollectionViewCell.swift */; };
@@ -47,6 +49,8 @@
 		F438B3B022EB765D008314AE /* MemesCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemesCollectionViewController.swift; sourceTree = "<group>"; };
 		F438B3B222EB7675008314AE /* PropmtsCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropmtsCollectionViewController.swift; sourceTree = "<group>"; };
 		F438B3B422EBF7D8008314AE /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
+		F44F468B231614C8009585EA /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
+		F451CBBD23104F44008FDFE8 /* CardTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardTable.swift; sourceTree = "<group>"; };
 		F45CEC0622FA26B000119E3E /* GameScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScreenViewController.swift; sourceTree = "<group>"; };
 		F45CEC0B22FE206200119E3E /* MemeCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemeCard.swift; sourceTree = "<group>"; };
 		F45CEC0D22FE406500119E3E /* CardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -91,6 +95,8 @@
 				F438B3B422EBF7D8008314AE /* Session.swift */,
 				F45CEC0B22FE206200119E3E /* MemeCard.swift */,
 				F41DCC0A230259C70018C3D9 /* PromptCard.swift */,
+				F451CBBD23104F44008FDFE8 /* CardTable.swift */,
+				F44F468B231614C8009585EA /* Game.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -319,11 +325,13 @@
 				F45CEC0C22FE206200119E3E /* MemeCard.swift in Sources */,
 				F45CEC0E22FE406500119E3E /* CardCollectionViewCell.swift in Sources */,
 				F41DCC0D23033D1D0018C3D9 /* PromptCardView.swift in Sources */,
+				F44F468C231614C8009585EA /* Game.swift in Sources */,
 				F438B3B522EBF7D8008314AE /* Session.swift in Sources */,
 				F45CEC0722FA26B000119E3E /* GameScreenViewController.swift in Sources */,
 				F45DACD222C5D25A004090C1 /* AppDelegate.swift in Sources */,
 				F438B3B322EB7675008314AE /* PropmtsCollectionViewController.swift in Sources */,
 				F438B3AD22EB675A008314AE /* LobbyViewController.swift in Sources */,
+				F451CBBE23104F44008FDFE8 /* CardTable.swift in Sources */,
 				F438B3A322EA1050008314AE /* Constants.swift in Sources */,
 				F438B3AB22EA4E45008314AE /* StartGameViewController.swift in Sources */,
 			);

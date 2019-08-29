@@ -11,19 +11,21 @@ import Foundation
 struct Session {
     let host:String
     let hostID:String
-    let members:[String]
+    let members:[String:String]
     let code:String
     let key:String
     let gameID:String?
     let state:Int
+    let isActive:Bool
 
-    init(host:String, id:String, code:String, members:[String], key:String, gameID:String? ,state:Int) {
+    init(host:String, hostID:String, code:String, members:[String:String], key:String, gameID:String? ,state:Int, isActive:Bool) {
         self.host = host
-        self.hostID = id
+        self.hostID = hostID
         self.members = members
         self.code = code
         self.key = key
         self.gameID = gameID
         self.state = state
+        self.isActive = isActive
     }
 }

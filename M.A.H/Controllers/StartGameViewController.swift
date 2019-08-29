@@ -41,7 +41,7 @@ class StartGameViewController: UIViewController {
     }
 
     @IBAction func startGamePressed(_ sender: Any) {
-        var uid = UUID().description
+        let uid = UUID().description
         var code = ""
         let codeCharacters = Array(uid)
         var counter = 0
@@ -72,7 +72,7 @@ class StartGameViewController: UIViewController {
                         self.userDefaults.set(session!.code, forKey: "code")
 
                         //Safely unwrap
-                        FirebaseController.instance.addUserToSession(code: session!.code, userID: Auth.auth().currentUser!.uid)
+                        FirebaseController.instance.addUserToSession(code: session!.code, userID: Auth.auth().currentUser!.uid, displayName: (Auth.auth().currentUser?.displayName!)!)
                         self.performSegue(withIdentifier: "toLobby", sender: self)
 
                     })
@@ -101,7 +101,10 @@ class StartGameViewController: UIViewController {
     @IBAction func signOutPressed(_ sender: Any) {
 
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let navigationController:UINavigationController = storyboard.instantiateInitialViewController() as! UINavigationController
+        guard let navigationController:UINavigationController = storyboard.instantiateInitialViewController() as? UINavigationController else {
+            print("error creating navigation controller")
+            return
+        }
         let loginGameViewController: UIViewController = storyboard.instantiateViewController(withIdentifier: "Login")
         navigationController.viewControllers = [loginGameViewController]
         self.windw = UIWindow(frame: UIScreen.main.bounds)

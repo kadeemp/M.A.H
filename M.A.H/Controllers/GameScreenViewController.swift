@@ -12,6 +12,8 @@ import Firebase
 class GameScreenViewController: UIViewController{
     var isCardVisible = false
     var session:Session!
+    var cardTable:CardTable!
+    var game:Game!
 
     var cards:[MemeCard] = [MemeCard(cardKey: "", fileName: "", fileType: "", playedBy: "", cardType: "", isRevealed: false)]
     
@@ -38,12 +40,36 @@ class GameScreenViewController: UIViewController{
         moderatorBadgeImageView.clipsToBounds = true
         moderatorBadgeImageView.layer.cornerRadius = moderatorBadgeImageView.frame.width/2
         moderatorBadgeImageView.backgroundColor = UIColor.green
+
         if let session = session {
-            updateState(session.state)
+             updateState(session.state)
+
+            FirebaseController.instance.observeGame(session: session, completion: { (game) in
+                if game != nil {
+//                    print("gameObserved")
+                    self.game = game
+                } else {
+                    //figure out what to put here
+
+                }})
+            FirebaseController.instance.observeSession(session: session) { (returnedSession) in
+                if returnedSession != nil {
+                    self.session = returnedSession!
+                     self.updateState(returnedSession!.state)
+//                    print("session obervered")
+                } else {
+//                    print("ERROR OBSERVING SESSION", #function)
+                }
+            }
         }
+
         profileImageView.layer.cornerRadius = profileImageView.frame.width/2
-        FirebaseController.instance.returnHand { returnedCards in
+        guard let user = Auth.auth().currentUser?.uid else {
+            return
+        }
+        FirebaseController.instance.returnHand(user: user) { returnedCards in
             self.cards = returnedCards
+//            print("card count", returnedCards.count)
             self.cardCollectionView.reloadData()
         }
 
@@ -51,14 +77,19 @@ class GameScreenViewController: UIViewController{
         self.tableHolderView.addInteraction(tableDropInteraction)
 
     }
-    
+
+
+    @objc func revealPrompt() {
+        FirebaseController.instance.revealPrompt(gameId: session!.gameID!)
+        
+    }
     func updateState(_ state:Int) {
         switch state {
 
-            //waiting for moderator to pick prompt
+        //waiting for moderator to pick prompt
         case 0:
             FirebaseController.instance.loadModerator(gameKey: session.gameID!, completion: {(moderator) in
-                print("moderator check", moderator,Auth.auth().currentUser?.uid )
+//                print("moderator check", moderator,Auth.auth().currentUser?.uid )
                 if moderator == Auth.auth().currentUser!.uid {
                     self.promptDeckImageView.isUserInteractionEnabled = true
                     self.moderatorBadgeImageView.backgroundColor = UIColor.red
@@ -67,11 +98,11 @@ class GameScreenViewController: UIViewController{
             })
 
             cardCollectionView.dragInteractionEnabled = false
-            //players pick their cards
+        //players pick their cards
         case 1:
             cardCollectionView.dragInteractionEnabled = true
 
-            //moderator reveals cards
+        //moderator reveals cards
         case 2:
             cardCollectionView.dragInteractionEnabled = false
         //moderator chooses a card
@@ -102,7 +133,7 @@ class GameScreenViewController: UIViewController{
                     self.view.layoutIfNeeded()
                 }
             }
-      }
+        }
     }
 
     @IBAction func promptDeckPressed(_ sender: Any) {
@@ -110,9 +141,11 @@ class GameScreenViewController: UIViewController{
         FirebaseController.instance.returnPromptFromDeck(gameID: session.gameID!) { (card) in
             print(card)
             let prompt = PromptCardView(frame:CGRect(x: 100, y: 130, width: 200, height: 290))
-           // prompt.center = CGPoint(x: self.view.frame.midX - prompt.frame.width - 15, y: self.view.frame.midY - prompt.frame.height)
+            // prompt.center = CGPoint(x: self.view.frame.midX - prompt.frame.width - 15, y: self.view.frame.midY - prompt.frame.height)
             prompt.promptLabel.text = "\(card.prompt)"
             prompt.layer.opacity = 0
+            FirebaseController.instance.addPromptToTable(gameId: self.session.gameID!, card: card)
+            prompt.revealButton.addTarget(self, action: #selector(self.revealPrompt), for: .touchUpInside)
             self.view.addSubview(prompt)
             DispatchQueue.main.async {
                 UIView.animate(withDuration: 0.5, animations: {

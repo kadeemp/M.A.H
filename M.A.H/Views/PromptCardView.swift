@@ -46,8 +46,11 @@ class PromptCardView: UIView {
         return btn
     }()
 
+
     @objc func swapButtons() {
+    
         revealButton.isUserInteractionEnabled = false
+
         //TODO:- ADD BUTTON SWAP ANIMATION
         revealButton.removeFromSuperview()
 //ADD FIREBASE FUNC
