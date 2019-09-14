@@ -65,6 +65,8 @@ class StartGameViewController: UIViewController {
         }
         let submitAction = UIAlertAction(title: "Submit", style: .default) { (action) in
             //Make a request to Sessions and sort by cod
+
+            //TODO, IF GAME IS ACTIVE IS TRUE, STOP THEM ROM BEING ABLE TO JOIN
             FirebaseController.instance.searchSessionsByCode(code: alert.textFields![0].text!, handler: { (found, session ) in
                 if found {
                     let gameConfirmationAlert = UIAlertController(title: "Game Found", message: "Host:\(session!.host)", preferredStyle: .alert)
@@ -103,6 +105,13 @@ class StartGameViewController: UIViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         guard let navigationController:UINavigationController = storyboard.instantiateInitialViewController() as? UINavigationController else {
             print("error creating navigation controller")
+            do {
+                try Auth.auth().signOut()
+                self.navigationController?.popToRootViewController(animated: true)
+            }
+            catch {
+                print(error)
+            }
             return
         }
         let loginGameViewController: UIViewController = storyboard.instantiateViewController(withIdentifier: "Login")

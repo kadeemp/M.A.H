@@ -10,16 +10,15 @@ import Foundation
 struct Game {
 
     let key:String
-    let moderator:String
     let round:Int
     let scoreboard:[String:[String:Any]]
     let table:[String:[String:Any]]?
 
-    init(key:String, moderator:String, round:Int, scoreboard:[String:[String:Any]], table:[String:[String:Any]]?) {
+    init(key:String, round:Int, scoreboard:[String:[String:Any]], table:[String:[String:Any]]?) {
         self.key = key
-        self.moderator = moderator
         self.round = round
         self.scoreboard = scoreboard
         self.table = table
     }
+    
 }

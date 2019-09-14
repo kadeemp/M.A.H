@@ -9,16 +9,17 @@
 import Foundation
 
 struct Session {
-    let host:String
-    let hostID:String
-    let members:[String:String]
-    let code:String
-    let key:String
-    let gameID:String?
-    let state:Int
-    let isActive:Bool
+    var host:String
+    var hostID:String
+    var members:[String:String]
+    var code:String
+    var key:String
+    var gameID:String?
+    var moderator:[String:String]?
+    var state:Int
+    var isActive:Bool
 
-    init(host:String, hostID:String, code:String, members:[String:String], key:String, gameID:String? ,state:Int, isActive:Bool) {
+    init(host:String, hostID:String, code:String, members:[String:String], key:String, gameID:String? ,state:Int, isActive:Bool, moderator:[String:String]?) {
         self.host = host
         self.hostID = hostID
         self.members = members
@@ -27,5 +28,6 @@ struct Session {
         self.gameID = gameID
         self.state = state
         self.isActive = isActive
+        self.moderator = moderator
     }
 }

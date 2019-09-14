@@ -10,6 +10,7 @@
 		376819AECA3A5D60329F6E2F /* Pods_M_A_H.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03ECB90DC98F63EC987F9453 /* Pods_M_A_H.framework */; };
 		F41DCC0B230259C70018C3D9 /* PromptCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41DCC0A230259C70018C3D9 /* PromptCard.swift */; };
 		F41DCC0D23033D1D0018C3D9 /* PromptCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41DCC0C23033D1D0018C3D9 /* PromptCardView.swift */; };
+		F427EE1123260A1F0005F2A2 /* CollectionViewCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F427EE1023260A1F0005F2A2 /* CollectionViewCard.swift */; };
 		F438B39D22E933C9008314AE /* Extension+UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F438B39C22E933C9008314AE /* Extension+UIImageView.swift */; };
 		F438B3A322EA1050008314AE /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F438B3A222EA1050008314AE /* Constants.swift */; };
 		F438B3A922EA19BB008314AE /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F438B3A822EA19BB008314AE /* SignUpViewController.swift */; };
@@ -33,6 +34,8 @@
 		F45DACE722C5D2C3004090C1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F45DACE622C5D2C3004090C1 /* GoogleService-Info.plist */; };
 		F483A3D422E39AC000D099BE /* FirebaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F483A3D322E39AC000D099BE /* FirebaseController.swift */; };
 		F483A3D622E39E9900D099BE /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = F483A3D522E39E9900D099BE /* Podfile */; };
+		F48D8A7C23207C630043402E /* Extention + String.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48D8A7B23207C630043402E /* Extention + String.swift */; };
+		F4A19BF8232807A600C453AA /* ResponseCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A19BF7232807A600C453AA /* ResponseCard.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +43,7 @@
 		D7F765A56BFF834DCC60BE0D /* Pods-M.A.H.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-M.A.H.debug.xcconfig"; path = "Target Support Files/Pods-M.A.H/Pods-M.A.H.debug.xcconfig"; sourceTree = "<group>"; };
 		F41DCC0A230259C70018C3D9 /* PromptCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptCard.swift; sourceTree = "<group>"; };
 		F41DCC0C23033D1D0018C3D9 /* PromptCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptCardView.swift; sourceTree = "<group>"; };
+		F427EE1023260A1F0005F2A2 /* CollectionViewCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCard.swift; sourceTree = "<group>"; };
 		F438B39C22E933C9008314AE /* Extension+UIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIImageView.swift"; sourceTree = "<group>"; };
 		F438B3A222EA1050008314AE /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		F438B3A822EA19BB008314AE /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
@@ -65,6 +69,8 @@
 		F45DACE622C5D2C3004090C1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F483A3D322E39AC000D099BE /* FirebaseController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseController.swift; sourceTree = "<group>"; };
 		F483A3D522E39E9900D099BE /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		F48D8A7B23207C630043402E /* Extention + String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extention + String.swift"; sourceTree = "<group>"; };
+		F4A19BF7232807A600C453AA /* ResponseCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseCard.swift; sourceTree = "<group>"; };
 		F8FB59231A99A12FDDD63F3A /* Pods-M.A.H.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-M.A.H.release.xcconfig"; path = "Target Support Files/Pods-M.A.H/Pods-M.A.H.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -94,9 +100,11 @@
 			children = (
 				F438B3B422EBF7D8008314AE /* Session.swift */,
 				F45CEC0B22FE206200119E3E /* MemeCard.swift */,
+				F4A19BF7232807A600C453AA /* ResponseCard.swift */,
 				F41DCC0A230259C70018C3D9 /* PromptCard.swift */,
 				F451CBBD23104F44008FDFE8 /* CardTable.swift */,
 				F44F468B231614C8009585EA /* Game.swift */,
+				F427EE1023260A1F0005F2A2 /* CollectionViewCard.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -154,6 +162,7 @@
 		F45DACD022C5D25A004090C1 /* M.A.H */ = {
 			isa = PBXGroup;
 			children = (
+				F48D8A7A23207C4A0043402E /* Extensions */,
 				F438B3A722EA16F8008314AE /* Services */,
 				F438B3A622EA1160008314AE /* Controllers */,
 				F438B3A522EA1158008314AE /* Views */,
@@ -170,6 +179,14 @@
 				F438B3A222EA1050008314AE /* Constants.swift */,
 			);
 			path = M.A.H;
+			sourceTree = "<group>";
+		};
+		F48D8A7A23207C4A0043402E /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				F48D8A7B23207C630043402E /* Extention + String.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		FF953A71AA1D197F5457F33D /* Frameworks */ = {
@@ -319,6 +336,7 @@
 				F438B3A922EA19BB008314AE /* SignUpViewController.swift in Sources */,
 				F438B3AF22EB6782008314AE /* InvitePlayersViewController.swift in Sources */,
 				F45DACD422C5D25A004090C1 /* LoginViewController.swift in Sources */,
+				F48D8A7C23207C630043402E /* Extention + String.swift in Sources */,
 				F438B39D22E933C9008314AE /* Extension+UIImageView.swift in Sources */,
 				F41DCC0B230259C70018C3D9 /* PromptCard.swift in Sources */,
 				F45DACDA22C5D25A004090C1 /* M_A_H.xcdatamodeld in Sources */,
@@ -333,6 +351,8 @@
 				F438B3AD22EB675A008314AE /* LobbyViewController.swift in Sources */,
 				F451CBBE23104F44008FDFE8 /* CardTable.swift in Sources */,
 				F438B3A322EA1050008314AE /* Constants.swift in Sources */,
+				F4A19BF8232807A600C453AA /* ResponseCard.swift in Sources */,
+				F427EE1123260A1F0005F2A2 /* CollectionViewCard.swift in Sources */,
 				F438B3AB22EA4E45008314AE /* StartGameViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

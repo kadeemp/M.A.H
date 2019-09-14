@@ -20,6 +20,7 @@ class LobbyViewController: UIViewController, UITableViewDataSource, UITableViewD
         lobbyTableView.dataSource = self
         lobbyTableView.delegate = self
 
+
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Leave Lobby", style: .plain, target: self, action: #selector(leaveLobby(_:)))
         lobbyCodeLabel.text = defaults.string(forKey: "code") ?? "Code not set"
         
@@ -38,9 +39,13 @@ class LobbyViewController: UIViewController, UITableViewDataSource, UITableViewD
                 }
             }
 
+
             self.hostLabel.text = "\(session.members.count)/6"
             self.session = session
-            print(session.members, "These are the memebers")
+            if session.isActive {
+                self.performSegue(withIdentifier: "toGameScreen", sender: self)
+                
+            }
             for member in session.members {
                 if !self.users.contains(member.value) {
                     self.users.append(member.value)
@@ -98,13 +103,12 @@ class LobbyViewController: UIViewController, UITableViewDataSource, UITableViewD
             //Change back to 2
 
             FirebaseController.instance.createGame(session: session) {
-                self.performSegue(withIdentifier: "toGameScreen", sender: self)
-
+               // self.performSegue(withIdentifier: "toGameScreen", sender: self)
+                print("it would have perfomred segue here")
             }
             if session.members.count > 0 {
                 //create game
                 //performSegue
-
             }
         }
     }
@@ -112,8 +116,6 @@ class LobbyViewController: UIViewController, UITableViewDataSource, UITableViewD
         if segue.identifier == "toGameScreen" {
             let destVC = segue.destination as! GameScreenViewController
             destVC.session = session!
-
-
         }
     }
 

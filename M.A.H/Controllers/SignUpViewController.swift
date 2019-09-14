@@ -56,7 +56,7 @@ class SignUpViewController: UIViewController {
                                 print("error commiting profile changes")
                             }
                         })
-                        FirebaseController.instance.createDBUser(uid: Auth.auth().currentUser!.uid, userData: userData)
+                        FirebaseController.instance.createDBUser(uid: Auth.auth().currentUser!.uid.stripID(), userData: userData)
                         print("user saved to database")
                     } else {
                         print("Error signing user in during registration")

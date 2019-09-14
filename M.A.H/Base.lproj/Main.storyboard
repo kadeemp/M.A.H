@@ -416,18 +416,6 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aGN-82-aS1">
-                                <rect key="frame" x="131" y="681" width="152" height="83"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.19117148859999999" green="0.77599104829999999" blue="0.84766287939999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
-                                <state key="normal" title="Start Game">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="createGame:" destination="tXE-OG-O71" eventType="touchUpInside" id="5FB-xB-l9f"/>
-                                </connections>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Code" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qUV-t8-DNM">
                                 <rect key="frame" x="143" y="177" width="140" height="29"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -443,8 +431,27 @@
                                     <action selector="leaveLobby:" destination="tXE-OG-O71" eventType="touchUpInside" id="Gj7-ap-b9T"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aGN-82-aS1">
+                                <rect key="frame" x="131" y="779" width="152" height="83"/>
+                                <color key="backgroundColor" red="0.19117148859999999" green="0.77599104829999999" blue="0.84766287939999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="83" id="lwt-rw-PZk"/>
+                                    <constraint firstAttribute="width" constant="152" id="qgJ-J8-jzd"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <state key="normal" title="Start Game">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="createGame:" destination="tXE-OG-O71" eventType="touchUpInside" id="5FB-xB-l9f"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="aGN-82-aS1" firstAttribute="bottom" secondItem="mx5-ZZ-du6" secondAttribute="bottom" id="Cpa-7B-zeq"/>
+                            <constraint firstItem="aGN-82-aS1" firstAttribute="centerX" secondItem="U8r-zf-Icg" secondAttribute="centerX" id="l5S-P1-ftO"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="mx5-ZZ-du6"/>
                     </view>
                     <connections>
@@ -794,6 +801,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="rOh-l5-m7Q"/>
-        <segue reference="VlF-Bd-2fI"/>
+        <segue reference="qR9-kU-4rx"/>
     </inferredMetricsTieBreakers>
 </document>
