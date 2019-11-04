@@ -92,7 +92,7 @@ class FirebaseController {
     }
     func addPromptToTable(gameId:String, card:PromptCard) {
 
-        REF_GAMES.child(gameId).child("table").child("currentPrompt").updateChildValues(["isRevealed":false, "playedBy":Auth.auth().currentUser!.uid,"prompt":card.prompt])
+        REF_GAMES.child(gameId).child("table").child("currentPrompt").updateChildValues(["cardKey":card.cardKey,"isRevealed":false, "playedBy":Auth.auth().currentUser!.uid,"prompt":card.prompt])
     }
 
     func returnPromptFromDeck(gameID:String, completion:@escaping ((PromptCard)->())) {

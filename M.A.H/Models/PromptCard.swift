@@ -22,4 +22,5 @@ struct PromptCard {
         self.isRevealed = isRevealed
 
     }
+
 }

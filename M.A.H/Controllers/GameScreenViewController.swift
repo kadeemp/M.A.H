@@ -31,6 +31,7 @@ class GameScreenViewController: UIViewController {
     @IBOutlet var slideUpIndicatorButton: UIButton!
     @IBOutlet var profileImageView: UIImageView!
     @IBOutlet var moderatorBadgeImageView: UIImageView!
+    @IBOutlet var UsernameLabel: UILabel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,7 +67,8 @@ class GameScreenViewController: UIViewController {
             FirebaseController.instance.observeSession(session: session) { (returnedSession) in
                 if returnedSession != nil {
                     self.session = returnedSession!
-                    print(#function, "current state is \(session.state)")
+                    print(#function, "current state is \(self.session.state)")
+
                     self.updateState(returnedSession!.state)
                     //                    print("session obervered")
                 } else {
@@ -76,12 +78,14 @@ class GameScreenViewController: UIViewController {
         }
 
         profileImageView.layer.cornerRadius = profileImageView.frame.width/2
-        guard let user = Auth.auth().currentUser?.uid else {
+        guard let user = Auth.auth().currentUser else {
             return
         }
+        UsernameLabel.text = user.displayName!
+
         //TODO:Convert this to observe hand?
         DispatchQueue.main.asyncAfter(deadline: DispatchTime(uptimeNanoseconds: 5)) {
-            FirebaseController.instance.returnHand(user: user) { returnedCards in
+            FirebaseController.instance.returnHand(user: user.uid) { returnedCards in
                 self.cards = returnedCards
                 print("card count", returnedCards.count)
                 self.cardCollectionView.reloadData()
@@ -96,21 +100,28 @@ class GameScreenViewController: UIViewController {
 
 
     @objc func revealPrompt() {
-        if session.state == 0 {
+
             FirebaseController.instance.setStateTo(1, session: session)
             FirebaseController.instance.revealPrompt(gameId: session!.gameID!)
-        } else  {
-            //TODO: summon prompt
-            guard let table = game.table else {
-                return
-            }
-            guard let prompt = table["currentPrompt"]?.values else {
-                return
-            }
-            print(prompt)
-        }
+            self.hasCardBeenRevealed  = true
+
 
         
+    }
+    func returnPrompt() -> PromptCard? {
+        var card:PromptCard = PromptCard(cardKey: "", prompt: "", playedBy: nil, isRevealed: false)
+        guard let table = game.table else {
+            return nil
+        }
+        guard let prompt = table["currentPrompt"] else {
+            return nil
+        }
+        print(prompt)
+        print(prompt["prompt"]!)
+        print(prompt["playedBy"]!)
+        print(prompt["isRevealed"] as! Bool)
+
+        return card
     }
     /*
     func summonCurrentPrompt(asModerator:Bool) {
@@ -173,13 +184,16 @@ class GameScreenViewController: UIViewController {
 //                    self.moderatorBadgeImageView.backgroundColor = UIColor.red
 //                }
                 guard let table = game.table else {
+                    print("could'nt load table")
                     return
                 }
                 guard let isRevealed = table["currentPrompt"]?["isRevealed"] as? Bool else {
+                    print("could'nt load Bool")
                     return
                 }
                 if session.moderator!.keys.first != user.uid {
                     if hasCardBeenRevealed == false {
+                        print("hasCardBeenRevealed is \(hasCardBeenRevealed)")
                         if isRevealed == true {
                             print("CARD SHOULD BE SUMMONED")
                             let card = PromptCardView(frame:CGRect(x: 100, y: 130, width: 200, height: 290))
@@ -188,7 +202,7 @@ class GameScreenViewController: UIViewController {
                             }
                             card.swapButtons()
                             card.promptLabel.text = prompt
-                            card.layer.opacity = 0
+                            //card.layer.opacity = 0
                             self.view.addSubview(card)
                             self.hasCardBeenRevealed = true
 
@@ -242,22 +256,27 @@ class GameScreenViewController: UIViewController {
     }
 
     @IBAction func promptDeckPressed(_ sender: Any) {
-        //TODO:-add card animation
-        FirebaseController.instance.returnPromptFromDeck(gameID: session.gameID!) { (card) in
-            print(card)
-            let prompt = PromptCardView(frame:CGRect(x: 100, y: 130, width: 200, height: 290))
-            // prompt.center = CGPoint(x: self.view.frame.midX - prompt.frame.width - 15, y: self.view.frame.midY - prompt.frame.height)
-            prompt.promptLabel.text = "\(card.prompt)"
-            prompt.layer.opacity = 0
-            FirebaseController.instance.addPromptToTable(gameId: self.session.gameID!, card: card)
-            prompt.revealButton.addTarget(self, action: #selector(self.revealPrompt), for: .touchUpInside)
-            self.view.addSubview(prompt)
-            DispatchQueue.main.async {
-                UIView.animate(withDuration: 0.5, animations: {
-                    prompt.layer.opacity = 1
-                })
+        if !hasCardBeenRevealed {
+            FirebaseController.instance.returnPromptFromDeck(gameID: session.gameID!) { (card) in
+                print(card)
+                let prompt = PromptCardView(frame:CGRect(x: 100, y: 130, width: 200, height: 290))
+                // prompt.center = CGPoint(x: self.view.frame.midX - prompt.frame.width - 15, y: self.view.frame.midY - prompt.frame.height)
+                prompt.promptLabel.text = "\(card.prompt)"
+                prompt.layer.opacity = 0
+                FirebaseController.instance.addPromptToTable(gameId: self.session.gameID!, card: card)
+                prompt.revealButton.addTarget(self, action: #selector(self.revealPrompt), for: .touchUpInside)
+                self.view.addSubview(prompt)
+                DispatchQueue.main.async {
+                    UIView.animate(withDuration: 0.5, animations: {
+                        prompt.layer.opacity = 1
+                    })
+                }
+
             }
+        } else {
+            print(returnPrompt())
         }
+
     }
 
     @IBAction func memeDeckPressed(_ sender: Any) {

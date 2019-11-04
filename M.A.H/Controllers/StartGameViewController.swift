@@ -67,7 +67,8 @@ class StartGameViewController: UIViewController {
             //Make a request to Sessions and sort by cod
 
             //TODO, IF GAME IS ACTIVE IS TRUE, STOP THEM ROM BEING ABLE TO JOIN
-            FirebaseController.instance.searchSessionsByCode(code: alert.textFields![0].text!, handler: { (found, session ) in
+
+            FirebaseController.instance.searchSessionsByCode(code: alert.textFields![0].text!.uppercased(), handler: { (found, session ) in
                 if found {
                     let gameConfirmationAlert = UIAlertController(title: "Game Found", message: "Host:\(session!.host)", preferredStyle: .alert)
                     let joinAction = UIAlertAction(title: "join", style: .default, handler: { (action) in
@@ -85,7 +86,7 @@ class StartGameViewController: UIViewController {
                 } else {
                     //TODO:- Add no session found alert
                     let failedSearchAlert = UIAlertController(title: "No Game Found", message: "Try again?", preferredStyle: .alert)
-                    let okAction = UIAlertAction(title: "Ok", style: .default, handler: { (action) in self.dismiss(animated: true, completion: nil)})
+                    let okAction = UIAlertAction(title: "Ok", style: .default, handler: { (action) in failedSearchAlert.dismiss(animated: true, completion: nil)})
 
                     failedSearchAlert.addAction(okAction)
                     self.present(failedSearchAlert, animated: true, completion: nil)
