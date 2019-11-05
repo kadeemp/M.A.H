@@ -76,15 +76,15 @@ class FirebaseController {
     }
 
 
-    func incrementState(session:Session) {
-        let state = session.state + 1
+    func incrementState(game:Game) {
+        let state = game.state + 1
 
-        REF_SESSIONS.child(session.key).updateChildValues(["state":state])
+        REF_GAMES.child(game.key).updateChildValues(["state":state])
     }
-    func setStateTo(_ state:Int ,session:Session) {
-       
+    func setStateTo(_ state:Int ,game:Game) {
 
-        REF_SESSIONS.child(session.key).updateChildValues(["state":state])
+
+        REF_GAMES.child(game.key).updateChildValues(["state":state])
     }
 
     func revealPrompt(gameId:String) {
@@ -98,7 +98,7 @@ class FirebaseController {
     func returnPromptFromDeck(gameID:String, completion:@escaping ((PromptCard)->())) {
         REF_GAMES.child(gameID).child("prompts").observeSingleEvent(of: .value) { (datasnapshot) in
             guard let prompts = datasnapshot.children.allObjects as? [DataSnapshot] else {
-//                print("Error getting prompt")
+                //                print("Error getting prompt")
                 return }
             
             var shuffledPropmpts = prompts.shuffled()
@@ -110,7 +110,7 @@ class FirebaseController {
                 let card = PromptCard(cardKey: prompt.key, prompt: cardPrompt!, playedBy: playedBy, isRevealed: false)
                 completion(card)
             } else {
-//                print("Error getting prompt")
+                //                print("Error getting prompt")
             }
 
         }
@@ -173,18 +173,18 @@ class FirebaseController {
             self.createPromptDeck(gameKey: gameKey,
                                   completion: {
                                     (prompts) in
-//                                    print(prompts.isEmpty, 123456789)
+                                    //                                    print(prompts.isEmpty, 123456789)
                                     self.REF_GAMES.child(gameKey).updateChildValues(["key":gameKey,
                                                                                      "prompts":prompts,
                                                                                      "round":1,
                                                                                      "scoreboard":scoreboard,
                                                                                      "meme deck":deck,
                                                                                      "sessionID":session.key,
+                                                                                     "state":0,
                                                                                      "table": ["InitialValue":["test":""]]]
                                     )
                                     self.REF_SESSIONS.child(session.key.stripID()).updateChildValues(["gameID":gameKey, "state":0, "isGameActive":true,"moderator":[session.members.randomElement()!.key:session.members.randomElement()!.value]])
-                                        newSession.gameID = gameKey
-                                    newSession.state = 0
+                                    newSession.gameID = gameKey
                                     newSession.moderator = [session.members.randomElement()!.key:session.members.randomElement()!.value]
 
                                     self.loadHand(session: newSession) {
@@ -203,11 +203,12 @@ class FirebaseController {
                 let key = datasnapshot.childSnapshot(forPath: "key").value as! String
                 let round = datasnapshot.childSnapshot(forPath: "round").value as! Int
                 let scoreboard = datasnapshot.childSnapshot(forPath: "scoreboard").value as! [String:[String:Any]]
+                let state = datasnapshot.childSnapshot(forPath: "state").value as! Int
                 if let table = datasnapshot.childSnapshot(forPath: "table").value as? [String:[String:Any]] {
-                    let game = Game(key: key, round: round,scoreboard: scoreboard, table: table)
+                    let game = Game(key: key, round: round,scoreboard: scoreboard, table: table, state: state)
                     completion(game)
                 } else {
-                    let game = Game(key: key, round: round, scoreboard: scoreboard, table: nil)
+                    let game = Game(key: key, round: round, scoreboard: scoreboard, table: nil, state: state)
                     print("COULD NOT LOAD TABLE", #function)
                     completion(game)
                 }
@@ -220,26 +221,26 @@ class FirebaseController {
     func returnHand(user:String,comletion:@escaping (([MemeCard]) -> ())) {
         var cards:[MemeCard] = []
         print(user, "user test", #function)
-            REF_USERS.child(user).child("hand").observeSingleEvent(of: .value) { (snapshot) in
-                guard let data = snapshot.children.allObjects as? [DataSnapshot] else {
-                    return
-                }
-                print("dataCount = \(data.count)")
-
-                for cardData in data {
-                    let fileName = cardData.childSnapshot(forPath: "fileName").value as? String
-//                    print(fileName!)
-                    let fileType = cardData.childSnapshot(forPath: "fileType").value as? String
-                    let playedBy = cardData.childSnapshot(forPath: "playedBy").value as? String
-                    let cardKey = cardData.childSnapshot(forPath: "cardKey").value as? String
-
-                    let card = MemeCard(cardKey: cardKey!, fileName: fileName!, fileType: fileType!, playedBy: playedBy, cardType: "meme", isRevealed: false)
-//                    print(card)
-                    cards.append(card)
-                }
-//                print("completed")
-                comletion(cards)
+        REF_USERS.child(user).child("hand").observeSingleEvent(of: .value) { (snapshot) in
+            guard let data = snapshot.children.allObjects as? [DataSnapshot] else {
+                return
             }
+            print("dataCount = \(data.count)")
+
+            for cardData in data {
+                let fileName = cardData.childSnapshot(forPath: "fileName").value as? String
+                //                    print(fileName!)
+                let fileType = cardData.childSnapshot(forPath: "fileType").value as? String
+                let playedBy = cardData.childSnapshot(forPath: "playedBy").value as? String
+                let cardKey = cardData.childSnapshot(forPath: "cardKey").value as? String
+
+                let card = MemeCard(cardKey: cardKey!, fileName: fileName!, fileType: fileType!, playedBy: playedBy, cardType: "meme", isRevealed: false)
+                //                    print(card)
+                cards.append(card)
+            }
+            //                print("completed")
+            comletion(cards)
+        }
     }
 
     func loadHand(session:Session, completion:@escaping (() -> ())) {
@@ -289,7 +290,7 @@ class FirebaseController {
             queue.async(execute: {
                 for prompt in prompts {
                     guard let key = self.REF_GAMES.child(gameKey).childByAutoId().key?.stripID() else {
-//                        print("error  creating key")
+                        //                        print("error  creating key")
                         return
                     }
                     result[key] =  ["prompt":prompt, "playedby":""]
@@ -322,7 +323,7 @@ class FirebaseController {
             queue.async {
                 for gif in gifs {
                     guard let key = self.REF_GAMES.child(gameKey).child("meme-deck").childByAutoId().key?.stripID() else {
-//                        print("error creating key")
+                        //                        print("error creating key")
                         return
                     }
 
@@ -333,7 +334,7 @@ class FirebaseController {
                 self.loadGifsStringsWithCompletion(competion: { (images) in
                     for image in images {
                         guard let key = self.REF_GAMES.child(gameKey).child("meme-deck").childByAutoId().key?.stripID() else {
-//                            print("error creating key")
+                            //                            print("error creating key")
                             return
                         }
                         result[key] = ["cardKey":key, "fileName":image, "fileType":"image","playedby":""]
@@ -363,13 +364,12 @@ class FirebaseController {
                 let code = datasnapshot.childSnapshot(forPath: "code").value as! String
                 let key = datasnapshot.childSnapshot(forPath: "key").value as! String
                 let gameID = datasnapshot.childSnapshot(forPath: "gameID").value as! String
-                let state = datasnapshot.childSnapshot(forPath: "state").value as! Int
                 let isActive = datasnapshot.childSnapshot(forPath: "isGameActive").value as! Bool
                 let moderator = datasnapshot.childSnapshot(forPath: "moderator").value as? [String:String]
-                let session = Session(host: host, hostID: hostID, code: code, members: members, key: key, gameID: gameID, state: state, isActive: isActive, moderator: moderator)
+                let session = Session(host: host, hostID: hostID, code: code, members: members, key: key, gameID: gameID, isActive: isActive, moderator: moderator)
                 completion(session)
             } else {
-//                print("COULD NOT FIND GAME")
+                //                print("COULD NOT FIND GAME")
                 completion(nil)
             }
 
@@ -393,7 +393,7 @@ class FirebaseController {
                     let gameID = session.childSnapshot(forPath: "gameID").value as? String
                     let isActive = session.childSnapshot(forPath: "isGameActive").value as! Bool
                     let moderator = session.childSnapshot(forPath: "moderator").value as? [String:String]
-                    let newSession = Session(host: host!, hostID: hostID!, code:code! , members: members ?? [:], key:key!, gameID: gameID, state: 0, isActive: isActive, moderator: moderator)
+                    let newSession = Session(host: host!, hostID: hostID!, code:code! , members: members ?? [:], key:key!, gameID: gameID,  isActive: isActive, moderator: moderator)
                     found = true
                     handler(found,newSession)
                     return
@@ -406,10 +406,10 @@ class FirebaseController {
     }
 
     func createSession(code:String, hostID:String, host:String) {
-         var key = REF_SESSIONS.childByAutoId().key!.stripID()
+        var key = REF_SESSIONS.childByAutoId().key!.stripID()
 
 
-        REF_SESSIONS.child(key).updateChildValues(["code":code, "hostID":hostID, "host":host, "members":[Auth.auth().currentUser!.uid:Auth.auth().currentUser?.displayName!], "key":key, "isGameActive":false, "gameID":"", "state":0, "moderator":[hostID:host]])
+        REF_SESSIONS.child(key).updateChildValues(["code":code, "hostID":hostID, "host":host, "members":[Auth.auth().currentUser!.uid:Auth.auth().currentUser?.displayName!], "key":key, "isGameActive":false, "gameID":"", "moderator":[hostID:host]])
 
     }
 
@@ -450,9 +450,8 @@ class FirebaseController {
                     let key = session.childSnapshot(forPath: "key").value as? String
                     let gameID = session.childSnapshot(forPath: "gameID").value as? String
                     let isActive = session.childSnapshot(forPath: "isGameActive").value as! Bool
-                    let state = session.childSnapshot(forPath: "state").value as! Int
-                     let moderator = session.childSnapshot(forPath: "moderator").value as? [String:String]
-                    let newSession = Session(host: host!, hostID: hostID!,code:code!, members: members ?? [:], key:key!, gameID: gameID, state: state, isActive: isActive, moderator: moderator)
+                    let moderator = session.childSnapshot(forPath: "moderator").value as? [String:String]
+                    let newSession = Session(host: host!, hostID: hostID!,code:code!, members: members ?? [:], key:key!, gameID: gameID, isActive: isActive, moderator: moderator)
                     completion(newSession)
                 }
             }
@@ -496,11 +495,11 @@ class FirebaseController {
     func registerUser(firstName:String, lastName:String, displayName:String, email:String, password:String, completion: @escaping (_ status:Bool,_ error:Error?) -> ()) {
         Auth.auth().createUser(withEmail: email, password: password) { (registrationComplete, error) in
             if error != nil {
-//                print(error)
+                //                print(error)
                 completion(false, error)
             } else {
-//                print(Auth.auth().currentUser)
-//                print(registrationComplete)
+                //                print(Auth.auth().currentUser)
+                //                print(registrationComplete)
                 completion(true, nil)
             }
         }
@@ -535,23 +534,23 @@ class FirebaseController {
     func isDuplicateEmail(_ emailString:String, completion: @escaping (Bool) -> ()){
 
         REF_USERS.observeSingleEvent(of:.value) { (userSnapshot) in
-//            print(userSnapshot)
+            //            print(userSnapshot)
             guard let userSnapshot = userSnapshot.children.allObjects as? [DataSnapshot] else {
-//                print("failed")
+                //                print("failed")
                 return
             }
 
             for user in userSnapshot {
                 let email = user.childSnapshot(forPath: "email").value as? String
-//                print(emailString, "\n" , email! , "\n", "-------------_")
+                //                print(emailString, "\n" , email! , "\n", "-------------_")
 
                 if email!.lowercased() == emailString.lowercased()  {
-//                    print("isduplicate email is \(true)")
+                    //                    print("isduplicate email is \(true)")
                     completion(true)
                     return
                 }
             }
-//            print("isduplicate email is \(false)")
+            //            print("isduplicate email is \(false)")
             completion(false)
         }
 
@@ -589,7 +588,7 @@ class FirebaseController {
 
         imageToDownload.getData(maxSize: 1 * 1024 * 1024, completion: {(data, error) in
             if let error = error {
-//                print(error)
+                //                print(error)
             } else {
                 let image = UIImage(data: data!)
                 completion(image!)
@@ -606,7 +605,7 @@ class FirebaseController {
         imageToDownload.getData(maxSize: 1 * 2024 * 2024, completion: {(data, error) in
             if let error = error {
                 // Uh-oh, an error occurred!
-//                print(error)
+                //                print(error)
             } else {
 
                 returnedData = data!
@@ -642,7 +641,7 @@ class FirebaseController {
                 if let fileName = fileName {
                     strings.append(fileName)
                 } else {
-//                    print("error parsing filename", #function)
+                    //                    print("error parsing filename", #function)
                 }
             }
         }
@@ -666,12 +665,12 @@ class FirebaseController {
     func downloadGif(gifName:String, completion: @escaping ((Data) -> ()))  {
         let imageRef = "Gif Folder/\(gifName)"
         let storage = Storage.storage()
-//        print("Storage" , "\n", storage, #function )
+        //        print("Storage" , "\n", storage, #function )
         let gifToDownload = storage.reference(withPath: imageRef)
 
         gifToDownload.getData(maxSize: 1 * 2024 * 2024, completion: {(data, error) in
             if let error = error {
-//                print(error)
+                //                print(error)
             } else {
 
                 completion(data!)
@@ -689,7 +688,7 @@ class FirebaseController {
         gifToDownload.getData(maxSize: 1 * 2024 * 2024, completion: {(data, error) in
             if let error = error {
                 // Uh-oh, an error occurred!
-//                print(error)
+                //                print(error)
             } else {
 
                 returnedData = data!

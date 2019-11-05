@@ -51,15 +51,16 @@ class GameScreenViewController: UIViewController {
             FirebaseController.instance.observeGame(session: session, completion: { (game) in
                 if game != nil {
                     self.game = game
-               FirebaseController.instance.returnResponses(gameKey: game!.key) {
+                    FirebaseController.instance.returnResponses(gameKey: game!.key) {
                         responses in
-                self.responses = responses
-                if (self.responses.count >  self.session.members.count - 1) {
-                    FirebaseController.instance.setStateTo(2, session: session)
-                    print("STATE CHANGE TO 2")
-                }
+                        self.responses = responses
+                        if (self.responses.count >  self.session.members.count - 1) {
+                            FirebaseController.instance.setStateTo(2, game: game!)
+                            print("STATE CHANGE TO 2")
+                        }
                     }
-                    self.updateState(session.state)
+                    print(#function, "current state is \(self.game.state)")
+                    self.updateState(game!.state)
                 } else {
                     //figure out what to put here
                     print("ERROR: Game not found")
@@ -67,12 +68,10 @@ class GameScreenViewController: UIViewController {
             FirebaseController.instance.observeSession(session: session) { (returnedSession) in
                 if returnedSession != nil {
                     self.session = returnedSession!
-                    print(#function, "current state is \(self.session.state)")
 
-                    self.updateState(returnedSession!.state)
-                    //                    print("session obervered")
+
                 } else {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                print("ERROR OBSERVING SESSION", #function)
+                    print("ERROR OBSERVING SESSION", #function)
                 }
             }
         }
@@ -101,9 +100,9 @@ class GameScreenViewController: UIViewController {
 
     @objc func revealPrompt() {
 
-            FirebaseController.instance.setStateTo(1, session: session)
-            FirebaseController.instance.revealPrompt(gameId: session!.gameID!)
-            self.hasCardBeenRevealed  = true
+        FirebaseController.instance.setStateTo(1, game: self.game)
+        FirebaseController.instance.revealPrompt(gameId: self.game.key)
+        self.hasCardBeenRevealed  = true
 
 
         
@@ -124,32 +123,32 @@ class GameScreenViewController: UIViewController {
         return card
     }
     /*
-    func summonCurrentPrompt(asModerator:Bool) {
-        //need to figure out what to do with the hascardbeenrevealed
-        let card = PromptCardView(frame:CGRect(x: 100, y: 130, width: 200, height: 290))
-        guard let prompt = game.table!["currentPrompt"]!["prompt"] as? String else {
-            return
-        }
-        card.promptLabel.text = prompt
-        card.layer.opacity = 0
-        if !asModerator {
-            card.swapButtons()
-        }
-        self.view.addSubview(card)
-        DispatchQueue.main.async {
-            UIView.animate(withDuration: 0.5, animations: {
-                card.layer.opacity = 1
-            })
-        }
-    }
- */
+     func summonCurrentPrompt(asModerator:Bool) {
+     //need to figure out what to do with the hascardbeenrevealed
+     let card = PromptCardView(frame:CGRect(x: 100, y: 130, width: 200, height: 290))
+     guard let prompt = game.table!["currentPrompt"]!["prompt"] as? String else {
+     return
+     }
+     card.promptLabel.text = prompt
+     card.layer.opacity = 0
+     if !asModerator {
+     card.swapButtons()
+     }
+     self.view.addSubview(card)
+     DispatchQueue.main.async {
+     UIView.animate(withDuration: 0.5, animations: {
+     card.layer.opacity = 1
+     })
+     }
+     }
+     */
 
     func updateState(_ state:Int) {
         print("current user is \(Auth.auth().currentUser?.displayName) \n")
         guard let user = Auth.auth().currentUser else {
             return
         }
-//Moderator Check
+        //Moderator Check
         if session.moderator!.first!.key == user.uid {
             self.promptDeckImageView.isUserInteractionEnabled = true
             self.moderatorBadgeImageView.backgroundColor = UIColor.red
@@ -162,16 +161,16 @@ class GameScreenViewController: UIViewController {
         case 0:
             print("case 0 running \n")
 
-                //                print("moderator check", moderator,Auth.auth().currentUser?.uid )
-                print(#function, session.moderator!.first!.key , Auth.auth().currentUser!.uid   )
-                if session.moderator!.first!.key == Auth.auth().currentUser!.uid {
-                    self.promptDeckImageView.isUserInteractionEnabled = true
-                    self.moderatorBadgeImageView.backgroundColor = UIColor.red
-                    //add card animation
-                } else {
-                    self.promptDeckImageView.isUserInteractionEnabled = false
-                    self.memeDeckimageview.isUserInteractionEnabled = false
-                }
+            //                print("moderator check", moderator,Auth.auth().currentUser?.uid )
+            print(#function, session.moderator!.first!.key , Auth.auth().currentUser!.uid   )
+            if session.moderator!.first!.key == Auth.auth().currentUser!.uid {
+                self.promptDeckImageView.isUserInteractionEnabled = true
+                self.moderatorBadgeImageView.backgroundColor = UIColor.red
+                //add card animation
+            } else {
+                self.promptDeckImageView.isUserInteractionEnabled = false
+                self.memeDeckimageview.isUserInteractionEnabled = false
+            }
 
 
             cardCollectionView.dragInteractionEnabled = false
@@ -179,10 +178,10 @@ class GameScreenViewController: UIViewController {
         case 1:
             print("case 1 running \n")
             if game != nil {
-             //   print(game.moderator,"Test \n", user.uid)
-//                if game.moderator == user.uid {
-//                    self.moderatorBadgeImageView.backgroundColor = UIColor.red
-//                }
+                //   print(game.moderator,"Test \n", user.uid)
+                //                if game.moderator == user.uid {
+                //                    self.moderatorBadgeImageView.backgroundColor = UIColor.red
+                //                }
                 guard let table = game.table else {
                     print("could'nt load table")
                     return
@@ -341,7 +340,7 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
 
         let dragItem = UIDragItem(itemProvider: itemProvider)
         let newCard = Card(card: card, indexPath: indexPath)
-            dragItem.localObject = newCard
+        dragItem.localObject = newCard
         return [dragItem]
 
     }
