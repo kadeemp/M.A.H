@@ -32,9 +32,13 @@ class GameScreenViewController: UIViewController {
     @IBOutlet var profileImageView: UIImageView!
     @IBOutlet var moderatorBadgeImageView: UIImageView!
     @IBOutlet var UsernameLabel: UILabel!
+    @IBOutlet var playedCardCollectionView: UICollectionView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        playedCardCollectionView.delegate = self
+        playedCardCollectionView.dataSource = self
+        playedCardCollectionView.dropDelegate = self
 
         cardCollectionView.dragInteractionEnabled = true
         cardCollectionView.delegate = self
@@ -54,7 +58,7 @@ class GameScreenViewController: UIViewController {
                     FirebaseController.instance.returnResponses(gameKey: game!.key) {
                         responses in
                         self.responses = responses
-                        if (self.responses.count >  self.session.members.count - 1) {
+                        if (self.responses.count >=  self.session.members.count - 1) {
                             FirebaseController.instance.setStateTo(2, game: game!)
                             print("STATE CHANGE TO 2")
                         }
@@ -94,6 +98,7 @@ class GameScreenViewController: UIViewController {
 
         let tableDropInteraction = UIDropInteraction(delegate: self)
         self.tableHolderView.addInteraction(tableDropInteraction)
+        self.playedCardCollectionView.addInteraction(tableDropInteraction)
 
     }
 
@@ -298,25 +303,47 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
 
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        switch collectionView {
+        case cardCollectionView:
+            cards.count
+        case playedCardCollectionView:
+            responses.count
+        default:
+            return 0
+
+        }
         return cards.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = cardCollectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CardCollectionViewCell
-        let card = cards[indexPath.row]
+        var cell = UICollectionViewCell()
 
-        FirebaseController.instance.downloadGif(gifName: card.fileName) { (data) in
-            do {
-                let gif = try UIImage(gifData:data)
-                let gifView = UIImageView(gifImage: gif)
-                gifView.frame.origin = CGPoint(x: 0, y: 0)
-                gifView.frame = CGRect(x:0, y:0, width: 100, height: 100)
-                cell.cardImage.setGifImage(gif)
-            }
-            catch {
+        switch collectionView {
+        case cardCollectionView:
+            let cell2 = cardCollectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CardCollectionViewCell
+            let card = cards[indexPath.row]
+
+            FirebaseController.instance.downloadGif(gifName: card.fileName) { (data) in
+                do {
+                    let gif = try UIImage(gifData:data)
+                    let gifView = UIImageView(gifImage: gif)
+                    gifView.frame.origin = CGPoint(x: 0, y: 0)
+                    gifView.frame = CGRect(x:0, y:0, width: 100, height: 100)
+                    cell2.cardImage.setGifImage(gif)
+                }
+                catch {
+                    print(error)
+                }
 
             }
+            return cell2
+        case playedCardCollectionView:
+             cell = playedCardCollectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
+            return cell
+        default:
+            return cell
         }
+
         return cell
     }
 
@@ -352,11 +379,11 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
         let card = session.items.first!.localObject as! Card
         FirebaseController.instance.addResponse(card: card.card, gameKey: game.key)
         cards.remove(at: card.indexPath.row)
-        cardCollectionView.deleteItems(at:[card.indexPath] )
+        cardCollectionView.deleteItems(at:[card.indexPath])
 
         cardCollectionView.reloadData()
         FirebaseController.instance.removeCardFromHand(cardKey: card.card.cardKey)
-        cardCollectionView.isUserInteractionEnabled = false
+       // cardCollectionView.isUserInteractionEnabled = false
 
     }
 

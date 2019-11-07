@@ -416,6 +416,7 @@ class FirebaseController {
     func updateSessionMembers(session:Session, members:[String], completion: @escaping (() -> ())) {
         REF_SESSIONS.child(session.key).updateChildValues(["members" : members])
     }
+    //TODO: Test to make sure this works
     func removeMemberFrom(session:Session, memberID:String, completion:@escaping (([String:String]) -> ())) {
 
         var members = session.members
