@@ -82,8 +82,6 @@ class FirebaseController {
         REF_GAMES.child(game.key).updateChildValues(["state":state])
     }
     func setStateTo(_ state:Int ,game:Game) {
-
-
         REF_GAMES.child(game.key).updateChildValues(["state":state])
     }
 
@@ -134,8 +132,9 @@ class FirebaseController {
                 let fileType = cardData.childSnapshot(forPath: "fileType").value as? String
                 let playedBy = cardData.childSnapshot(forPath: "playedBy").value as? String
                 let cardKey = cardData.childSnapshot(forPath: "cardKey").value as? String
+                let isRevealed = cardData.childSnapshot(forPath: "isRevealed").value as? Bool
 
-                let card = MemeCard(cardKey: cardKey!, fileName: fileName!, fileType: fileType!, playedBy: playedBy, cardType: "meme", isRevealed: false)
+                let card = MemeCard(cardKey: cardKey!, fileName: fileName!, fileType: fileType!, playedBy: playedBy, cardType: "meme", isRevealed: isRevealed!)
                 //                    print(card)
                 responses.append(card)
             }
@@ -159,6 +158,9 @@ class FirebaseController {
             }
             completion(moderator)
         }
+    }
+    func revealResponse(gameKey:String,card:MemeCard) {
+        REF_GAMES.child(gameKey).child("table").child("responses").child(card.cardKey).updateChildValues(["isRevealed":true])
     }
 
     //MARK:- Games

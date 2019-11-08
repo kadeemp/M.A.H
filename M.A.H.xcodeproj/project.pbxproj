@@ -32,6 +32,7 @@
 		F45DACDC22C5D25B004090C1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F45DACDB22C5D25B004090C1 /* Assets.xcassets */; };
 		F45DACDF22C5D25B004090C1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F45DACDD22C5D25B004090C1 /* LaunchScreen.storyboard */; };
 		F45DACE722C5D2C3004090C1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F45DACE622C5D2C3004090C1 /* GoogleService-Info.plist */; };
+		F47FA14A2374A36600A7F0E9 /* PlayedCardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47FA1492374A36600A7F0E9 /* PlayedCardCollectionViewCell.swift */; };
 		F483A3D422E39AC000D099BE /* FirebaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F483A3D322E39AC000D099BE /* FirebaseController.swift */; };
 		F483A3D622E39E9900D099BE /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = F483A3D522E39E9900D099BE /* Podfile */; };
 		F48D8A7C23207C630043402E /* Extention + String.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48D8A7B23207C630043402E /* Extention + String.swift */; };
@@ -67,6 +68,7 @@
 		F45DACDE22C5D25B004090C1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F45DACE022C5D25B004090C1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F45DACE622C5D2C3004090C1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		F47FA1492374A36600A7F0E9 /* PlayedCardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayedCardCollectionViewCell.swift; sourceTree = "<group>"; };
 		F483A3D322E39AC000D099BE /* FirebaseController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseController.swift; sourceTree = "<group>"; };
 		F483A3D522E39E9900D099BE /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		F48D8A7B23207C630043402E /* Extention + String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extention + String.swift"; sourceTree = "<group>"; };
@@ -114,6 +116,7 @@
 			children = (
 				F45CEC0D22FE406500119E3E /* CardCollectionViewCell.swift */,
 				F41DCC0C23033D1D0018C3D9 /* PromptCardView.swift */,
+				F47FA1492374A36600A7F0E9 /* PlayedCardCollectionViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -340,6 +343,7 @@
 				F438B39D22E933C9008314AE /* Extension+UIImageView.swift in Sources */,
 				F41DCC0B230259C70018C3D9 /* PromptCard.swift in Sources */,
 				F45DACDA22C5D25A004090C1 /* M_A_H.xcdatamodeld in Sources */,
+				F47FA14A2374A36600A7F0E9 /* PlayedCardCollectionViewCell.swift in Sources */,
 				F45CEC0C22FE206200119E3E /* MemeCard.swift in Sources */,
 				F45CEC0E22FE406500119E3E /* CardCollectionViewCell.swift in Sources */,
 				F41DCC0D23033D1D0018C3D9 /* PromptCardView.swift in Sources */,

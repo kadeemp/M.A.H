@@ -56,12 +56,14 @@ class GameScreenViewController: UIViewController {
                 if game != nil {
                     self.game = game
                     FirebaseController.instance.returnResponses(gameKey: game!.key) {
-                        responses in
-                        self.responses = responses
+                        Responses in
+                        print("there are \(Responses.count) responses" )
+                        self.responses = Responses
                         if (self.responses.count >=  self.session.members.count - 1) {
                             FirebaseController.instance.setStateTo(2, game: game!)
                             print("STATE CHANGE TO 2")
                         }
+                        self.playedCardCollectionView.reloadData()
                     }
                     print(#function, "current state is \(self.game.state)")
                     self.updateState(game!.state)
@@ -72,7 +74,6 @@ class GameScreenViewController: UIViewController {
             FirebaseController.instance.observeSession(session: session) { (returnedSession) in
                 if returnedSession != nil {
                     self.session = returnedSession!
-
 
                 } else {
                     print("ERROR OBSERVING SESSION", #function)
@@ -95,22 +96,17 @@ class GameScreenViewController: UIViewController {
             }
         }
 
-
         let tableDropInteraction = UIDropInteraction(delegate: self)
         self.tableHolderView.addInteraction(tableDropInteraction)
         self.playedCardCollectionView.addInteraction(tableDropInteraction)
 
     }
 
-
     @objc func revealPrompt() {
 
         FirebaseController.instance.setStateTo(1, game: self.game)
         FirebaseController.instance.revealPrompt(gameId: self.game.key)
         self.hasCardBeenRevealed  = true
-
-
-        
     }
     func returnPrompt() -> PromptCard? {
         var card:PromptCard = PromptCard(cardKey: "", prompt: "", playedBy: nil, isRevealed: false)
@@ -127,26 +123,6 @@ class GameScreenViewController: UIViewController {
 
         return card
     }
-    /*
-     func summonCurrentPrompt(asModerator:Bool) {
-     //need to figure out what to do with the hascardbeenrevealed
-     let card = PromptCardView(frame:CGRect(x: 100, y: 130, width: 200, height: 290))
-     guard let prompt = game.table!["currentPrompt"]!["prompt"] as? String else {
-     return
-     }
-     card.promptLabel.text = prompt
-     card.layer.opacity = 0
-     if !asModerator {
-     card.swapButtons()
-     }
-     self.view.addSubview(card)
-     DispatchQueue.main.async {
-     UIView.animate(withDuration: 0.5, animations: {
-     card.layer.opacity = 1
-     })
-     }
-     }
-     */
 
     func updateState(_ state:Int) {
         print("current user is \(Auth.auth().currentUser?.displayName) \n")
@@ -167,14 +143,14 @@ class GameScreenViewController: UIViewController {
             print("case 0 running \n")
 
             //                print("moderator check", moderator,Auth.auth().currentUser?.uid )
-            print(#function, session.moderator!.first!.key , Auth.auth().currentUser!.uid   )
+            print(#function, session.moderator!.first!.key , Auth.auth().currentUser!.uid )
             if session.moderator!.first!.key == Auth.auth().currentUser!.uid {
                 self.promptDeckImageView.isUserInteractionEnabled = true
                 self.moderatorBadgeImageView.backgroundColor = UIColor.red
                 //add card animation
             } else {
                 self.promptDeckImageView.isUserInteractionEnabled = false
-                self.memeDeckimageview.isUserInteractionEnabled = false
+                //   self.memeDeckimageview.isUserInteractionEnabled = false
             }
 
 
@@ -206,7 +182,7 @@ class GameScreenViewController: UIViewController {
                             }
                             card.swapButtons()
                             card.promptLabel.text = prompt
-                            //card.layer.opacity = 0
+                            card.layer.opacity = 0
                             self.view.addSubview(card)
                             self.hasCardBeenRevealed = true
 
@@ -225,6 +201,13 @@ class GameScreenViewController: UIViewController {
         //moderator reveals cards
         case 2:
             print("case 2 running \n")
+            if session.moderator!.first!.key == user.uid {
+                self.playedCardCollectionView.isUserInteractionEnabled = true
+
+                //add card animation
+            } else {
+                self.playedCardCollectionView.isUserInteractionEnabled = false
+            }
             cardCollectionView.dragInteractionEnabled = false
         //moderator chooses a card
         case 3:
@@ -285,16 +268,15 @@ class GameScreenViewController: UIViewController {
 
     @IBAction func memeDeckPressed(_ sender: Any) {
         //TODO:-add card animation
+        playedCardCollectionView.reloadData()
     }
 }
-
 
 extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDragDelegate, UICollectionViewDropDelegate , UIDropInteractionDelegate {
 
     func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
 
     }
-
 
     func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
 
@@ -303,24 +285,27 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
 
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        var count = 0
         switch collectionView {
         case cardCollectionView:
-            cards.count
+            count = cards.count
         case playedCardCollectionView:
-            responses.count
+            count = responses.count
         default:
             return 0
 
         }
-        return cards.count
+        return count
     }
 
+
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        var cell = UICollectionViewCell()
+        var cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
 
         switch collectionView {
         case cardCollectionView:
-            let cell2 = cardCollectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CardCollectionViewCell
+            let cell = cardCollectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CardCollectionViewCell
             let card = cards[indexPath.row]
 
             FirebaseController.instance.downloadGif(gifName: card.fileName) { (data) in
@@ -329,21 +314,52 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
                     let gifView = UIImageView(gifImage: gif)
                     gifView.frame.origin = CGPoint(x: 0, y: 0)
                     gifView.frame = CGRect(x:0, y:0, width: 100, height: 100)
-                    cell2.cardImage.setGifImage(gif)
+                    cell.cardImage.setGifImage(gif)
                 }
                 catch {
                     print(error)
                 }
 
             }
-            return cell2
+            return cell
         case playedCardCollectionView:
-             cell = playedCardCollectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
-            return cell
-        default:
-            return cell
-        }
+            let cell = playedCardCollectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! PlayedCardCollectionViewCell
+            print("responses is \(responses), index path is \(indexPath.row)")
+            if responses.count > 0 {
 
+                let maxIndex = responses.count - 1
+                print("maxIndex is \(maxIndex ), index path is \(indexPath.row)")
+                if indexPath.row <= maxIndex {
+                    if responses[indexPath.row] != nil {
+
+                        let response = responses[indexPath.row]
+                        if response.isRevealed == true {
+                            cell.cardImageView.isHidden = true
+                        }
+                        cell.card = response
+                        cell.key = self.game.key
+
+                        FirebaseController.instance.downloadGif(gifName: response.fileName) { (data) in
+                            do {
+                                let gif = try UIImage(gifData:data)
+                                let gifView = UIImageView(gifImage: gif)
+                                gifView.frame.origin = CGPoint(x: 0, y: 0)
+                                gifView.frame = CGRect(x:0, y:0, width: 100, height: 100)
+                                cell.revealedCardImageView.setGifImage(gif)
+                                print("gif has been set!!!!")
+                            }
+                            catch {
+                                print(error)
+                            }
+                        }
+                    }
+                }
+            }
+
+return cell
+        default:
+            print()
+        }
         return cell
     }
 
@@ -354,28 +370,17 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
     //MARK: DRAG DELEGATE
     func dragItems(for indexPath: IndexPath) -> [UIDragItem] {
 
-        // let pet = cards[indexPath.row]
         let card = cards[indexPath.row]
         let itemProvider = NSItemProvider()
-        //        itemProvider.registerDataRepresentation(forTypeIdentifier: "public.text", visibility: .all) { completion in
-
-        //            let data = pet.data(using: .utf8)
-        //            completion(data, nil)
-        //            return nil
-
-        //        }
-
         let dragItem = UIDragItem(itemProvider: itemProvider)
         let newCard = Card(card: card, indexPath: indexPath)
         dragItem.localObject = newCard
         return [dragItem]
-
     }
     //MARK: DROP DELEGATE
 
 
     func dropInteraction(_ interaction: UIDropInteraction, performDrop session: UIDropSession) {
-        print(session.items.first!.localObject!)
         let card = session.items.first!.localObject as! Card
         FirebaseController.instance.addResponse(card: card.card, gameKey: game.key)
         cards.remove(at: card.indexPath.row)
@@ -383,7 +388,7 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
 
         cardCollectionView.reloadData()
         FirebaseController.instance.removeCardFromHand(cardKey: card.card.cardKey)
-       // cardCollectionView.isUserInteractionEnabled = false
+        // cardCollectionView.isUserInteractionEnabled = false
 
     }
 
