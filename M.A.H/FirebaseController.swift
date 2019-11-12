@@ -171,9 +171,9 @@ class FirebaseController {
                 let fileType = cardData.childSnapshot(forPath: "fileType").value as? String
                 let playedBy = cardData.childSnapshot(forPath: "playedBy").value as? String
                 let cardKey = cardData.childSnapshot(forPath: "cardKey").value as? String
-                let isRevealed = cardData.childSnapshot(forPath: "isRevealed").value as? Bool
+//                let isRevealed = cardData.childSnapshot(forPath: "isRevealed").value as? Bool
 
-                let card = MemeCard(cardKey: cardKey!, fileName: fileName!, fileType: fileType!, playedBy: playedBy, cardType: "meme", isRevealed: isRevealed!)
+                let card = MemeCard(cardKey: cardKey!, fileName: fileName!, fileType: fileType!, playedBy: playedBy, cardType: "meme", isRevealed: false)
                 //                    print(card)
                 returnedCards.append(card)
             }
@@ -294,7 +294,7 @@ class FirebaseController {
                                                                                      "state":0,
                                                                                      "table": ["InitialValue":["test":""]]]
                                     )
-                                    self.REF_SESSIONS.child(session.key.stripID()).updateChildValues(["gameID":gameKey, "state":0, "isGameActive":true,"moderator":[session.members.randomElement()!.key:session.members.randomElement()!.value]])
+                                    self.REF_SESSIONS.child(session.key.stripID()).updateChildValues(["gameID":gameKey, "isGameActive":true,"moderator":[session.members.randomElement()!.key:session.members.randomElement()!.value]])
                                     newSession.gameID = gameKey
                                     newSession.moderator = [session.members.randomElement()!.key:session.members.randomElement()!.value]
 
@@ -459,7 +459,11 @@ class FirebaseController {
     func addMemberstodictionary(session:Session) -> [String:[String:Any]]{
         var result:[String:[String:Any]] = [:]
         for member in session.members {
-            result[member.key] = ["name":member.value, "score":0]
+            if session.moderator?.keys.first == member.key {
+                result[member.key] = ["name":member.value, "score":0, "isModerator":true]
+            } else {
+                result[member.key] = ["name":member.value, "score":0, "isModerator":false]
+            }
         }
         return result
     }
