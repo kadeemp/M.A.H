@@ -1,15 +1,14 @@
 //
-//  CardView.swift
+//  WinningCardView.swift
 //  M.A.H
 //
-//  Created by Kadeem Palacios on 8/13/19.
+//  Created by Kadeem Palacios on 11/10/19.
 //  Copyright © 2019 Kadeem Palacios. All rights reserved.
 //
 
-
 import UIKit
 
-class PromptCardView: UIView {
+class WinningCardView: UIView {
 
     //initWithFrame to init view from code
     override init(frame: CGRect) {
@@ -22,12 +21,12 @@ class PromptCardView: UIView {
         super.init(coder: aDecoder)
         setupView()
     }
-    
+
     lazy var promptLabel:UILabel = {
         var label = UILabel(frame: CGRect(x: 20, y: 20, width: 160, height: 80))
 
         //label.backgroundColor = UIColor.green
-        label.text = "Prompt:  Sample prompt text here"
+        label.text = "Kadeem Wins!!"
         label.textColor = UIColor.black
         label.lineBreakMode = NSLineBreakMode.byWordWrapping
         label.numberOfLines = 4
@@ -47,13 +46,15 @@ class PromptCardView: UIView {
     }()
     lazy var gifImage:UIImageView = {
         //TODO:- CHANGE TO PROGRAMMATIC CONSTRAINTS
-        let imageView = UIImageView(frame: CGRect(x: 20, y: 20, width: 160, height: 0))
+        let imageView = UIImageView(frame: CGRect(x:20, y: 80 , width: 160, height: 100))
+        //imageView.frame.center = CGPoint(x: self.frame.width/2, y: self.frame.height/2)
+
         return imageView
     }()
 
 
     @objc func swapButtons() {
-    
+
         revealButton.isUserInteractionEnabled = false
 
         //TODO:- ADD BUTTON SWAP ANIMATION
@@ -83,6 +84,7 @@ class PromptCardView: UIView {
         layer.borderColor = UIColor.white.cgColor
         layer.borderWidth = 1
         self.addSubview(promptLabel)
-        self.addSubview(revealButton)
+        self.addSubview(dismissButton)
+        self.addSubview(gifImage)
     }
 }

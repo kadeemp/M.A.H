@@ -32,6 +32,7 @@
 		F45DACDC22C5D25B004090C1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F45DACDB22C5D25B004090C1 /* Assets.xcassets */; };
 		F45DACDF22C5D25B004090C1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F45DACDD22C5D25B004090C1 /* LaunchScreen.storyboard */; };
 		F45DACE722C5D2C3004090C1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F45DACE622C5D2C3004090C1 /* GoogleService-Info.plist */; };
+		F478243B2378ECDD00E843E9 /* WinningCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F478243A2378ECDD00E843E9 /* WinningCardView.swift */; };
 		F47FA14A2374A36600A7F0E9 /* PlayedCardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47FA1492374A36600A7F0E9 /* PlayedCardCollectionViewCell.swift */; };
 		F483A3D422E39AC000D099BE /* FirebaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F483A3D322E39AC000D099BE /* FirebaseController.swift */; };
 		F483A3D622E39E9900D099BE /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = F483A3D522E39E9900D099BE /* Podfile */; };
@@ -68,6 +69,7 @@
 		F45DACDE22C5D25B004090C1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F45DACE022C5D25B004090C1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F45DACE622C5D2C3004090C1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		F478243A2378ECDD00E843E9 /* WinningCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinningCardView.swift; sourceTree = "<group>"; };
 		F47FA1492374A36600A7F0E9 /* PlayedCardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayedCardCollectionViewCell.swift; sourceTree = "<group>"; };
 		F483A3D322E39AC000D099BE /* FirebaseController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseController.swift; sourceTree = "<group>"; };
 		F483A3D522E39E9900D099BE /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
@@ -117,6 +119,7 @@
 				F45CEC0D22FE406500119E3E /* CardCollectionViewCell.swift */,
 				F41DCC0C23033D1D0018C3D9 /* PromptCardView.swift */,
 				F47FA1492374A36600A7F0E9 /* PlayedCardCollectionViewCell.swift */,
+				F478243A2378ECDD00E843E9 /* WinningCardView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -357,6 +360,7 @@
 				F438B3A322EA1050008314AE /* Constants.swift in Sources */,
 				F4A19BF8232807A600C453AA /* ResponseCard.swift in Sources */,
 				F427EE1123260A1F0005F2A2 /* CollectionViewCard.swift in Sources */,
+				F478243B2378ECDD00E843E9 /* WinningCardView.swift in Sources */,
 				F438B3AB22EA4E45008314AE /* StartGameViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

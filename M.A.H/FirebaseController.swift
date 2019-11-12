@@ -29,6 +29,43 @@ class FirebaseController {
     //TODO:- IMPLEMENT THIS FOR GAMES. UN NEST DECKS
     private var _REF_DECKS = DB_BASE.child("decks")
 
+    func observeGameState(gameKey:String, completion:@escaping ((Int) -> ())) {
+        REF_GAMES.child(gameKey).child("state").observe(.value) {  (datasnapshot) in
+                   if datasnapshot.exists() {
+                       let state = datasnapshot.value as! Int
+                    completion(state)
+
+                   }
+               }
+    }
+
+    func observeGameRound(gameKey:String, completion:@escaping ((Int) -> ())) {
+        REF_GAMES.child(gameKey).child("round").observe(.value) {  (datasnapshot) in
+                   if datasnapshot.exists() {
+                       let round = datasnapshot.value as! Int
+                    completion(round)
+
+                   }
+               }
+    }
+    func observeGameTable(gameKey:String, completion:@escaping (([String:[String:Any]]) -> ())) {
+        REF_GAMES.child(gameKey).child("table").observe(.value) {  (datasnapshot) in
+                   if datasnapshot.exists() {
+                       let table = datasnapshot.value as! [String:[String:Any]]
+                    completion(table)
+
+                   }
+               }
+    }
+    func observeGameWinningResult(gameKey:String, completion:@escaping ((Int) -> ())) {
+        REF_GAMES.child(gameKey).child("state").observe(.value) {  (datasnapshot) in
+                   if datasnapshot.exists() {
+                       let state = datasnapshot.value as! Int
+                    completion(state)
+
+                   }
+               }
+    }
 
     var REF_BASE: DatabaseReference {
         return _REF_BASE
@@ -78,8 +115,14 @@ class FirebaseController {
 
     func incrementState(game:Game) {
         let state = game.state + 1
-
         REF_GAMES.child(game.key).updateChildValues(["state":state])
+    }
+    func incrementScore(game:Game, session:Session, userID:String) {
+        let scoreboard = game.scoreboard
+        var score = scoreboard[userID]!["score"] as! Int
+        score = score + 1
+        setStateTo(5, game: game)
+        REF_GAMES.child(game.key).child("scoreboard").child(userID).updateChildValues(["score":score])
     }
     func setStateTo(_ state:Int ,game:Game) {
         REF_GAMES.child(game.key).updateChildValues(["state":state])
@@ -89,7 +132,6 @@ class FirebaseController {
         REF_GAMES.child(gameId).child("table").child("currentPrompt").updateChildValues(["isRevealed":true])
     }
     func addPromptToTable(gameId:String, card:PromptCard) {
-
         REF_GAMES.child(gameId).child("table").child("currentPrompt").updateChildValues(["cardKey":card.cardKey,"isRevealed":false, "playedBy":Auth.auth().currentUser!.uid,"prompt":card.prompt])
     }
 
@@ -108,14 +150,64 @@ class FirebaseController {
                 let card = PromptCard(cardKey: prompt.key, prompt: cardPrompt!, playedBy: playedBy, isRevealed: false)
                 completion(card)
             } else {
-                //                print("Error getting prompt")
+                               print("Error getting prompt")
             }
-
         }
     }
     
     func removeCardFromHand(cardKey:String) {
         REF_USERS.child(Auth.auth().currentUser!.uid).child("hand").child(cardKey).removeValue()
+    }
+    func addCardtoHand(gameKey:String) {
+        let key = REF_GAMES.childByAutoId().key!.stripID()
+        var returnedCards:[MemeCard] = []
+        REF_GAMES.child(gameKey).child("meme deck").observeSingleEvent(of: .value) { (dataSnapshot) in
+            guard let data = dataSnapshot.children.allObjects as? [DataSnapshot] else {
+                return
+            }
+            for cardData in data {
+                let fileName = cardData.childSnapshot(forPath: "fileName").value as? String
+                //                    print(fileName!)
+                let fileType = cardData.childSnapshot(forPath: "fileType").value as? String
+                let playedBy = cardData.childSnapshot(forPath: "playedBy").value as? String
+                let cardKey = cardData.childSnapshot(forPath: "cardKey").value as? String
+                let isRevealed = cardData.childSnapshot(forPath: "isRevealed").value as? Bool
+
+                let card = MemeCard(cardKey: cardKey!, fileName: fileName!, fileType: fileType!, playedBy: playedBy, cardType: "meme", isRevealed: isRevealed!)
+                //                    print(card)
+                returnedCards.append(card)
+            }
+        }
+        if let newCard = returnedCards.randomElement() {
+            REF_USERS.child(Auth.auth().currentUser!.uid).child("hand").updateChildValues(["\(newCard.cardKey)":["cardKey": newCard.cardKey, "fileName": newCard.fileName, "fileType": newCard.fileType, "playedBy": newCard.playedBy, "cardType": "meme", "isRevealed": newCard.isRevealed]])
+        } else {
+            print("COULD NOT FIND ")
+        }
+    }
+    func addWinningResult(card:MemeCard,gameKey:String) {
+        REF_GAMES.child(gameKey).updateChildValues(["winning result":["cardKey": card.cardKey, "fileName": card.fileName, "fileType": card.fileType, "playedBy": card.playedBy!, "cardType": "meme", "isRevealed": card.isRevealed]])
+    }
+    func removeWinningResult(gameKey:String) {
+        REF_GAMES.child(gameKey).child("winning result").removeValue()
+    }
+    func returnWinningResult(gameKey:String,completion:@escaping ((MemeCard?) ->() )) {
+        var result:MemeCard!
+        REF_GAMES.child(gameKey).child("winning result").observeSingleEvent(of: .value) { (dataSnapshot) in
+            if dataSnapshot.exists() {
+
+                let fileName = dataSnapshot.childSnapshot(forPath: "fileName").value as? String
+                //                    print(fileName!)
+                let fileType = dataSnapshot.childSnapshot(forPath: "fileType").value as? String
+                let playedBy = dataSnapshot.childSnapshot(forPath: "playedBy").value as? String
+                let cardKey = dataSnapshot.childSnapshot(forPath: "cardKey").value as? String
+                let isRevealed = dataSnapshot.childSnapshot(forPath: "isRevealed").value as? Bool
+
+               result = MemeCard(cardKey: cardKey!, fileName: fileName!, fileType: fileType!, playedBy: playedBy, cardType: "meme", isRevealed: isRevealed!)
+                completion(result)
+            }else {
+                completion(nil)
+            }
+        }
     }
     //TODO
     func returnResponses(gameKey:String, completion: @escaping (([MemeCard]) -> ())) {
@@ -159,6 +251,23 @@ class FirebaseController {
             completion(moderator)
         }
     }
+    func incrementModerator(sessionKey:String,session:Session) {
+        var moderator:[String:String]!
+        var members = session.members
+        REF_SESSIONS.child(sessionKey).child("moderator").observeSingleEvent(of: .value) { (datasnapshot) in
+            guard let moderatorDictionary = datasnapshot.value as? [String:String] else {
+                return
+            }
+            moderator = moderatorDictionary
+
+        }
+        for i in 0..<members.count - 1 {
+//            if moderator.keys.first == members[i]{
+//
+//            }
+        }
+    }
+
     func revealResponse(gameKey:String,card:MemeCard) {
         REF_GAMES.child(gameKey).child("table").child("responses").child(card.cardKey).updateChildValues(["isRevealed":true])
     }
@@ -410,7 +519,6 @@ class FirebaseController {
     func createSession(code:String, hostID:String, host:String) {
         var key = REF_SESSIONS.childByAutoId().key!.stripID()
 
-
         REF_SESSIONS.child(key).updateChildValues(["code":code, "hostID":hostID, "host":host, "members":[Auth.auth().currentUser!.uid:Auth.auth().currentUser?.displayName!], "key":key, "isGameActive":false, "gameID":"", "moderator":[hostID:host]])
 
     }
@@ -591,7 +699,7 @@ class FirebaseController {
 
         imageToDownload.getData(maxSize: 1 * 1024 * 1024, completion: {(data, error) in
             if let error = error {
-                //                print(error)
+                            print(error)
             } else {
                 let image = UIImage(data: data!)
                 completion(image!)
@@ -671,9 +779,9 @@ class FirebaseController {
         //        print("Storage" , "\n", storage, #function )
         let gifToDownload = storage.reference(withPath: imageRef)
 
-        gifToDownload.getData(maxSize: 1 * 2024 * 2024, completion: {(data, error) in
+        gifToDownload.getData(maxSize: 2 * 2024 * 2024, completion: {(data, error) in
             if let error = error {
-                //                print(error)
+                                print(error)
             } else {
 
                 completion(data!)

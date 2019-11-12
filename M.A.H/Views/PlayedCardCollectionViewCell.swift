@@ -15,17 +15,20 @@ class PlayedCardCollectionViewCell: UICollectionViewCell {
     @IBOutlet var revealedCardImageView: UIImageView!
     var card:MemeCard!
     var key:String!
+    var tapGesture:UITapGestureRecognizer!
 
     override func awakeFromNib() {
-        imageHolderView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(cardRevealTranstition)))
+//        tapGesture = UITapGestureRecognizer(target: self, action: #selector(cardRevealTranstition))
+//        imageHolderView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(cardRevealTranstition)))
     }
     
-   @objc func cardRevealTranstition() {
-    UIView.transition(from: cardImageView, to: revealedCardImageView, duration: 1, options: .transitionFlipFromLeft, completion: nil)
-    if card != nil && key != nil {
-        FirebaseController.instance.revealResponse(gameKey: key, card: card)
-    } else {
-        print("Card data hasn't been passed")
-    }
+    @objc func cardRevealTranstition() {
+        UIView.transition(from: cardImageView, to: revealedCardImageView, duration: 1, options: .transitionFlipFromLeft, completion: nil)
+        if card != nil && key != nil {
+            FirebaseController.instance.revealResponse(gameKey: key, card: card)
+            imageHolderView.removeGestureRecognizer(tapGesture)
+        } else {
+            print("Card data hasn't been passed")
+        }
     }
 }
