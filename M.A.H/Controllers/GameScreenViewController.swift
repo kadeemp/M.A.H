@@ -18,7 +18,7 @@ class GameScreenViewController: UIViewController {
     var hasCardBeenRevealed:Bool = false
     var responses:[MemeCard] = []
 
-    var cards:[MemeCard] = [MemeCard(cardKey: "", fileName: "", fileType: "", playedBy: "", cardType: "", isRevealed: false)]
+    var cards:[MemeCard] = []
 
 
     @IBOutlet var tableHolderView: UIView!
@@ -38,10 +38,6 @@ class GameScreenViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        if isModerator() {
-             self.moderatorBadgeImageView.backgroundColor = UIColor.red
-        }
-
         cardCollectionView.dragInteractionEnabled = true
         cardCollectionView.delegate = self
         cardCollectionView.dataSource = self
@@ -57,6 +53,12 @@ class GameScreenViewController: UIViewController {
         //TODO: Add observers for state, table, winning result,
 
         if let session = session {
+            //Moderator Check
+            if isModerator() {
+                self.promptDeckImageView.isUserInteractionEnabled = true
+                self.moderatorBadgeImageView.backgroundColor = UIColor.red
+            }
+
 
             FirebaseController.instance.observeGame(session: session, completion: { (game) in
                 if game != nil {
@@ -67,6 +69,7 @@ class GameScreenViewController: UIViewController {
                         self.responses = Responses
                         self.playedCardCollectionView.reloadData()
                         print(#function, "current state is \(self.game.state)")
+
                             self.updateState(game!.state)
                     }
 
@@ -127,42 +130,31 @@ class GameScreenViewController: UIViewController {
     }
 
     func updateState(_ state:Int) {
-            print("the moderator is \(session.moderator!.first!.key) and the current user is\(Auth.auth().currentUser!.uid)" )
+
         guard let user = Auth.auth().currentUser else {
             return
         }
-        //Moderator Check
-        if isModerator() {
-            self.promptDeckImageView.isUserInteractionEnabled = true
-            self.moderatorBadgeImageView.backgroundColor = UIColor.red
-            //add card animation
-        }
-
         switch state {
 
         //waiting for moderator to pick prompt
         case 0:
             print("case 0 running \n")
-
-            //                print("moderator check", moderator,Auth.auth().currentUser?.uid )
+            self.memeDeckimageview.isUserInteractionEnabled = false
             if isModerator() {
+              //  print("\(Auth.auth().currentUser!.displayName) has access to promots")
                 self.promptDeckImageView.isUserInteractionEnabled = true
                 //add card animation
             } else {
                 self.promptDeckImageView.isUserInteractionEnabled = false
-                //   self.memeDeckimageview.isUserInteractionEnabled = false
+           //     print("\(Auth.auth().currentUser!.displayName) doeesn't have access to promots")
+
             }
             memeDeckimageview.isUserInteractionEnabled = true
-
             cardCollectionView.dragInteractionEnabled = false
         //players pick their responses
         case 1:
             print("case 1 running \n")
             if game != nil {
-                //   print(game.moderator,"Test \n", user.uid)
-                //                if game.moderator == user.uid {
-                //                    self.moderatorBadgeImageView.backgroundColor = UIColor.red
-                //                }
                 guard let table = game.table else {
                     print("couldnt load table")
                     return
@@ -234,7 +226,7 @@ class GameScreenViewController: UIViewController {
                                     let resultCard = WinningCardView()
                                     resultCard.frame = CGRect(x: 100, y: 130, width: 200, height: 290)
                     FirebaseController.instance.incrementScore(game: self.game, session: self.session, userID: winningCard.playedBy!)
-                    resultCard.promptLabel.text = "\(self.session.members[winningCard.playedBy!]!) wins!"
+                    resultCard.promptLabel.text = "\(self.session.members[winningCard.playedBy!]!["name"]!) wins!"
                                     FirebaseController.instance.downloadGif(gifName: winningCard.fileName) { (data) in
                                         do {
                                             let gif = try UIImage(gifData:data)
@@ -252,8 +244,6 @@ class GameScreenViewController: UIViewController {
                 }
             }
 
-
-
             cardCollectionView.dragInteractionEnabled = true
             memeDeckimageview.isUserInteractionEnabled = true
         //add animation
@@ -268,17 +258,21 @@ class GameScreenViewController: UIViewController {
         }
     }
 
-
     func isModerator() -> Bool {
         var result = false
-        print("moderator is \(session.moderator!.first!.key) and current user is \(Auth.auth().currentUser!.uid)", #function)
-        if session.moderator!.first!.key == Auth.auth().currentUser!.uid {
+
+        let member = session.members[Auth.auth().currentUser!.uid]
+        let isModertor = member!["isModerator"] as! Bool
+        if isModertor == true {
             result = true
+        }
+        else {
+            print("the current user is \(Auth.auth().currentUser?.displayName) and they are not the moderator")
         }
         return result
     }
     @IBAction func slideupIndicatorTriggered(_ sender: Any) {
-        //TODO:Fix Logic
+
         if isCardVisible {
             isCardVisible = !isCardVisible
             DispatchQueue.main.async {
@@ -325,9 +319,10 @@ class GameScreenViewController: UIViewController {
 //        let uuid = UUID()
 //        let card = MemeCard(cardKey: "\(uuid)", fileName: "ImIntoThat.gif", fileType: "gif", playedBy: "oGn2KZDeLpNcbRqbP7bHzGPvk5q2", cardType: "meme", isRevealed: false)
 //        FirebaseController.instance.addResponse(card: card, gameKey: game.key)
-        FirebaseController.instance.observeGameState(gameKey: game.key) { (newState) in
-            print(newState)
-        }
+//        FirebaseController.instance.observeGameState(gameKey: game.key) { (newState) in
+//            print(newState)
+//        }
+FirebaseController.instance.swapModerator(session: session)
     }
 
 }
@@ -359,9 +354,15 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
             } else  {
                 if  isModerator() {
                     if game.state == 2 {
-                                        UIView.transition(from: cell.cardImageView, to: cell.revealedCardImageView, duration: 1, options: .transitionFlipFromLeft, completion: nil)
+                        //TODO: FIX SO THAT OBERVER CAN CALL THE ANIMATION RATHER THAN RELOADING
 
-                        FirebaseController.instance.revealResponse(gameKey: game.key, card: response)
+                                        UIView.transition(from: cell.cardImageView, to: cell.revealedCardImageView, duration: 1, options: .transitionFlipFromLeft, completion: nil)
+                        let deadline = DispatchTime.now() + 1
+                        DispatchQueue.main.asyncAfter(deadline: deadline) {
+                            FirebaseController.instance.revealResponse(gameKey: self.game.key, card: response)
+                        }
+
+
                         //TODO: updatw this to rely on observer
 //                        updateState(game.state)
                     }

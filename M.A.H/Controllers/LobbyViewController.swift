@@ -46,9 +46,10 @@ class LobbyViewController: UIViewController, UITableViewDataSource, UITableViewD
                 self.performSegue(withIdentifier: "toGameScreen", sender: self)
                 
             }
-            for member in session.members {
-                if !self.users.contains(member.value) {
-                    self.users.append(member.value)
+            for member in session.members.keys {
+                //TODO: SAFELY UNWRAP
+                if !self.users.contains(session.members[member]!["name"]! as! String) {
+                    self.users.append((session.members[member]!["name"]! as! String))
                 }
 
             }

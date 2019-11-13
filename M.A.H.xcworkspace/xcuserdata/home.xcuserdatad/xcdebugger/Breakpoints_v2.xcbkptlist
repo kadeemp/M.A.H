@@ -67,7 +67,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "89"
                   endingLineNumber = "89"
-                  offsetFromSymbolStart = "2058">
+                  offsetFromSymbolStart = "1812">
                </Location>
                <Location
                   uuid = "4DE085FE-F062-4254-BE3F-989C686784EA - 1ea6455bc385d862"
@@ -82,7 +82,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "89"
                   endingLineNumber = "89"
-                  offsetFromSymbolStart = "32">
+                  offsetFromSymbolStart = "116">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -131,10 +131,10 @@
             filePath = "M.A.H/Controllers/GameScreenViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "329"
-            endingLineNumber = "329"
-            landmarkName = "memeDeckPressed(_:)"
-            landmarkType = "7">
+            startingLineNumber = "328"
+            endingLineNumber = "328"
+            landmarkName = "GameScreenViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -147,8 +147,8 @@
             filePath = "M.A.H/FirebaseController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "699"
-            endingLineNumber = "699"
+            startingLineNumber = "748"
+            endingLineNumber = "748"
             landmarkName = "downloadImage(imageName:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -163,8 +163,8 @@
             filePath = "M.A.H/FirebaseController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "704"
-            endingLineNumber = "704"
+            startingLineNumber = "753"
+            endingLineNumber = "753"
             landmarkName = "downloadImage(imageName:completion:)"
             landmarkType = "7">
             <Locations>
@@ -179,9 +179,9 @@
                   urlString = "file:///Users/home/Desktop/Directory/Swift/M.A.H/M.A.H/FirebaseController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "704"
-                  endingLineNumber = "704"
-                  offsetFromSymbolStart = "601">
+                  startingLineNumber = "749"
+                  endingLineNumber = "749"
+                  offsetFromSymbolStart = "636">
                </Location>
                <Location
                   uuid = "1B6DAF6D-FE08-4DF0-8105-73A2DDD708E6 - 72373faee4e0cc53"
@@ -194,9 +194,9 @@
                   urlString = "file:///Users/home/Desktop/Directory/Swift/M.A.H/M.A.H/FirebaseController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "705"
-                  endingLineNumber = "705"
-                  offsetFromSymbolStart = "194">
+                  startingLineNumber = "750"
+                  endingLineNumber = "750"
+                  offsetFromSymbolStart = "196">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -211,8 +211,8 @@
             filePath = "M.A.H/FirebaseController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "706"
-            endingLineNumber = "706"
+            startingLineNumber = "755"
+            endingLineNumber = "755"
             landmarkName = "downloadImage(imageName:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -227,8 +227,8 @@
             filePath = "M.A.H/FirebaseController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "709"
-            endingLineNumber = "709"
+            startingLineNumber = "758"
+            endingLineNumber = "758"
             landmarkName = "downloadImage(imageName:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -243,8 +243,8 @@
             filePath = "M.A.H/Controllers/GameScreenViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "221"
-            endingLineNumber = "221"
+            startingLineNumber = "219"
+            endingLineNumber = "219"
             landmarkName = "updateState(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -259,8 +259,8 @@
             filePath = "M.A.H/Controllers/GameScreenViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "363"
-            endingLineNumber = "363"
+            startingLineNumber = "368"
+            endingLineNumber = "368"
             landmarkName = "collectionView(_:didSelectItemAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -275,8 +275,8 @@
             filePath = "M.A.H/Controllers/GameScreenViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "360"
-            endingLineNumber = "360"
+            startingLineNumber = "365"
+            endingLineNumber = "365"
             landmarkName = "collectionView(_:didSelectItemAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -291,8 +291,8 @@
             filePath = "M.A.H/Controllers/GameScreenViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "198"
-            endingLineNumber = "198"
+            startingLineNumber = "196"
+            endingLineNumber = "196"
             landmarkName = "updateState(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -307,9 +307,9 @@
             filePath = "M.A.H/Controllers/GameScreenViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "276"
-            endingLineNumber = "276"
-            landmarkName = "isModerator()"
+            startingLineNumber = "274"
+            endingLineNumber = "274"
+            landmarkName = "slideupIndicatorTriggered(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -341,7 +341,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "55"
                   endingLineNumber = "55"
-                  offsetFromSymbolStart = "1163">
+                  offsetFromSymbolStart = "1148">
                </Location>
                <Location
                   uuid = "2060BECD-68C1-4D57-9A4B-A08456303217 - c9677eadff697b12"
@@ -356,7 +356,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "55"
                   endingLineNumber = "55"
-                  offsetFromSymbolStart = "2588">
+                  offsetFromSymbolStart = "2632">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -364,15 +364,31 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "A80CF276-4943-43DB-A638-DA370F991AC6"
+            uuid = "D89D1283-6DFC-4560-BA14-EE9540448493"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "M.A.H/Controllers/LobbyViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "51"
+            endingLineNumber = "51"
+            landmarkName = "viewDidLoad()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A10FCAAB-A96A-4E95-A179-0F50E4D643D3"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "M.A.H/Controllers/GameScreenViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "275"
-            endingLineNumber = "275"
+            startingLineNumber = "272"
+            endingLineNumber = "272"
             landmarkName = "isModerator()"
             landmarkType = "7">
          </BreakpointContent>
@@ -380,32 +396,128 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "71A8442B-9576-4C44-80A2-602BBC974B35"
+            uuid = "AE4A44B1-87C7-4A1B-BBFF-0EE37506E53D"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "M.A.H/Controllers/GameScreenViewController.swift"
+            filePath = "M.A.H/FirebaseController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "41"
-            endingLineNumber = "41"
-            landmarkName = "viewDidLoad()"
+            startingLineNumber = "537"
+            endingLineNumber = "537"
+            landmarkName = "swapModerator(session:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "75434493-4860-4978-A3C6-57E75A5BFD7C"
+            uuid = "F2FCD577-CA0B-43D9-A40C-BA019276E442"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "M.A.H/FirebaseController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "553"
+            endingLineNumber = "553"
+            landmarkName = "swapModerator(session:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "39AEB4F4-854B-4BD7-9E76-A7F846795F3C"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "M.A.H/FirebaseController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "547"
+            endingLineNumber = "547"
+            landmarkName = "swapModerator(session:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9916CBC5-6C56-4325-A762-D739973B10D1"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "M.A.H/Controllers/GameScreenViewController.swift"
+            filePath = "M.A.H/FirebaseController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "42"
-            endingLineNumber = "42"
-            landmarkName = "viewDidLoad()"
+            startingLineNumber = "560"
+            endingLineNumber = "560"
+            landmarkName = "updateMember(session:member:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "13AD4F35-DCBA-44D7-98C0-6F15D48F97BD"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "M.A.H/FirebaseController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "522"
+            endingLineNumber = "522"
+            landmarkName = "swapModerator(session:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "015A8DBB-F9BE-476A-B8AA-073BBE7715DC"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "M.A.H/FirebaseController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "527"
+            endingLineNumber = "527"
+            landmarkName = "swapModerator(session:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "1FD593C0-50BD-49B4-95F5-77EE641EF5DF"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "M.A.H/FirebaseController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "529"
+            endingLineNumber = "529"
+            landmarkName = "swapModerator(session:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "91FF705F-CF92-4B8B-A56D-DF9CBA7F6E6C"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "M.A.H/FirebaseController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "531"
+            endingLineNumber = "531"
+            landmarkName = "swapModerator(session:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

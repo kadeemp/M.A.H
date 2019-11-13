@@ -209,6 +209,7 @@ class FirebaseController {
             }
         }
     }
+
     //TODO
     func returnResponses(gameKey:String, completion: @escaping (([MemeCard]) -> ())) {
         var responses:[MemeCard] = []
@@ -231,7 +232,8 @@ class FirebaseController {
                 responses.append(card)
             }
             if responses.count == 0 {
-                print("NO RESPONSS FOUND")
+                print("NO RESPONSeS FOUND")
+                completion(responses)
             } else {
                 completion(responses)
             }
@@ -296,7 +298,8 @@ class FirebaseController {
                                     )
                                     self.REF_SESSIONS.child(session.key.stripID()).updateChildValues(["gameID":gameKey, "isGameActive":true,"moderator":[session.members.randomElement()!.key:session.members.randomElement()!.value]])
                                     newSession.gameID = gameKey
-                                    newSession.moderator = [session.members.randomElement()!.key:session.members.randomElement()!.value]
+                                   // newSession.moderator = [session.members.randomElement()!.key:session.members.randomElement()!.value]
+                                    //TODO:SET RANDOM MODERATOR
 
                                     self.loadHand(session: newSession) {
                                         print("hand complete")
@@ -456,17 +459,7 @@ class FirebaseController {
         })
     }
 
-    func addMemberstodictionary(session:Session) -> [String:[String:Any]]{
-        var result:[String:[String:Any]] = [:]
-        for member in session.members {
-            if session.moderator?.keys.first == member.key {
-                result[member.key] = ["name":member.value, "score":0, "isModerator":true]
-            } else {
-                result[member.key] = ["name":member.value, "score":0, "isModerator":false]
-            }
-        }
-        return result
-    }
+
 
     //MARK:- Sessions
 
@@ -475,7 +468,7 @@ class FirebaseController {
             if datasnapshot.exists() {
                 let host = datasnapshot.childSnapshot(forPath: "host").value as! String
                 let hostID = datasnapshot.childSnapshot(forPath: "hostID").value as! String
-                let members = datasnapshot.childSnapshot(forPath: "members").value as! [String:String]
+                let members = datasnapshot.childSnapshot(forPath: "members").value as! [String:[String:Any]]
                 let code = datasnapshot.childSnapshot(forPath: "code").value as! String
                 let key = datasnapshot.childSnapshot(forPath: "key").value as! String
                 let gameID = datasnapshot.childSnapshot(forPath: "gameID").value as! String
@@ -503,7 +496,7 @@ class FirebaseController {
                     let host = session.childSnapshot(forPath: "host").value as? String
                     let code = session.childSnapshot(forPath: "code").value as? String
                     let hostID = session.childSnapshot(forPath: "hostID").value as? String
-                    let members = session.childSnapshot(forPath: "members").value as? [String:String]
+                    let members = session.childSnapshot(forPath: "members").value as? [String:[String:Any]]
                     let key = session.childSnapshot(forPath: "key").value as? String
                     let gameID = session.childSnapshot(forPath: "gameID").value as? String
                     let isActive = session.childSnapshot(forPath: "isGameActive").value as! Bool
@@ -519,19 +512,70 @@ class FirebaseController {
             handler(found, nil)
         }
     }
+    func swapModerator(session:Session) {
+        var members = session.members
+        var keys = Array(members.keys)
+        print(members.count)
+        for mem in members {
+            let isModerator = mem.value["isModerator"] as! Bool
+            let hasBeenModerator = mem.value["hasBeenModerator"] as? Bool
+            if isModerator == true {
+                var newMember = mem
+                newMember.value["isModerator"] = false
+                newMember.value["hasBeenModerator"] = true
+                updateMember(session: session, member: newMember)
+                members.removeValue(forKey: mem.key)
+            }
+             if hasBeenModerator != nil {
+                if hasBeenModerator! == true {
+                    members.removeValue(forKey: mem.key)
+                }
+            }
+
+        }
+        
+        if members.count != 0 {
+            var newModerator = members.randomElement()
+            newModerator!.value["isModerator"] = true
+            updateMember(session: session, member: newModerator!)
+        } else {
+
+            for member in session.members {
+                var updatedMember = member
+                updatedMember.value["hasBeenModerator"] = false
+                updatedMember.value["isModerator"] = false
+                updateMember(session: session, member: updatedMember)
+            }
+            var newModerator = session.members.randomElement()
+            newModerator!.value["isModerator"] = true
+            newModerator!.value["hasBeenModerator"] = false
+            updateMember(session: session, member: newModerator!)
+            //increment score
+        }
+
+    }
+    func startNewRound(game:Game) {
+        var round = game.round
+        round += 1
+        REF_GAMES.child(game.key).updateChildValues(["round":round, "state":0])
+    }
+
+    func updateMember(session:Session,member:(key: String, value: [String : Any])) {
+
+        REF_SESSIONS.child(session.key).child("members").child(member.key).updateChildValues(member.value)
+    }
 
     func createSession(code:String, hostID:String, host:String) {
         var key = REF_SESSIONS.childByAutoId().key!.stripID()
 
-        REF_SESSIONS.child(key).updateChildValues(["code":code, "hostID":hostID, "host":host, "members":[Auth.auth().currentUser!.uid:Auth.auth().currentUser?.displayName!], "key":key, "isGameActive":false, "gameID":"", "moderator":[hostID:host]])
-
+        REF_SESSIONS.child(key).updateChildValues(["code":code, "hostID":hostID, "host":host, "members":["\(Auth.auth().currentUser!.uid)":["name":Auth.auth().currentUser?.displayName!,"score":0,"isModerator":true,"hasBeenModerator":false]], "key":key, "isGameActive":false, "gameID":"", "moderator":[hostID:host]])
     }
 
     func updateSessionMembers(session:Session, members:[String], completion: @escaping (() -> ())) {
         REF_SESSIONS.child(session.key).updateChildValues(["members" : members])
     }
     //TODO: Test to make sure this works
-    func removeMemberFrom(session:Session, memberID:String, completion:@escaping (([String:String]) -> ())) {
+    func removeMemberFrom(session:Session, memberID:String, completion:@escaping (([String:[String:Any]]) -> ())) {
 
         var members = session.members
         if session.members.count == 1 {
@@ -561,7 +605,7 @@ class FirebaseController {
                     let host = session.childSnapshot(forPath: "host").value as? String
                     let hostID = session.childSnapshot(forPath: "hostID").value as? String
                     let code = session.childSnapshot(forPath: "code").value as? String
-                    let members = session.childSnapshot(forPath: "members").value as? [String:String]
+                    let members = session.childSnapshot(forPath: "members").value as? [String:[String:Any]]
                     let key = session.childSnapshot(forPath: "key").value as? String
                     let gameID = session.childSnapshot(forPath: "gameID").value as? String
                     let isActive = session.childSnapshot(forPath: "isGameActive").value as! Bool
@@ -579,14 +623,24 @@ class FirebaseController {
             }
             for session in sessionSnapshot {
                 if session.childSnapshot(forPath: "code").value as! String == code {
-                    var members = session.childSnapshot(forPath: "members").value as! [String:String]
-                    members[userID] = displayName
+                    var members = session.childSnapshot(forPath: "members").value as! [String:[String:Any]]
+                    members[userID] = ["name":Auth.auth().currentUser?.displayName!,"score":0,"isModerator":false, "hasBeenModerator":false]
                     self.REF_SESSIONS.child(session.key).updateChildValues(["members":members])
                 }
             }
         }
     }
-
+    func addMemberstodictionary(session:Session) -> [String:[String:Any]]{
+        var result:[String:[String:Any]] = [:]
+        for member in session.members {
+            if session.moderator?.keys.first == member.key {
+                result[member.key] = ["name":member.value, "score":0, "isModerator":true]
+            } else {
+                result[member.key] = ["name":member.value, "score":0, "isModerator":false]
+            }
+        }
+        return result
+    }
     //MARK: Login Support
 
     func createDBUser(uid:String, userData:Dictionary<String,Any>) {
