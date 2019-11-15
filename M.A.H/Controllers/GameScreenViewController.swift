@@ -130,6 +130,7 @@ class GameScreenViewController: UIViewController {
             //Start game. Initial setup
         //waiting for moderator to pick prompt
         case 0:
+            //amke deck border glow
             print("case 0 running \n")
             self.memeDeckimageview.isUserInteractionEnabled = false
             if isModerator() {
@@ -188,11 +189,8 @@ class GameScreenViewController: UIViewController {
                     }
                 }
             }
-
-
-
             cardCollectionView.dragInteractionEnabled = true
-            //table is full
+        //table is full
         //moderator reveals cards
         case 2:
             var responsesComplete:Bool = true
@@ -235,18 +233,21 @@ class GameScreenViewController: UIViewController {
                     }
                 }
             }
-
             cardCollectionView.dragInteractionEnabled = true
             memeDeckimageview.isUserInteractionEnabled = true
         //add animation
         case 5:
             let deadlineTime = DispatchTime.now() + .seconds(5)
             DispatchQueue.main.asyncAfter(deadline: deadlineTime) {
-                FirebaseController.instance.startNewRound(game: self.game)
-
+                FirebaseController.instance.startNewRound(game: self.game, session:self.session)
 
             }
             hasCardBeenRevealed = false
+            //TODO: Present Game Over. Restart game or send everyone back to lobby
+        case 6:
+            print()
+            checkScoreboard(session: session)
+
         default:
             cardCollectionView.dragInteractionEnabled = false
         }
@@ -265,10 +266,22 @@ class GameScreenViewController: UIViewController {
             }
             print("THIS USER IS NOT IN THE GROUP")
         }
-
-
-
         return result
+    }
+    func checkScoreboard(session:Session) {
+        let members = session.members
+        for member in members {
+            if member.value["score"] as! Int >= 5 {
+                var label = UILabel(frame: CGRect(x: self.view.frame.midX, y: self.view.frame.midY, width: 100, height: 30))
+                label.text! = "\(member.value["name"] as! String) wins!"
+                label.backgroundColor = UIColor.black
+                self.view.addSubview(label)
+                if game.state != 6 {
+                    FirebaseController.instance.setStateTo(6, game: self.game)
+                }
+
+            }
+        }
     }
     @IBAction func slideupIndicatorTriggered(_ sender: Any) {
 
@@ -303,9 +316,9 @@ class GameScreenViewController: UIViewController {
                 DispatchQueue.main.async {
                     UIView.animate(withDuration: 0.5, animations: {
                         prompt.layer.opacity = 1
+                        self.promptDeckImageView.isUserInteractionEnabled = false
                     })
                 }
-
             }
         } else {
             print(returnPrompt())
@@ -314,13 +327,11 @@ class GameScreenViewController: UIViewController {
     }
 
     @IBAction func memeDeckPressed(_ sender: Any) {
-        FirebaseController.instance.observeGameTable(gameKey: game.key) { (table) in
-            print(table, #function)
-        }
+
     }
 }
 
-extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDragDelegate, UICollectionViewDropDelegate , UIDropInteractionDelegate {
+extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDragDelegate, UICollectionViewDropDelegate , UICollectionViewDelegateFlowLayout, UIDropInteractionDelegate {
 
     func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
 
@@ -330,6 +341,11 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
 
         return dragItems(for: indexPath)
     }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let size = CGSize(width: self.view.frame.width/6, height: self.view.frame.height/8)
+        return size
+    }
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
         if collectionView == playedCardCollectionView {
@@ -452,6 +468,7 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
         }
         return cell
     }
+
 
     func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
         return true

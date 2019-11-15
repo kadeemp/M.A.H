@@ -128,6 +128,13 @@ class FirebaseController {
             }
         }
     }
+    func startNewRound(game:Game, session:Session) {
+        var round = game.round
+        round += 1
+        REF_GAMES.child(game.key).updateChildValues(["round":round, "state":0])
+        clearResponses(game: game)
+        swapModerator(session: session)
+    }
     func observeGameTable(gameKey:String, completion:@escaping (([String:[String:Any]]) -> ())) {
         REF_GAMES.child(gameKey).child("table").observe(.value) {  (datasnapshot) in
             if datasnapshot.exists() {
@@ -204,6 +211,7 @@ class FirebaseController {
             }
         }
     }
+
     func observeGameWinningResult(gameKey:String, completion:@escaping ((Int) -> ())) {
         REF_GAMES.child(gameKey).child("state").observe(.value) {  (datasnapshot) in
             if datasnapshot.exists() {
@@ -213,6 +221,7 @@ class FirebaseController {
             }
         }
     }
+
     func incrementState(game:Game) {
         let state = game.state + 1
         REF_GAMES.child(game.key).updateChildValues(["state":state])
@@ -285,6 +294,7 @@ class FirebaseController {
 
                         let card = MemeCard(cardKey: cardKey!, fileName: fileName!, fileType: fileType!, playedBy: user, cardType: "meme", isRevealed: false)
                         memberHand.append(card)
+
                     }
                     self.REF_USERS.child(member.key).child("hand").removeValue()
                     self.REF_USERS.child(member.key).child("hand").updateChildValues(cardDictionary)
@@ -301,10 +311,20 @@ class FirebaseController {
                             }
                         }
                     }
-
                 }
             }
         }
+    }
+    //TODO:- FILL THESE OUT SO THAT WE CAN PROPERLY START A NEW GAME
+    func returnAllPrompts() {
+
+    }
+
+    func returnAllMemes() {
+
+    }
+    func removeCardFromMemeDeck(game:Game, cardKey:String) {
+        REF_GAMES.child(game.key).child("meme deck").child(cardKey).removeValue()
     }
     func removeCardFromHand(cardKey:String) {
         REF_USERS.child(Auth.auth().currentUser!.uid).child("hand").child(cardKey).removeValue()
@@ -766,7 +786,7 @@ class FirebaseController {
     func uploadPrompts(_ promptList:[String]) {
         for prompt in promptList {
             let key = REF_PROMPTS.childByAutoId().key!.stripID()
-            REF_PROMPTS.child(key).updateChildValues(["playedBy":"","prompt":prompt,"source":"Cards Against Humanity"])
+            REF_PROMPTS.child(key).updateChildValues(["playedBy":"","prompt":prompt,"isrevealed":false])
         }
     }
     
