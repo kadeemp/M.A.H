@@ -18,6 +18,9 @@ class GameScreenViewController: UIViewController {
     var hasCardBeenRevealed:Bool = false
     var responses:[MemeCard] = []
     var cards:[MemeCard] = []
+    let columns:CGFloat = 2.5
+    let inset:CGFloat = 10.0
+    let spacing:CGFloat = 8.0
 
     @IBOutlet var tableHolderView: UIView!
     @IBOutlet var scoreboardButton: UIButton!
@@ -88,6 +91,13 @@ class GameScreenViewController: UIViewController {
             FirebaseController.instance.returnHand(user: user.uid) { returnedCards in
                 self.cards = returnedCards
                 print("card count", returnedCards.count)
+//                if returnedCards.count == 0 {
+//                    FirebaseController.instance.loadHand(session: self.session) {
+//                        FirebaseController.instance.returnHand(user: Auth.auth().currentUser!.uid) { (newHand) in
+//                            self.cards = newHand
+//                        }
+//                    }
+//                }
                 self.cardCollectionView.reloadData()
             }
         }
@@ -134,6 +144,7 @@ class GameScreenViewController: UIViewController {
             print("case 0 running \n")
             self.memeDeckimageview.isUserInteractionEnabled = false
             if isModerator() {
+
                 //  print("\(Auth.auth().currentUser!.displayName) has access to promots")
                 self.promptDeckImageView.isUserInteractionEnabled = true
                 self.moderatorBadgeImageView.backgroundColor = UIColor.red
@@ -283,8 +294,17 @@ class GameScreenViewController: UIViewController {
             }
         }
     }
-    @IBAction func slideupIndicatorTriggered(_ sender: Any) {
+    func allResponsesHaveBeenRevealed(responses:[MemeCard]) -> Bool {
+        var result = true
+        for response in responses {
+            if response.isRevealed == false {
+                result = false
+            }
+        }
+        return result
+    }
 
+    @IBAction func slideupIndicatorTriggered(_ sender: Any) {
         if isCardVisible {
             isCardVisible = !isCardVisible
             DispatchQueue.main.async {
@@ -323,7 +343,6 @@ class GameScreenViewController: UIViewController {
         } else {
             print(returnPrompt())
         }
-
     }
 
     @IBAction func memeDeckPressed(_ sender: Any) {
@@ -341,10 +360,7 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
 
         return dragItems(for: indexPath)
     }
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let size = CGSize(width: self.view.frame.width/6, height: self.view.frame.height/8)
-        return size
-    }
+
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
@@ -381,17 +397,6 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
         }
     }
 
-    func allResponsesHaveBeenRevealed(responses:[MemeCard]) -> Bool {
-        var result = true
-        for response in responses {
-            if response.isRevealed == false {
-                result = false
-            }
-        }
-        return result
-    }
-
-
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         var count = 0
         switch collectionView {
@@ -404,9 +409,39 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
         }
         return count
     }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        var width:Int!
+        var height:Int!
+        var size:CGSize!
 
+        switch collectionView {
+        case playedCardCollectionView:
 
+             width = Int(150)
+             height = Int(collectionView.frame.height/2.7)
+             size = CGSize(width: width, height: height)
+            return size
+        case cardCollectionView:
+             width = Int(collectionView.frame.width / columns)
+             height = Int(collectionView.frame.height /
+                2)
+             size = CGSize(width: width, height: height)
+            return size
+        default:
+            print()
 
+        }
+        return CGSize(width: 0, height: 0)
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return spacing
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return spacing
+    }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
 
@@ -501,9 +536,6 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
             self.cardCollectionView.insertItems(at: [IndexPath(item: 0, section: 0)])
 
         })
-
-
-
     }
 
     func dropInteraction(_ interaction: UIDropInteraction, sessionDidUpdate session: UIDropSession) -> UIDropProposal {

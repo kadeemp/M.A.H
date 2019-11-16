@@ -582,9 +582,9 @@
                                         <rect key="frame" x="0.0" y="0.0" width="372" height="268"/>
                                     </imageView>
                                     <collectionView clipsSubviews="YES" contentMode="scaleToFill" delaysContentTouches="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="zxt-da-5U8">
-                                        <rect key="frame" x="0.0" y="44" width="374" height="204"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="268"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="LyB-Ra-g1h">
+                                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="LyB-Ra-g1h">
                                             <size key="itemSize" width="54" height="71"/>
                                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -603,14 +603,14 @@
                                                             <subviews>
                                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9Oe-CR-Kse">
                                                                     <rect key="frame" x="0.0" y="-1" width="59" height="72"/>
-                                                                    <color key="backgroundColor" red="1" green="0.17563636299999999" blue="0.1570203044" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 </imageView>
                                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SingleCard" translatesAutoresizingMaskIntoConstraints="NO" id="UF2-Va-FWy">
                                                                     <rect key="frame" x="0.0" y="-1" width="59" height="72"/>
-                                                                    <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 </imageView>
                                                             </subviews>
-                                                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="bottom" secondItem="9Oe-CR-Kse" secondAttribute="bottom" id="7Yb-oe-VSi"/>
                                                                 <constraint firstItem="UF2-Va-FWy" firstAttribute="width" secondItem="9Oe-CR-Kse" secondAttribute="width" id="ALd-v9-Lgd"/>
@@ -654,8 +654,8 @@
                                     <constraint firstItem="2Fg-ad-Fqk" firstAttribute="top" secondItem="xY7-aP-jIw" secondAttribute="top" id="YrE-XK-mvP"/>
                                     <constraint firstAttribute="bottom" secondItem="2Fg-ad-Fqk" secondAttribute="bottom" id="cSR-5l-Wcg"/>
                                     <constraint firstAttribute="trailing" secondItem="2Fg-ad-Fqk" secondAttribute="trailing" constant="2" id="hh4-9d-7hV"/>
-                                    <constraint firstItem="zxt-da-5U8" firstAttribute="top" secondItem="xY7-aP-jIw" secondAttribute="top" constant="44" id="uFZ-iE-v1z"/>
-                                    <constraint firstAttribute="bottom" secondItem="zxt-da-5U8" secondAttribute="bottom" constant="20" id="wsM-Gx-o7n"/>
+                                    <constraint firstItem="zxt-da-5U8" firstAttribute="top" secondItem="xY7-aP-jIw" secondAttribute="top" id="uFZ-iE-v1z"/>
+                                    <constraint firstAttribute="bottom" secondItem="zxt-da-5U8" secondAttribute="bottom" id="wsM-Gx-o7n"/>
                                     <constraint firstItem="zxt-da-5U8" firstAttribute="centerX" secondItem="xY7-aP-jIw" secondAttribute="centerX" id="zlL-WV-PZL"/>
                                     <constraint firstItem="zxt-da-5U8" firstAttribute="leading" secondItem="2Fg-ad-Fqk" secondAttribute="leading" id="zrC-6x-c7s"/>
                                 </constraints>
