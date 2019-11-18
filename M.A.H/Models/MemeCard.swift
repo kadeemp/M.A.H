@@ -8,13 +8,13 @@
 
 import Foundation
 
-struct MemeCard {
+struct MemeCard:Equatable {
     let cardKey:String
     let fileName:String
     let fileType:String
     let playedBy:String?
     let cardType:String
-    let isRevealed:Bool
+    var isRevealed:Bool
 
     init(cardKey:String, fileName:String, fileType:String, playedBy:String?, cardType:String, isRevealed:Bool) {
         self.cardKey = cardKey

@@ -14,6 +14,7 @@ class LobbyViewController: UIViewController, UITableViewDataSource, UITableViewD
     let defaults = UserDefaults.standard
     var users:[String] = []
     var session:Session?
+    var game:Game!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,8 +44,14 @@ class LobbyViewController: UIViewController, UITableViewDataSource, UITableViewD
             self.hostLabel.text = "\(session.members.count)/6"
             self.session = session
             if session.isActive {
-                self.performSegue(withIdentifier: "toGameScreen", sender: self)
-                
+                if self.game != nil {
+                    self.performSegue(withIdentifier: "toGameScreen", sender: self)
+                } else {
+                    FirebaseController.instance.returnGameSession(session: session) { (returnedGame) in
+                        self.game = returnedGame
+                        self.performSegue(withIdentifier: "toGameScreen", sender: self)
+                    }
+                }
             }
             for member in session.members.keys {
                 //TODO: SAFELY UNWRAP
@@ -99,12 +106,13 @@ class LobbyViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
 
     @IBAction func createGame(_ sender: Any) {
-        
+
         if let session = session {
             //Change back to 2
 
-            FirebaseController.instance.createGame(session: session) {
-               // self.performSegue(withIdentifier: "toGameScreen", sender: self)
+            FirebaseController.instance.createGame(session: session) { returnedGame in
+                self.game = returnedGame
+                 self.performSegue(withIdentifier: "toGameScreen", sender: self)
                 print("it would have perfomred segue here")
             }
             if session.members.count > 0 {
@@ -117,6 +125,7 @@ class LobbyViewController: UIViewController, UITableViewDataSource, UITableViewD
         if segue.identifier == "toGameScreen" {
             let destVC = segue.destination as! GameScreenViewController
             destVC.session = session!
+            destVC.game = self.game
         }
     }
 

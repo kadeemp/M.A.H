@@ -578,7 +578,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xY7-aP-jIw" userLabel="table Holder">
                                 <rect key="frame" x="20" y="120" width="374" height="268"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="TempTable" translatesAutoresizingMaskIntoConstraints="NO" id="2Fg-ad-Fqk">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="TempTable" translatesAutoresizingMaskIntoConstraints="NO" id="2Fg-ad-Fqk">
                                         <rect key="frame" x="0.0" y="0.0" width="372" height="268"/>
                                     </imageView>
                                     <collectionView clipsSubviews="YES" contentMode="scaleToFill" delaysContentTouches="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="zxt-da-5U8">
@@ -645,6 +645,12 @@
                                             <outlet property="dropDelegate" destination="H6H-um-jyN" id="cxr-7o-WhR"/>
                                         </connections>
                                     </collectionView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="wordWrap" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nV3-gx-zob">
+                                        <rect key="frame" x="40" y="184.5" width="294" height="53.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -652,8 +658,12 @@
                                     <constraint firstItem="2Fg-ad-Fqk" firstAttribute="leading" secondItem="xY7-aP-jIw" secondAttribute="leading" id="Gai-QW-yZD"/>
                                     <constraint firstAttribute="width" constant="374" id="HRL-nQ-1fe"/>
                                     <constraint firstItem="2Fg-ad-Fqk" firstAttribute="top" secondItem="xY7-aP-jIw" secondAttribute="top" id="YrE-XK-mvP"/>
+                                    <constraint firstAttribute="bottom" secondItem="nV3-gx-zob" secondAttribute="bottom" constant="30" id="bLC-x7-654"/>
                                     <constraint firstAttribute="bottom" secondItem="2Fg-ad-Fqk" secondAttribute="bottom" id="cSR-5l-Wcg"/>
+                                    <constraint firstItem="nV3-gx-zob" firstAttribute="height" secondItem="xY7-aP-jIw" secondAttribute="height" multiplier="2/10" id="g52-4X-gUQ"/>
                                     <constraint firstAttribute="trailing" secondItem="2Fg-ad-Fqk" secondAttribute="trailing" constant="2" id="hh4-9d-7hV"/>
+                                    <constraint firstItem="nV3-gx-zob" firstAttribute="centerX" secondItem="xY7-aP-jIw" secondAttribute="centerX" id="pBP-Sz-hUA"/>
+                                    <constraint firstItem="nV3-gx-zob" firstAttribute="width" secondItem="xY7-aP-jIw" secondAttribute="width" constant="-80" id="sTp-Xk-W2V"/>
                                     <constraint firstItem="zxt-da-5U8" firstAttribute="top" secondItem="xY7-aP-jIw" secondAttribute="top" id="uFZ-iE-v1z"/>
                                     <constraint firstAttribute="bottom" secondItem="zxt-da-5U8" secondAttribute="bottom" id="wsM-Gx-o7n"/>
                                     <constraint firstItem="zxt-da-5U8" firstAttribute="centerX" secondItem="xY7-aP-jIw" secondAttribute="centerX" id="zlL-WV-PZL"/>
@@ -741,6 +751,7 @@
                         <outlet property="playedCardCollectionView" destination="zxt-da-5U8" id="vMr-IS-Fgy"/>
                         <outlet property="profileImageView" destination="l4q-yc-Met" id="h0i-6i-WbS"/>
                         <outlet property="promptDeckImageView" destination="Zi5-zY-w6L" id="d7i-DB-8U5"/>
+                        <outlet property="promptLabel" destination="nV3-gx-zob" id="Cqx-ZJ-8Qz"/>
                         <outlet property="scoreboardButton" destination="3IF-3g-jbw" id="e7g-xX-4HU"/>
                         <outlet property="slideUpIndicatorButton" destination="Kj7-eP-6mP" id="4JN-2n-Oae"/>
                         <outlet property="tableHolderView" destination="xY7-aP-jIw" id="jNH-zP-Sgr"/>

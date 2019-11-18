@@ -54,7 +54,7 @@ class FirebaseController {
 
     //MARK:- Game
 
-    func createGame(session:Session, completion: @escaping (()->())) {
+    func createGame(session:Session, completion: @escaping ((Game)->())) {
         var gameKey = REF_GAMES.childByAutoId().key!.stripID()
         var newSession = session
 
@@ -78,10 +78,10 @@ class FirebaseController {
                                     newSession.gameID = gameKey
                                     // newSession.moderator = [session.members.randomElement()!.key:session.members.randomElement()!.value]
                                     //TODO:SET RANDOM MODERATOR
-
+                                    let game = Game(key: gameKey, round: 1, scoreboard: scoreboard, table:  ["InitialValue":["test":""]], state: 0)
                                     self.loadHand(session: newSession) {
                                         print("hand complete")
-                                        completion()
+                                        completion(game)
                                     }
             })
         }
@@ -118,6 +118,31 @@ class FirebaseController {
             }
         }
     }
+    func returnGameSession(session:Session, completion:@escaping ((Game?) -> ())) {
+        var gameResult:Game!
+        guard let gameId = session.gameID else { return  }
+
+        REF_GAMES.child(gameId).observeSingleEvent(of: .value) { (datasnapshot) in
+            if datasnapshot.exists() {
+                let key = datasnapshot.childSnapshot(forPath: "key").value as! String
+                let round = datasnapshot.childSnapshot(forPath: "round").value as! Int
+                let scoreboard = datasnapshot.childSnapshot(forPath: "scoreboard").value as! [String:[String:Any]]
+                let state = datasnapshot.childSnapshot(forPath: "state").value as! Int
+                if let table = datasnapshot.childSnapshot(forPath: "table").value as? [String:[String:Any]] {
+                    gameResult = Game(key: key, round: round,scoreboard: scoreboard, table: table, state: state)
+                    completion(gameResult)
+                } else {
+                    gameResult = Game(key: key, round: round, scoreboard: scoreboard, table: nil, state: state)
+                    print("COULD NOT LOAD TABLE", #function)
+                    completion(gameResult)
+                }
+            } else {
+                print("COULD NOT FIND GAME")
+
+            }
+        }
+
+    }
 
     func observeGameRound(gameKey:String, completion:@escaping ((Int) -> ())) {
         REF_GAMES.child(gameKey).child("round").observe(.value) {  (datasnapshot) in
@@ -132,6 +157,7 @@ class FirebaseController {
         var round = game.round
         round += 1
         REF_GAMES.child(game.key).updateChildValues(["round":round, "state":0])
+        REF_GAMES.child(game.key).child("winning result").removeValue()
         clearResponses(game: game)
         swapModerator(session: session)
     }
@@ -212,15 +238,96 @@ class FirebaseController {
         }
     }
 
-    func observeGameWinningResult(gameKey:String, completion:@escaping ((Int) -> ())) {
-        REF_GAMES.child(gameKey).child("state").observe(.value) {  (datasnapshot) in
-            if datasnapshot.exists() {
-                let state = datasnapshot.value as! Int
-                completion(state)
+    func observeGameWinningResult(gameKey:String, completion:@escaping ((MemeCard?) -> ())) {
+        var result:MemeCard!
+        REF_GAMES.child(gameKey).child("winning result").observeSingleEvent(of: .value) { (dataSnapshot) in
+            if dataSnapshot.exists() {
 
+                let fileName = dataSnapshot.childSnapshot(forPath: "fileName").value as? String
+                //                    print(fileName!)
+                let fileType = dataSnapshot.childSnapshot(forPath: "fileType").value as? String
+                let playedBy = dataSnapshot.childSnapshot(forPath: "playedBy").value as? String
+                let cardKey = dataSnapshot.childSnapshot(forPath: "cardKey").value as? String
+                let isRevealed = dataSnapshot.childSnapshot(forPath: "isRevealed").value as? Bool
+
+                result = MemeCard(cardKey: cardKey!, fileName: fileName!, fileType: fileType!, playedBy: playedBy, cardType: "meme", isRevealed: isRevealed!)
+                completion(result)
+            }else {
+                completion(nil)
             }
         }
     }
+    func observeCurrentPrompt(gameKey:String, completion:@escaping ((PromptCard?) -> ())) {
+        REF_GAMES.child(gameKey).child("table").child("currentPrompt").observe(.value) { (dataSnapshot) in
+            if dataSnapshot.exists() {
+                guard let isRevealed = dataSnapshot.childSnapshot(forPath:"isRevealed").value as? Bool else {return}
+                guard let playedBy = dataSnapshot.childSnapshot(forPath: "playedBy").value as? String else {return}
+                guard let cardPrompt = dataSnapshot.childSnapshot(forPath: "prompt").value as? String else {return}
+                guard let cardKey = dataSnapshot.childSnapshot(forPath: "cardKey").value as? String else {return}
+                let card = PromptCard(cardKey: cardKey, prompt: cardPrompt, playedBy: playedBy, isRevealed: isRevealed)
+                completion(card)
+                print(#function,card)
+            }
+        }
+    }
+
+    func observeResponses(gameKey:String, completion:@escaping (([MemeCard]?) -> ())) {
+        var responses:[MemeCard]! = []
+        REF_GAMES.child(gameKey).child("table").child("responses").observe(.value) { (dataSnapshot) in
+                        guard let data = dataSnapshot.children.allObjects as? [DataSnapshot] else {
+                            return
+                        }
+            if dataSnapshot.exists() {
+
+                for cardData in data {
+                     let fileName = cardData.childSnapshot(forPath: "fileName").value as? String
+                     //                    print(fileName!)
+                     let fileType = cardData.childSnapshot(forPath: "fileType").value as? String
+                     let playedBy = cardData.childSnapshot(forPath: "playedBy").value as? String
+                     let cardKey = cardData.childSnapshot(forPath: "cardKey").value as? String
+                     let isRevealed = cardData.childSnapshot(forPath: "isRevealed").value as? Bool
+
+                     let card = MemeCard(cardKey: cardKey!, fileName: fileName!, fileType: fileType!, playedBy: playedBy, cardType: "meme", isRevealed: isRevealed!)
+                    responses.append(card)
+                }
+
+                completion(responses)
+                //print(#function,card)
+            } else {
+                print("NO RESPONSES FOUND", #function)
+            }
+        }
+    }
+
+//    func returnResponses(gameKey:String, completion: @escaping (([MemeCard]) -> ())) {
+//        var responses:[MemeCard] = []
+//        REF_GAMES.child(gameKey).child("table").child("responses").observeSingleEvent(of: .value) { (dataSnapshot) in
+//            guard let data = dataSnapshot.children.allObjects as? [DataSnapshot] else {
+//                return
+//            }
+//            print("dataCount = \(data.count)")
+//
+//            for cardData in data {
+//                let fileName = cardData.childSnapshot(forPath: "fileName").value as? String
+//                //                    print(fileName!)
+//                let fileType = cardData.childSnapshot(forPath: "fileType").value as? String
+//                let playedBy = cardData.childSnapshot(forPath: "playedBy").value as? String
+//                let cardKey = cardData.childSnapshot(forPath: "cardKey").value as? String
+//                let isRevealed = cardData.childSnapshot(forPath: "isRevealed").value as? Bool
+//
+//                let card = MemeCard(cardKey: cardKey!, fileName: fileName!, fileType: fileType!, playedBy: playedBy, cardType: "meme", isRevealed: isRevealed!)
+//                //                    print(card)
+//                responses.append(card)
+//            }
+//            if responses.count == 0 {
+//                print("NO RESPONSeS FOUND")
+//                completion(responses)
+//            } else {
+//                completion(responses)
+//            }
+//        }
+//    }
+
 
     func incrementState(game:Game) {
         let state = game.state + 1
