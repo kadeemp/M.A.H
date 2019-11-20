@@ -15,6 +15,7 @@ class GameScreenViewController: UIViewController {
     var session:Session!
     var currentPrompt:PromptCard!
     var game:Game!
+    var cardTableHasBeenLoaded = false
     var hasCardBeenRevealed:Bool = false
     var responses:[MemeCard] = []
     var cards:[MemeCard] = []
@@ -103,74 +104,65 @@ class GameScreenViewController: UIViewController {
             }
 
             FirebaseController.instance.observeResponses(gameKey: game.key) { (returnedResponses) in
+                //                if  returnedResponses != nil {
+                //                self.responses = returnedResponses!
+                //                }
+                //
+                //                self.playedCardCollectionView.reloadData()
+
+                var indexPathTracker:[IndexPath] = []
                 if  returnedResponses != nil {
-                    if returnedResponses != self.responses {
-                        if returnedResponses!.count == self.responses.count {
-                            for i in 0..<returnedResponses!.count {
-                                if returnedResponses![i].cardKey == self.responses[i].cardKey {
-                                    if returnedResponses![i].isRevealed == self.responses[i].isRevealed {
+                    indexPathTracker = []
+                    if !self.cardTableHasBeenLoaded {
+                        self.responses = returnedResponses!
+                        self.cardTableHasBeenLoaded = true
+                        self.playedCardCollectionView.reloadData()
+                    } else {
+                        print("There are \(returnedResponses!.count) responses")
+                        var index = 0
+                        for response in returnedResponses! {
+                            if self.toKeyArray(memes: self.responses).contains(response.cardKey) {
+                                //TODO: check if self.responses contains the whole card
+                                //if it doesn't, find the indexpath, and do a view transition
 
-                                    } else {
-                                        let cell = self.playedCardCollectionView.cellForItem(at: IndexPath(item: i, section: 0)) as! PlayedCardCollectionViewCell
-                                        self.responses[i].isRevealed = true
-                        UIView.transition(from: cell.cardImageView, to: cell.revealedCardImageView, duration: 1, options: .transitionFlipFromLeft, completion: nil)
-                                    }
-                                }
-                            }
-                        } else {
-                            var indexPathTracker:[IndexPath] = []
-                            var index = 0
-                             for i in 0..<returnedResponses!.count {
-                                if self.responses.contains(returnedResponses![i]) {
+                            } else {
+                                self.responses.append(response)
+                                let indexPathOfResponse = IndexPath(item: index, section: 0)
+                                index += 1
+                                self.playedCardCollectionView.insertItems(at: indexPathTracker)
 
-                                } else {
-                                    let indexValid = self.responses.indices.contains(i)
-                                    if indexValid {
-                                           if self.responses[i].cardKey != returnedResponses![i].cardKey {
-                                                self.responses.append(returnedResponses![i])
-                                            }
-
-                                            let indexPath = IndexPath(item: index, section: 0)
-                                            indexPathTracker.append(indexPath)
-                                            index += 1
-                                    } else if self.responses.count == 0 {
-                                        self.responses = returnedResponses!
-                                        
-                                    }
-                                    }
 
                             }
-                            self.playedCardCollectionView.insertItems(at: indexPathTracker)
                         }
-
-                        
                     }
-                    if (self.responses.count >=  self.session.members.count - 1) {
-                      FirebaseController.instance.setStateTo(2, game: game)
-                        print("STATE CHANGE TO 2")
-                    }
-
                 }
+
+                if (self.responses.count >=  self.session.members.count - 1) && (self.game!.state >= 1) {
+                    FirebaseController.instance.setStateTo(2, game: game)
+                    print("STATE CHANGE TO 2")
+                }
+
             }
 
 
 
-//            FirebaseController.instance.observeGame(session: session, completion: { (game) in
-//                if game != nil {
-//                    self.game = game
-//                    FirebaseController.instance.returnResponses(gameKey: game!.key) {
-//                        Responses in
-//                        print("there are \(Responses.count) responses" )
-//                        self.responses = Responses
-//                        self.playedCardCollectionView.reloadData()
-//                        print(#function, "current state is \(self.game.state)")
-//
-//                        self.updateState(game!.state)
-//                    }
-//                } else {
-//                    //figure out what to put here
-//                    print("ERROR: Game not found")
-//                }})
+
+            //            FirebaseController.instance.observeGame(session: session, completion: { (game) in
+            //                if game != nil {
+            //                    self.game = game
+            //                    FirebaseController.instance.returnResponses(gameKey: game!.key) {
+            //                        Responses in
+            //                        print("there are \(Responses.count) responses" )
+            //                        self.responses = Responses
+            //                        self.playedCardCollectionView.reloadData()
+            //                        print(#function, "current state is \(self.game.state)")
+            //
+            //                        self.updateState(game!.state)
+            //                    }
+            //                } else {
+            //                    //figure out what to put here
+            //                    print("ERROR: Game not found")
+            //                }})
             FirebaseController.instance.observeSession(session: session) { (returnedSession) in
                 if returnedSession != nil {
                     self.session = returnedSession!
@@ -179,7 +171,7 @@ class GameScreenViewController: UIViewController {
                 }
             }
         }
-            
+
 
         profileImageView.layer.cornerRadius = profileImageView.frame.width/2
         guard let user = Auth.auth().currentUser else {
@@ -192,13 +184,13 @@ class GameScreenViewController: UIViewController {
             FirebaseController.instance.returnHand(user: user.uid) { returnedCards in
                 self.cards = returnedCards
                 print("card count", returnedCards.count)
-//                if returnedCards.count == 0 {
-//                    FirebaseController.instance.loadHand(session: self.session) {
-//                        FirebaseController.instance.returnHand(user: Auth.auth().currentUser!.uid) { (newHand) in
-//                            self.cards = newHand
-//                        }
-//                    }
-//                }
+                //                if returnedCards.count == 0 {
+                //                    FirebaseController.instance.loadHand(session: self.session) {
+                //                        FirebaseController.instance.returnHand(user: Auth.auth().currentUser!.uid) { (newHand) in
+                //                            self.cards = newHand
+                //                        }
+                //                    }
+                //                }
                 self.cardCollectionView.reloadData()
             }
         }
@@ -207,6 +199,14 @@ class GameScreenViewController: UIViewController {
         self.tableHolderView.addInteraction(tableDropInteraction)
         self.playedCardCollectionView.addInteraction(tableDropInteraction)
 
+    }
+
+    func toKeyArray(memes:[MemeCard]) -> [String]{
+        var result:[String] = []
+        for meme in memes {
+            result.append(meme.cardKey)
+        }
+        return result
     }
 
     @objc func revealPrompt() {
@@ -266,33 +266,33 @@ class GameScreenViewController: UIViewController {
                     if self.hasCardBeenRevealed == false  {
                         print("hasCardBeenRevealed is \(self.hasCardBeenRevealed)")
                         if currentPrompt.isRevealed == true  {
-                              print("CARD SHOULD BE SUMMONED")
-                              let card = PromptCardView(frame:CGRect(x: 100, y: 130, width: 200, height: 290))
-                              card.swapButtons()
+                            print("CARD SHOULD BE SUMMONED")
+                            let card = PromptCardView(frame:CGRect(x: 100, y: 130, width: 200, height: 290))
+                            card.swapButtons()
                             card.promptLabel.text = currentPrompt.prompt
-                              card.layer.opacity = 0
-                              self.view.addSubview(card)
-                              self.hasCardBeenRevealed = true
+                            card.layer.opacity = 0
+                            self.view.addSubview(card)
+                            self.hasCardBeenRevealed = true
 
-                              DispatchQueue.main.async {
-                                  UIView.animate(withDuration: 0.5, animations: {
-                                      card.layer.opacity = 1
-                                  })
-                              }
-                          }
-                      }
-                  } else {
-                      //MARK: STATE CHANGE TO 2
-//                      if (self.responses.count >=  self.session.members.count - 1) {
-//                        FirebaseController.instance.setStateTo(2, game: game)
-//                          print("STATE CHANGE TO 2")
-//                      }
-                  }
+                            DispatchQueue.main.async {
+                                UIView.animate(withDuration: 0.5, animations: {
+                                    card.layer.opacity = 1
+                                })
+                            }
+                        }
+                    }
+                } else {
+                    //MARK: STATE CHANGE TO 2
+                    //                      if (self.responses.count >=  self.session.members.count - 1) {
+                    //                        FirebaseController.instance.setStateTo(2, game: game)
+                    //                          print("STATE CHANGE TO 2")
+                    //                      }
+                }
 
             }
 
             cardCollectionView.dragInteractionEnabled = true
-        //table is full
+            //table is full
         //moderator reveals cards
         case 2:
             var responsesComplete:Bool = true
@@ -345,7 +345,7 @@ class GameScreenViewController: UIViewController {
                 self.hasCardBeenRevealed = false
             }
             hasCardBeenRevealed = false
-            //TODO: Present Game Over. Restart game or send everyone back to lobby
+        //TODO: Present Game Over. Restart game or send everyone back to lobby
         case 6:
             print()
             checkScoreboard(session: session)
@@ -393,8 +393,8 @@ class GameScreenViewController: UIViewController {
         }
 
         if responses.count == 0 {
-                       result = false
-                   }
+            result = false
+        }
         return result
     }
 
@@ -513,15 +513,15 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
         switch collectionView {
         case playedCardCollectionView:
 
-             width = Int(150)
-             height = Int(collectionView.frame.height/2.7)
-             size = CGSize(width: width, height: height)
+            width = Int(150)
+            height = Int(collectionView.frame.height/2.7)
+            size = CGSize(width: width, height: height)
             return size
         case cardCollectionView:
-             width = Int(collectionView.frame.width / columns)
-             height = Int(collectionView.frame.height /
+            width = Int(collectionView.frame.width / columns)
+            height = Int(collectionView.frame.height /
                 2)
-             size = CGSize(width: width, height: height)
+            size = CGSize(width: width, height: height)
             return size
         default:
             print()
@@ -566,7 +566,7 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
             if responses.count > 0 {
 
                 let maxIndex = responses.count - 1
-                print("maxIndex is \(maxIndex ), index path is \(indexPath.row)")
+               // print("maxIndex is \(maxIndex ), index path is \(indexPath.row)")
                 if indexPath.row <= maxIndex {
                     if responses[indexPath.row] != nil {
 
