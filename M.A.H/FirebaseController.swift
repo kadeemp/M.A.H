@@ -265,8 +265,8 @@ class FirebaseController {
                 guard let cardPrompt = dataSnapshot.childSnapshot(forPath: "prompt").value as? String else {return}
                 guard let cardKey = dataSnapshot.childSnapshot(forPath: "cardKey").value as? String else {return}
                 let card = PromptCard(cardKey: cardKey, prompt: cardPrompt, playedBy: playedBy, isRevealed: isRevealed)
+                  print(#function,card)
                 completion(card)
-                print(#function,card)
             }
         }
     }
