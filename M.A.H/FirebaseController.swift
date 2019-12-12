@@ -156,10 +156,13 @@ class FirebaseController {
     func startNewRound(game:Game, session:Session) {
         var round = game.round
         round += 1
+
+        swapModerator(session: session)
+
         REF_GAMES.child(game.key).updateChildValues(["round":round, "state":0])
         REF_GAMES.child(game.key).child("winning result").removeValue()
         clearResponses(game: game)
-        swapModerator(session: session)
+
     }
     func observeGameTable(gameKey:String, completion:@escaping (([String:[String:Any]]) -> ())) {
         REF_GAMES.child(gameKey).child("table").observe(.value) {  (datasnapshot) in
@@ -240,7 +243,7 @@ class FirebaseController {
 
     func observeGameWinningResult(gameKey:String, completion:@escaping ((MemeCard?) -> ())) {
         var result:MemeCard!
-        REF_GAMES.child(gameKey).child("winning result").observeSingleEvent(of: .value) { (dataSnapshot) in
+        REF_GAMES.child(gameKey).child("winning result").observe(.value) { (dataSnapshot) in
             if dataSnapshot.exists() {
 
                 let fileName = dataSnapshot.childSnapshot(forPath: "fileName").value as? String
@@ -269,6 +272,10 @@ class FirebaseController {
                 completion(card)
             }
         }
+    }
+    func removeSessionsAndGamesRecords() {
+        REF_GAMES.removeValue()
+        REF_SESSIONS.removeValue()
     }
 
     func observeResponses(gameKey:String, completion:@escaping (([MemeCard]?) -> ())) {

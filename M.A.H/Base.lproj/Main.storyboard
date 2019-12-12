@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -513,7 +513,7 @@
                                 <state key="normal" image="Clipboard Icon"/>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6AG-qV-Qf9" userLabel="Meme  Deck">
-                                <rect key="frame" x="104" y="4" width="60" height="108"/>
+                                <rect key="frame" x="93" y="396" width="60" height="108"/>
                                 <state key="normal" image="CardStack"/>
                                 <connections>
                                     <action selector="memeDeckPressed:" destination="H6H-um-jyN" eventType="touchUpInside" id="lOo-7F-a2c"/>
@@ -698,7 +698,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zi5-zY-w6L" userLabel="Prompt Deck">
-                                <rect key="frame" x="255" y="4" width="60" height="108"/>
+                                <rect key="frame" x="240" y="389" width="60" height="108"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="108" id="9f3-La-Ks5"/>
                                 </constraints>
@@ -707,13 +707,20 @@
                                     <action selector="promptDeckPressed:" destination="H6H-um-jyN" eventType="touchUpInside" id="xl8-TA-klo"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vzJ-7v-2t0">
+                                <rect key="frame" x="186" y="60" width="42" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="lqk-WY-VNr" firstAttribute="trailing" secondItem="Zi5-zY-w6L" secondAttribute="trailing" constant="99" id="0Mi-K9-R47"/>
+                            <constraint firstItem="lqk-WY-VNr" firstAttribute="trailing" secondItem="Zi5-zY-w6L" secondAttribute="trailing" constant="114" id="0Mi-K9-R47"/>
                             <constraint firstItem="Kj7-eP-6mP" firstAttribute="centerX" secondItem="wjp-0j-UAH" secondAttribute="centerX" id="1Rv-hk-gzv"/>
                             <constraint firstItem="0F5-IL-99b" firstAttribute="leading" secondItem="lqk-WY-VNr" secondAttribute="leading" id="3B8-Ze-t0W"/>
-                            <constraint firstItem="6AG-qV-Qf9" firstAttribute="top" secondItem="Zi5-zY-w6L" secondAttribute="bottom" constant="-108" id="5MO-lY-Vsi"/>
+                            <constraint firstItem="6AG-qV-Qf9" firstAttribute="top" secondItem="Zi5-zY-w6L" secondAttribute="bottom" constant="-101" id="5MO-lY-Vsi"/>
                             <constraint firstItem="nV3-gx-zob" firstAttribute="width" secondItem="xY7-aP-jIw" secondAttribute="width" constant="-20" id="6NG-Vl-OUc"/>
                             <constraint firstItem="Mlu-ym-ibR" firstAttribute="leading" secondItem="l4q-yc-Met" secondAttribute="trailing" constant="-20" id="8e7-wU-vPA"/>
                             <constraint firstItem="0F5-IL-99b" firstAttribute="top" secondItem="Kj7-eP-6mP" secondAttribute="bottom" constant="20" id="8g6-6B-j3v"/>
@@ -724,14 +731,14 @@
                             <constraint firstItem="lqk-WY-VNr" firstAttribute="trailing" secondItem="l4q-yc-Met" secondAttribute="trailing" constant="20" id="QpF-8O-93L"/>
                             <constraint firstItem="0F5-IL-99b" firstAttribute="trailing" secondItem="lqk-WY-VNr" secondAttribute="trailing" id="RM3-3T-Ifx"/>
                             <constraint firstItem="nV3-gx-zob" firstAttribute="top" secondItem="xY7-aP-jIw" secondAttribute="bottom" constant="6" id="SZS-Ad-HcW"/>
-                            <constraint firstItem="Zi5-zY-w6L" firstAttribute="top" secondItem="2Fg-ad-Fqk" secondAttribute="top" constant="-116" id="VUo-AP-kGH"/>
+                            <constraint firstItem="Zi5-zY-w6L" firstAttribute="top" secondItem="2Fg-ad-Fqk" secondAttribute="top" constant="269" id="VUo-AP-kGH"/>
                             <constraint firstItem="0F5-IL-99b" firstAttribute="leading" secondItem="lqk-WY-VNr" secondAttribute="leading" id="Vqm-sg-auN"/>
                             <constraint firstItem="xY7-aP-jIw" firstAttribute="top" secondItem="3IF-3g-jbw" secondAttribute="bottom" constant="40" id="Yd8-Lf-iDt"/>
                             <constraint firstItem="6AG-qV-Qf9" firstAttribute="width" secondItem="Zi5-zY-w6L" secondAttribute="width" id="ctb-mG-adY"/>
                             <constraint firstItem="nV3-gx-zob" firstAttribute="centerX" secondItem="xY7-aP-jIw" secondAttribute="centerX" id="dQn-HO-GXo"/>
                             <constraint firstItem="l4q-yc-Met" firstAttribute="top" secondItem="lqk-WY-VNr" secondAttribute="top" constant="10" id="dod-y0-MEL"/>
                             <constraint firstItem="xY7-aP-jIw" firstAttribute="leading" secondItem="lqk-WY-VNr" secondAttribute="leading" constant="20" id="gco-yn-b1P"/>
-                            <constraint firstItem="6AG-qV-Qf9" firstAttribute="leading" secondItem="Zi5-zY-w6L" secondAttribute="leading" constant="-151" id="jX6-Yi-Oj6"/>
+                            <constraint firstItem="6AG-qV-Qf9" firstAttribute="leading" secondItem="Zi5-zY-w6L" secondAttribute="leading" constant="-147" id="jX6-Yi-Oj6"/>
                             <constraint firstItem="Mlu-ym-ibR" firstAttribute="bottom" secondItem="l4q-yc-Met" secondAttribute="bottom" constant="-1" id="kvI-tH-00m"/>
                             <constraint firstItem="3IF-3g-jbw" firstAttribute="leading" secondItem="lqk-WY-VNr" secondAttribute="leading" constant="20" id="njf-wC-fNL"/>
                             <constraint firstItem="6AG-qV-Qf9" firstAttribute="height" secondItem="Zi5-zY-w6L" secondAttribute="height" id="qjl-7s-HuW"/>
@@ -753,6 +760,7 @@
                         <outlet property="promptLabel" destination="nV3-gx-zob" id="Cqx-ZJ-8Qz"/>
                         <outlet property="scoreboardButton" destination="3IF-3g-jbw" id="e7g-xX-4HU"/>
                         <outlet property="slideUpIndicatorButton" destination="Kj7-eP-6mP" id="4JN-2n-Oae"/>
+                        <outlet property="stateLabel" destination="vzJ-7v-2t0" id="qRN-kk-Koo"/>
                         <outlet property="tableHolderView" destination="xY7-aP-jIw" id="jNH-zP-Sgr"/>
                         <outlet property="tableImageView" destination="2Fg-ad-Fqk" id="Y1b-PU-xMh"/>
                     </connections>

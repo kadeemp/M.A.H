@@ -19,7 +19,7 @@ class StartGameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         enterLobby.isHidden = true
-
+        
         // Do any additional setup after loading the view.
     }
     override func viewWillAppear(_ animated: Bool) {

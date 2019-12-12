@@ -38,6 +38,7 @@ class GameScreenViewController: UIViewController {
     @IBOutlet var playedCardCollectionView: UICollectionView!
     @IBOutlet var promptLabel: UILabel!
 
+    @IBOutlet var stateLabel: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -72,6 +73,7 @@ class GameScreenViewController: UIViewController {
                 if self.game.state != newState {
                     self.self.game.state = newState
                     self.updateState(newState)
+                    self.stateLabel.text! = "\(newState)"
                 }
                 print("the state has been set to \(self.self.game.state)")
             }
@@ -88,6 +90,7 @@ class GameScreenViewController: UIViewController {
                 if let result = result {
                     let resultCard = WinningCardView()
                     resultCard.frame = CGRect(x: 100, y: 130, width: 200, height: 290)
+                    print("resultCard is \(result)")
                     FirebaseController.instance.incrementScore(game: self.game, session: self.session, userID: result.playedBy!)
                     resultCard.promptLabel.text = "\(self.session.members[result.playedBy!]!["name"]!) wins!"
                     FirebaseController.instance.downloadGif(gifName: result.fileName) { (data) in
@@ -106,12 +109,14 @@ class GameScreenViewController: UIViewController {
             }
 
             FirebaseController.instance.observeResponses(gameKey: game.key) { (returnedResponses) in
-                //                if  returnedResponses != nil {
-                //                self.responses = returnedResponses!
-                //                }
-                //
-                //                self.playedCardCollectionView.reloadData()
+                                if  returnedResponses != nil {
+                                self.responses = returnedResponses!
+                                }
+                DispatchQueue.main.async {
+                    self.playedCardCollectionView.reloadData()
+                }
 
+/*
                 var indexPathTracker:[IndexPath] = []
                 if  returnedResponses != nil {
                     indexPathTracker = []
@@ -145,6 +150,7 @@ class GameScreenViewController: UIViewController {
                         }
                     }
                 }
+ */
 
                 if (self.responses.count >=  self.session.members.count - 1) && (self.game!.state <= 1) {
                     FirebaseController.instance.setStateTo(2, game: game)
@@ -363,6 +369,7 @@ class GameScreenViewController: UIViewController {
                 self.responses = []
                 self.playedCardCollectionView.reloadData()
                 self.hasCardBeenRevealed = false
+                self.promptLabel.text! = ""
             }
         //TODO: Present Game Over. Restart game or send everyone back to lobby
         case 6:
@@ -485,14 +492,15 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
             let cell = collectionView.cellForItem(at: indexPath) as! PlayedCardCollectionViewCell
             //MARK:STATE CHANGED TO 4
             if response.isRevealed && allResponsesHaveBeenRevealed(responses: responses) {
-                if self.self.game.state == 3 {
+                if self.game.state == 3 {
 
                     FirebaseController.instance.addWinningResult(card: response, gameKey: game.key)
                     FirebaseController.instance.setStateTo(4, game: self.game)
+                    print("the winning response is \(response)")
                 }
             } else  {
                 if  isModerator() {
-                    if self.self.game.state == 2 {
+                    if self.game.state == 2 {
                         //TODO: FIX SO THAT OBERVER CAN CALL THE ANIMATION RATHER THAN RELOADING
 
                         UIView.transition(from: cell.cardImageView, to: cell.revealedCardImageView, duration: 1, options: .transitionFlipFromLeft, completion: nil)
@@ -508,7 +516,7 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
                         }
 
 
-                        //TODO: updatw this to rely on observer
+                        //TODO: update this to rely on observer
                     }
                 }
             }
@@ -596,6 +604,8 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
                         let response = responses[indexPath.row]
                         if response.isRevealed == true {
                             cell2.cardImageView.isHidden = true
+                        } else {
+                            cell2.cardImageView.isHidden = false
                         }
 
 
@@ -648,6 +658,7 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
 //            print(card.fileName)
 //            print(1)
 //        }
+        print("THE CARD BEING PRESSED IS \(card)")
         FirebaseController.instance.addResponse(card: card.card, gameKey: game.key)
         self.cards.remove(at: card.indexPath.row)
         cardCollectionView.deleteItems(at:[card.indexPath])
