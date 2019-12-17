@@ -159,26 +159,6 @@ class GameScreenViewController: UIViewController {
                 self.updateState(self.game.state)
 
             }
-
-
-
-
-            //            FirebaseController.instance.observeGame(session: session, completion: { (game) in
-            //                if game != nil {
-            //                    self.game = game
-            //                    FirebaseController.instance.returnResponses(gameKey: game!.key) {
-            //                        Responses in
-            //                        print("there are \(Responses.count) responses" )
-            //                        self.responses = Responses
-            //                        self.playedCardCollectionView.reloadData()
-            //                        print(#function, "current state is \(self.self.game.state)")
-            //
-            //                        self.updateState(game!.state)
-            //                    }
-            //                } else {
-            //                    //figure out what to put here
-            //                    print("ERROR: Game not found")
-            //                }})
             FirebaseController.instance.observeSession(session: session) { (returnedSession) in
                 if returnedSession != nil {
                     self.session = returnedSession!
@@ -284,19 +264,6 @@ class GameScreenViewController: UIViewController {
                     if self.hasCardBeenRevealed == false  {
                         print("hasCardBeenRevealed is \(self.hasCardBeenRevealed)")
                         if currentPrompt.isRevealed == true  {
-                            print("CARD SHOULD BE SUMMONED")
-//                            let card = PromptCardView(frame:CGRect(x: 100, y: 130, width: 200, height: 290))
-//                            card.swapButtons()
-//                            card.promptLabel.text = currentPrompt.prompt
-//                            card.layer.opacity = 0
-//                            self.view.addSubview(card)
-//                            self.hasCardBeenRevealed = true
-//
-//                            DispatchQueue.main.async {
-//                                UIView.animate(withDuration: 0.5, animations: {
-//                                    card.layer.opacity = 1
-//                                })
-//                            }
                             promptLabel.layer.opacity = 0
                             promptLabel.text = currentPrompt.prompt
                             DispatchQueue.main.async {

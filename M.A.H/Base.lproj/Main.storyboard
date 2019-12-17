@@ -519,6 +519,16 @@
                                     <action selector="memeDeckPressed:" destination="H6H-um-jyN" eventType="touchUpInside" id="lOo-7F-a2c"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zi5-zY-w6L" userLabel="Prompt Deck">
+                                <rect key="frame" x="240" y="389" width="60" height="108"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="108" id="9f3-La-Ks5"/>
+                                </constraints>
+                                <state key="normal" image="CardStack"/>
+                                <connections>
+                                    <action selector="promptDeckPressed:" destination="H6H-um-jyN" eventType="touchUpInside" id="xl8-TA-klo"/>
+                                </connections>
+                            </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0F5-IL-99b" userLabel="CardDrawer">
                                 <rect key="frame" x="0.0" y="505" width="414" height="303"/>
                                 <subviews>
@@ -697,16 +707,6 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zi5-zY-w6L" userLabel="Prompt Deck">
-                                <rect key="frame" x="240" y="389" width="60" height="108"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="108" id="9f3-La-Ks5"/>
-                                </constraints>
-                                <state key="normal" image="CardStack"/>
-                                <connections>
-                                    <action selector="promptDeckPressed:" destination="H6H-um-jyN" eventType="touchUpInside" id="xl8-TA-klo"/>
-                                </connections>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vzJ-7v-2t0">
                                 <rect key="frame" x="186" y="60" width="42" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>

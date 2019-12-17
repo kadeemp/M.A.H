@@ -203,6 +203,7 @@ class FirebaseController {
         }
     }
     func addResponse(card:MemeCard, gameKey:String) {
+        print("this card is playedBy \(card.playedBy)")
         REF_GAMES.child(gameKey).child("table").child("responses").updateChildValues([card.cardKey:["playedBy":card.playedBy ?? "", "isRevealed":card.isRevealed, "fileName":card.fileName, "fileType":card.fileType, "cardKey":card.cardKey]])
     }
     func clearResponses(game:Game) {
