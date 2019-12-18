@@ -11,14 +11,12 @@ struct Game {
 
     let key:String
     let round:Int
-    let scoreboard:[String:[String:Any]]
     let table:[String:[String:Any]]?
     var state:Int
 
-    init(key:String, round:Int, scoreboard:[String:[String:Any]], table:[String:[String:Any]]?, state:Int) {
+    init(key:String, round:Int, table:[String:[String:Any]]?, state:Int) {
         self.key = key
         self.round = round
-        self.scoreboard = scoreboard
         self.table = table
         self.state = state
     }

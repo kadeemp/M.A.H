@@ -18,7 +18,7 @@ struct Session {
     var moderator:[String:String]?
     var isActive:Bool
 
-    init(host:String, hostID:String, code:String, members:[String:[String:Any]], key:String, gameID:String?, isActive:Bool, moderator:[String:String]?) {
+    init(host:String, hostID:String, code:String, members:[String:[String:Any]], key:String, gameID:String?, isActive:Bool) {
         self.host = host
         self.hostID = hostID
         self.members = members
@@ -26,6 +26,5 @@ struct Session {
         self.key = key
         self.gameID = gameID
         self.isActive = isActive
-        self.moderator = moderator
     }
 }

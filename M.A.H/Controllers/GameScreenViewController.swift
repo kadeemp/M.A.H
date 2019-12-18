@@ -621,27 +621,17 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
 
     func dropInteraction(_ interaction: UIDropInteraction, performDrop session: UIDropSession) {
         let card = session.items.first!.localObject as! Card
-//        for card in self.cards {
-//            print(card.fileName)
-//            print(1)
-//        }
-        print("THE CARD BEING PRESSED IS \(card)")
         FirebaseController.instance.addResponse(card: card.card, gameKey: game.key)
         self.cards.remove(at: card.indexPath.row)
         cardCollectionView.deleteItems(at:[card.indexPath])
-        print()
 
         cardCollectionView.reloadData()
         FirebaseController.instance.removeCardFromHand(cardKey: card.card.cardKey)
         FirebaseController.instance.addCardtoHand(gameKey: game.key, completion: { newCard in
             //TODO: FIX so that it animates the new card in
             self.cards.append(newCard)
-//                    for card in self.cards {
-//                print(card.fileName)
-//                print(2)
-//            }
+
             self.cardCollectionView.insertItems(at: [IndexPath(item: self.cards.count - 1, section: 0)])
-           // self.cardCollectionView.reloadData()
         })
     }
 
