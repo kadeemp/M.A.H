@@ -12,7 +12,7 @@ struct MemeCard:Equatable {
     let cardKey:String
     let fileName:String
     let fileType:String
-    let playedBy:String?
+    var playedBy:String?
     let cardType:String
     var isRevealed:Bool
 

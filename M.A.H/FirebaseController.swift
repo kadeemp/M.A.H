@@ -62,20 +62,17 @@ class FirebaseController {
             self.createPromptDeck(gameKey: gameKey,
                                   completion: {
                                     (prompts) in
-                                    //                                    print(prompts.isEmpty, 123456789)
                                     self.REF_GAMES.child(gameKey).updateChildValues(["key":gameKey,
                                                                                      "prompts":prompts,
                                                                                      "round":1,
                                                                                      "meme deck":deck,
                                                                                      "sessionID":session.key,
                                                                                      "state":0,
-                                                                                     "table": ["InitialValue":["test":""]]]
+                                                                                     "table": ["currentPrompt":["cardKey":"","isRevealed":false,"playedBy":"","prompt":""]]]
                                     )
-                                    self.REF_SESSIONS.child(session.key.stripID()).updateChildValues(["gameID":gameKey, "isGameActive":true/*,"moderator":[session.members.randomElement()!.key:session.members.randomElement()!.value]*/])
+                                    self.REF_SESSIONS.child(session.key.stripID()).updateChildValues(["gameID":gameKey, "isGameActive":true])
                                     newSession.gameID = gameKey
-                                    // newSession.moderator = [session.members.randomElement()!.key:session.members.randomElement()!.value]
-                                    //TODO:SET RANDOM MODERATOR
-                                    let game = Game(key: gameKey, round: 1, table:  ["InitialValue":["test":""]], state: 0)
+                                    let game = Game(key: gameKey, round: 1, table:  ["currentPrompt":["cardKey":"","isRevealed":false,"playedBy":"","prompt":""]], state: 0)
                                     self.loadHand(session: newSession) {
                                         print("hand complete")
                                         completion(game)
@@ -202,7 +199,7 @@ class FirebaseController {
         REF_GAMES.child(gameKey).child("table").child("responses").updateChildValues([card.cardKey:["playedBy":card.playedBy ?? "", "isRevealed":card.isRevealed, "fileName":card.fileName, "fileType":card.fileType, "cardKey":card.cardKey]])
     }
     func clearResponses(game:Game) {
-        REF_GAMES.child(game.key).child("table").child("responses").removeValue()
+        REF_GAMES.child(game.key).child("table").updateChildValues(["responses":"","currentPrompt":["cardKey":"","isRevealed":false,"playedBy":"","prompt":""]])
     }
     func revealResponse(gameKey:String,card:MemeCard) {
         REF_GAMES.child(gameKey).child("table").child("responses").child(card.cardKey).updateChildValues(["isRevealed":true])
@@ -345,10 +342,9 @@ class FirebaseController {
 
     func incrementScore(game:Game, session:Session, userID:String) {
 
-//        var score = scoreboard[userID]!["score"] as! Int
-//        score = score + 1
-//        setStateTo(5, game: game)
-//        REF_SESSIONS.child(session.key).child("members").child(userID).updateChildValues(["score":score])
+        var score = session.members[userID]!["score"] as! Int
+       score = score + 1
+        REF_SESSIONS.child(session.key).child("members").child(userID).updateChildValues(["score":score])
 //        REF_GAMES.child(game.key).child("scoreboard").child(userID).updateChildValues(["score":score])
     }
 

@@ -441,14 +441,6 @@
                                 <color key="textColor" red="0.92156231399999999" green="0.92156249280000002" blue="0.92156094310000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Na9-bY-hN6">
-                                <rect key="frame" x="292" y="82" width="88" height="52"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <connections>
-                                    <action selector="leaveLobby:" destination="tXE-OG-O71" eventType="touchUpInside" id="Gj7-ap-b9T"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aGN-82-aS1">
                                 <rect key="frame" x="131" y="725" width="152" height="83"/>
                                 <color key="backgroundColor" red="0.19117148859999999" green="0.77599104829999999" blue="0.84766287939999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -687,7 +679,7 @@
                                     <action selector="slideupIndicatorTriggered:" destination="H6H-um-jyN" eventType="touchUpInside" id="xvu-bf-kzJ"/>
                                 </connections>
                             </button>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profilepic" translatesAutoresizingMaskIntoConstraints="NO" id="l4q-yc-Met">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AccountIcon" translatesAutoresizingMaskIntoConstraints="NO" id="l4q-yc-Met">
                                 <rect key="frame" x="323" y="10" width="71" height="71"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="71" id="C7g-Kg-5Ve"/>
@@ -707,8 +699,8 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vzJ-7v-2t0">
-                                <rect key="frame" x="186" y="60" width="42" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vzJ-7v-2t0">
+                                <rect key="frame" x="107" y="59" width="193" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -924,12 +916,12 @@
         </scene>
     </scenes>
     <resources>
+        <image name="AccountIcon" width="512" height="512"/>
         <image name="CardStack" width="60" height="108"/>
         <image name="CircledUpArrow" width="47" height="47"/>
         <image name="Clipboard Icon" width="52" height="70"/>
         <image name="SingleCard" width="34" height="46"/>
         <image name="TempTable" width="204" height="278"/>
-        <image name="profilepic" width="400" height="400"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="rOh-l5-m7Q"/>

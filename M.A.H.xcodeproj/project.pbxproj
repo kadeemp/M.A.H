@@ -20,6 +20,7 @@
 		F438B3B122EB765D008314AE /* MemesCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F438B3B022EB765D008314AE /* MemesCollectionViewController.swift */; };
 		F438B3B322EB7675008314AE /* PropmtsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F438B3B222EB7675008314AE /* PropmtsCollectionViewController.swift */; };
 		F438B3B522EBF7D8008314AE /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = F438B3B422EBF7D8008314AE /* Session.swift */; };
+		F448E79F23AB090A00AEBDF3 /* EndGameCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F448E79E23AB090A00AEBDF3 /* EndGameCardView.swift */; };
 		F44F468C231614C8009585EA /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44F468B231614C8009585EA /* Game.swift */; };
 		F451CBBE23104F44008FDFE8 /* CardTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F451CBBD23104F44008FDFE8 /* CardTable.swift */; };
 		F45CEC0722FA26B000119E3E /* GameScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45CEC0622FA26B000119E3E /* GameScreenViewController.swift */; };
@@ -37,6 +38,7 @@
 		F483A3D422E39AC000D099BE /* FirebaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F483A3D322E39AC000D099BE /* FirebaseController.swift */; };
 		F483A3D622E39E9900D099BE /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = F483A3D522E39E9900D099BE /* Podfile */; };
 		F48D8A7C23207C630043402E /* Extention + String.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48D8A7B23207C630043402E /* Extention + String.swift */; };
+		F49023D823AC1CC700645362 /* FACEBOOK_LINE-01-512.png in Resources */ = {isa = PBXBuildFile; fileRef = F49023D723AC1CC700645362 /* FACEBOOK_LINE-01-512.png */; };
 		F4A19BF8232807A600C453AA /* ResponseCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A19BF7232807A600C453AA /* ResponseCard.swift */; };
 /* End PBXBuildFile section */
 
@@ -55,6 +57,7 @@
 		F438B3B022EB765D008314AE /* MemesCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemesCollectionViewController.swift; sourceTree = "<group>"; };
 		F438B3B222EB7675008314AE /* PropmtsCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropmtsCollectionViewController.swift; sourceTree = "<group>"; };
 		F438B3B422EBF7D8008314AE /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
+		F448E79E23AB090A00AEBDF3 /* EndGameCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndGameCardView.swift; sourceTree = "<group>"; };
 		F44F468B231614C8009585EA /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		F451CBBD23104F44008FDFE8 /* CardTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardTable.swift; sourceTree = "<group>"; };
 		F45CEC0622FA26B000119E3E /* GameScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScreenViewController.swift; sourceTree = "<group>"; };
@@ -74,6 +77,7 @@
 		F483A3D322E39AC000D099BE /* FirebaseController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseController.swift; sourceTree = "<group>"; };
 		F483A3D522E39E9900D099BE /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		F48D8A7B23207C630043402E /* Extention + String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extention + String.swift"; sourceTree = "<group>"; };
+		F49023D723AC1CC700645362 /* FACEBOOK_LINE-01-512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FACEBOOK_LINE-01-512.png"; sourceTree = "<group>"; };
 		F4A19BF7232807A600C453AA /* ResponseCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseCard.swift; sourceTree = "<group>"; };
 		F8FB59231A99A12FDDD63F3A /* Pods-M.A.H.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-M.A.H.release.xcconfig"; path = "Target Support Files/Pods-M.A.H/Pods-M.A.H.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -120,6 +124,7 @@
 				F41DCC0C23033D1D0018C3D9 /* PromptCardView.swift */,
 				F47FA1492374A36600A7F0E9 /* PlayedCardCollectionViewCell.swift */,
 				F478243A2378ECDD00E843E9 /* WinningCardView.swift */,
+				F448E79E23AB090A00AEBDF3 /* EndGameCardView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -177,6 +182,7 @@
 				F483A3D322E39AC000D099BE /* FirebaseController.swift */,
 				F45DACD522C5D25A004090C1 /* Main.storyboard */,
 				F45DACDB22C5D25B004090C1 /* Assets.xcassets */,
+				F49023D723AC1CC700645362 /* FACEBOOK_LINE-01-512.png */,
 				F45DACDD22C5D25B004090C1 /* LaunchScreen.storyboard */,
 				F45DACE022C5D25B004090C1 /* Info.plist */,
 				F45DACD822C5D25A004090C1 /* M_A_H.xcdatamodeld */,
@@ -268,6 +274,7 @@
 				F45DACE722C5D2C3004090C1 /* GoogleService-Info.plist in Resources */,
 				F45DACDC22C5D25B004090C1 /* Assets.xcassets in Resources */,
 				F45DACD722C5D25A004090C1 /* Main.storyboard in Resources */,
+				F49023D823AC1CC700645362 /* FACEBOOK_LINE-01-512.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -350,6 +357,7 @@
 				F45CEC0C22FE206200119E3E /* MemeCard.swift in Sources */,
 				F45CEC0E22FE406500119E3E /* CardCollectionViewCell.swift in Sources */,
 				F41DCC0D23033D1D0018C3D9 /* PromptCardView.swift in Sources */,
+				F448E79F23AB090A00AEBDF3 /* EndGameCardView.swift in Sources */,
 				F44F468C231614C8009585EA /* Game.swift in Sources */,
 				F438B3B522EBF7D8008314AE /* Session.swift in Sources */,
 				F45CEC0722FA26B000119E3E /* GameScreenViewController.swift in Sources */,
@@ -509,16 +517,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 68A9E944ZN;
+				DEVELOPMENT_TEAM = 7G8EV52YPP;
 				INFOPLIST_FILE = M.A.H/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.palacios.M-A-H";
+				PRODUCT_BUNDLE_IDENTIFIER = com.palacios.memesfordays;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -528,16 +536,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 68A9E944ZN;
+				DEVELOPMENT_TEAM = 7G8EV52YPP;
 				INFOPLIST_FILE = M.A.H/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.palacios.M-A-H";
+				PRODUCT_BUNDLE_IDENTIFIER = com.palacios.memesfordays;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

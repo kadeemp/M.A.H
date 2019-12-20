@@ -42,7 +42,6 @@ class GameScreenViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        cardCollectionView.dragInteractionEnabled = true
         cardCollectionView.delegate = self
         cardCollectionView.dataSource = self
         cardCollectionView.dragDelegate = self
@@ -53,7 +52,6 @@ class GameScreenViewController: UIViewController {
         profileImageView.clipsToBounds = true
         moderatorBadgeImageView.clipsToBounds = true
         moderatorBadgeImageView.layer.cornerRadius = moderatorBadgeImageView.frame.width/2
-        moderatorBadgeImageView.backgroundColor = UIColor.green
         //TODO: Add observers for state, table, winning result,
 
         self.drawerBottomConstraint.constant = -280
@@ -90,21 +88,25 @@ class GameScreenViewController: UIViewController {
                 if let result = result {
                     let resultCard = WinningCardView()
                     resultCard.frame = CGRect(x: 100, y: 130, width: 200, height: 290)
-                    print("resultCard is \(result)")
-                    FirebaseController.instance.incrementScore(game: self.game, session: self.session, userID: result.playedBy!)
                     resultCard.promptLabel.text = "\(self.session.members[result.playedBy!]!["name"]!) wins!"
                     FirebaseController.instance.downloadGif(gifName: result.fileName) { (data) in
                         do {
                             let gif = try UIImage(gifData:data)
                             resultCard.gifImage.setGifImage(gif)
                             self.view.addSubview(resultCard)
+                            let deadline = DispatchTime.now() + 5
+                            DispatchQueue.main.asyncAfter(deadline: deadline) {
+
+                                resultCard.removeFromSuperview()
+
+                            }
+
                         }
                         catch {
                             print(error)
                         }
                         //TODO:Update scoreboard
                     }
-
                 }
             }
 
@@ -166,6 +168,7 @@ class GameScreenViewController: UIViewController {
                     print("ERROR OBSERVING SESSION", #function)
                 }
             }
+            updateState(self.game.state)
         }
 
 
@@ -194,6 +197,7 @@ class GameScreenViewController: UIViewController {
         let tableDropInteraction = UIDropInteraction(delegate: self)
         self.tableHolderView.addInteraction(tableDropInteraction)
         self.playedCardCollectionView.addInteraction(tableDropInteraction)
+        self.memeDeckimageview.isUserInteractionEnabled = true
 
     }
 
@@ -235,6 +239,7 @@ class GameScreenViewController: UIViewController {
         guard let user = Auth.auth().currentUser else {
             return
         }
+        stateLabel.text! = String(state)
         switch state {
             //Start game. Initial setup
         //waiting for moderator to pick prompt
@@ -242,6 +247,7 @@ class GameScreenViewController: UIViewController {
             //amke deck border glow
            // print("case 0 running \n")
             self.memeDeckimageview.isUserInteractionEnabled = false
+
             if isModerator() {
 
                 //  print("\(Auth.auth().currentUser!.displayName) has access to promots")
@@ -259,10 +265,10 @@ class GameScreenViewController: UIViewController {
         //players pick their responses
         case 1:
            // print("case 1 running \n")
+            if !isModerator() {
+                self.cardCollectionView.dragInteractionEnabled = true
+            }
             if let currentPrompt = currentPrompt {
-                if !self.isModerator() {
-                    if self.hasCardBeenRevealed == false  {
-                        print("hasCardBeenRevealed is \(self.hasCardBeenRevealed)")
                         if currentPrompt.isRevealed == true  {
                             promptLabel.layer.opacity = 0
                             promptLabel.text = currentPrompt.prompt
@@ -272,18 +278,9 @@ class GameScreenViewController: UIViewController {
                                 })
                         }
                         }
-                    }
-                } else {
-                    //MARK: STATE CHANGE TO 2
-                    //                      if (self.responses.count >=  self.session.members.count - 1) {
-                    //                        FirebaseController.instance.setStateTo(2, game: game)
-                    //                          print("STATE CHANGE TO 2")
-                    //                      }
-                }
-
             }
 
-            cardCollectionView.dragInteractionEnabled = true
+
             //table is full
         //moderator reveals cards
         case 2:
@@ -309,13 +306,13 @@ class GameScreenViewController: UIViewController {
                 if let winningCard = winningCard {
                     let resultCard = WinningCardView()
                     resultCard.frame = CGRect(x: 100, y: 130, width: 200, height: 290)
-                    FirebaseController.instance.incrementScore(game: self.game, session: self.session, userID: winningCard.playedBy!)
                     resultCard.promptLabel.text = "\(self.session.members[winningCard.playedBy!]!["name"]!) wins!"
                     FirebaseController.instance.downloadGif(gifName: winningCard.fileName) { (data) in
                         do {
                             let gif = try UIImage(gifData:data)
                             resultCard.gifImage.setGifImage(gif)
                             self.view.addSubview(resultCard)
+                            FirebaseController.instance.setStateTo(5, game: self.game)
                         }
                         catch {
                             print(error)
@@ -340,8 +337,7 @@ class GameScreenViewController: UIViewController {
             }
         //TODO: Present Game Over. Restart game or send everyone back to lobby
         case 6:
-            print()
-            checkScoreboard(session: session)
+            checkScoreboard(session: self.session)
 
         default:
             cardCollectionView.dragInteractionEnabled = false
@@ -364,17 +360,20 @@ class GameScreenViewController: UIViewController {
     }
     func checkScoreboard(session:Session) {
         let members = session.members
+        var didWin = false
         for member in members {
-            if member.value["score"] as! Int >= 5 {
-                var label = UILabel(frame: CGRect(x: self.view.frame.midX, y: self.view.frame.midY, width: 100, height: 30))
-                label.text! = "\(member.value["name"] as! String) wins!"
-                label.backgroundColor = UIColor.black
-                self.view.addSubview(label)
-                if self.game.state != 6 {
-                    FirebaseController.instance.setStateTo(6, game: self.game)
-                }
-
+            if member.value["score"] as! Int >= 3 {
+                //var label = UILabel(frame: CGRect(x: self.view.frame.midX, y: self.view.frame.midY, width: 150, height: 30))
+                self.stateLabel.text! = "\(member.value["name"] as! String) wins! AAAAAAA"
+                //label.backgroundColor = UIColor.yellow
+                //self.view.addSubview(label)
+                didWin = true
             }
+        }
+        if didWin {
+            print("success!!")
+        } else {
+            print(#function, "FAILED TO GET WINNINING SCORE")
         }
     }
     func allResponsesHaveBeenRevealed(responses:[MemeCard]) -> Bool {
@@ -435,7 +434,7 @@ class GameScreenViewController: UIViewController {
     }
 
     @IBAction func memeDeckPressed(_ sender: Any) {
-
+        FirebaseController.instance.swapModerator(session: self.session)
     }
 }
 
@@ -450,7 +449,6 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
         return dragItems(for: indexPath)
     }
 
-
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
         if collectionView == playedCardCollectionView {
@@ -460,10 +458,21 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
             //MARK:STATE CHANGED TO 4
             if response.isRevealed && allResponsesHaveBeenRevealed(responses: responses) {
                 if self.game.state == 3 {
-
-                    FirebaseController.instance.addWinningResult(card: response, gameKey: game.key)
-                    FirebaseController.instance.setStateTo(4, game: self.game)
-                    print("the winning response is \(response)")
+                    var gameHasBeenWon = false
+                    let members = session.members
+                    for member in members {
+                        if member.value["score"] as! Int >= 3 && response.playedBy! == member.key as! String {
+                            gameHasBeenWon = true
+                        }
+                    }
+                    if gameHasBeenWon {
+                         FirebaseController.instance.incrementScore(game: self.game, session: self.session, userID: response.playedBy!)
+                        FirebaseController.instance.setStateTo(6, game: self.game)
+                    } else {
+                        FirebaseController.instance.incrementScore(game: self.game, session: self.session, userID: response.playedBy!)
+                        FirebaseController.instance.addWinningResult(card: response, gameKey: game.key)
+                        FirebaseController.instance.setStateTo(4, game: self.game)
+                    }
                 }
             } else  {
                 if  isModerator() {
@@ -476,12 +485,11 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
                             FirebaseController.instance.revealResponse(gameKey: self.game.key, card: response)
 
                         }
-                         self.responses[indexPath.row].isRevealed   = !response.isRevealed
+                         self.responses[indexPath.row].isRevealed = !response.isRevealed
                         if allResponsesHaveBeenRevealed(responses: responses) {
                             FirebaseController.instance.setStateTo(3, game: self.game)
 
                         }
-
 
                         //TODO: update this to rely on observer
                     }
@@ -620,7 +628,8 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
 
 
     func dropInteraction(_ interaction: UIDropInteraction, performDrop session: UIDropSession) {
-        let card = session.items.first!.localObject as! Card
+        var card = session.items.first!.localObject as! Card
+        card.card.playedBy = Auth.auth().currentUser!.uid
         FirebaseController.instance.addResponse(card: card.card, gameKey: game.key)
         self.cards.remove(at: card.indexPath.row)
         cardCollectionView.deleteItems(at:[card.indexPath])

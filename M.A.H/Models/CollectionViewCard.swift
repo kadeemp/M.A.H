@@ -9,7 +9,7 @@
 import Foundation
 
 struct Card {
-    let card:MemeCard
+    var card:MemeCard
     let indexPath:IndexPath
     init(card:MemeCard, indexPath:IndexPath) {
         self.card = card

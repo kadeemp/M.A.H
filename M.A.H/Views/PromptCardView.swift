@@ -55,11 +55,20 @@ class PromptCardView: UIView {
     @objc func swapButtons() {
     
         revealButton.isUserInteractionEnabled = false
+        DispatchQueue.main.async {
+            UIView.animate(withDuration: 1) {
+                self.layer.opacity = 0
+            }
+            UIView.animate(withDuration: 2, animations: {
+
+            }) { (didComplete) in
+                self.removeFromSuperview()
+            }
+        }
 
         //TODO:- ADD BUTTON SWAP ANIMATION
-        revealButton.removeFromSuperview()
-//ADD FIREBASE FUNC
-        self.addSubview(dismissButton)
+
+
     }
     lazy var dismissButton:UIButton = {
         //TODO:- CHANGE TO PROGRAMMATIC CONSTRAINTS
