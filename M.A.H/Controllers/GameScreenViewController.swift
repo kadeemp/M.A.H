@@ -358,15 +358,33 @@ class GameScreenViewController: UIViewController {
         }
         return result
     }
+    @objc func startNewGame() {
+
+    }
+    @objc func returntoLobby() {
+        self.dismiss(animated: true) {
+            //TODO:Database cleanup
+        }
+    }
     func checkScoreboard(session:Session) {
         let members = session.members
         var didWin = false
         for member in members {
             if member.value["score"] as! Int >= 3 {
                 //var label = UILabel(frame: CGRect(x: self.view.frame.midX, y: self.view.frame.midY, width: 150, height: 30))
-                self.stateLabel.text! = "\(member.value["name"] as! String) wins! AAAAAAA"
+                var endGameCard = EndGameCardView()
+                endGameCard.center = CGPoint(x: self.view.frame.midX - 100, y: self.view.frame.midY - self.view.frame.height/3)
+                endGameCard.promptLabel.text = "\(member.value["name"] as! String) won the game!"
+                if session.hostID == Auth.auth().currentUser?.uid {
+                    print("this person is the host")
+                } else {
+                    endGameCard.newGameButton.isHidden = true
+                    endGameCard.returntoLobby.isHidden = true
+
+                }
+
                 //label.backgroundColor = UIColor.yellow
-                //self.view.addSubview(label)
+                self.view.addSubview(endGameCard)
                 didWin = true
             }
         }

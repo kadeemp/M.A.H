@@ -23,7 +23,7 @@ class EndGameCardView: UIView {
     }
     lazy var container:UIView = {
 
-        var view = UIView(frame: CGRect(x: 0, y: 0, width: 200, height: 400))
+        var view = UIView(frame: CGRect(x: 0, y: 0, width: 200, height: 300))
         view.backgroundColor = UIColor.white
         view.layer.cornerRadius = 20
         return view
@@ -44,7 +44,7 @@ class EndGameCardView: UIView {
         //TODO:- CHANGE TO PROGRAMMATIC CONSTRAINTS
         var btn = UIButton(frame: CGRect(x: 0, y: 0, width: 150, height: 40))
         print(btn.frame.origin)
-        btn.center = CGPoint(x: self.container.frame.midX, y: self.container.frame.maxY - 175)
+        btn.center = CGPoint(x: self.container.frame.midX, y: self.container.frame.maxY - 80)
         btn.setTitle("New Game", for: .normal)
         btn.layer.backgroundColor = UIColor(red: 21/255, green: 209/255, blue: 200/255, alpha: 1).cgColor
         btn.layer.cornerRadius = 10
@@ -59,7 +59,7 @@ class EndGameCardView: UIView {
 
         btn.layer.backgroundColor = UIColor.red.cgColor
         btn.layer.cornerRadius = 10
-        btn.center = CGPoint(x: self.container.frame.midX, y: self.container.frame.maxY - 130)
+        btn.center = CGPoint(x: self.container.frame.midX, y: self.container.frame.maxY - 30)
          print(btn.frame.origin)
 
         return btn
