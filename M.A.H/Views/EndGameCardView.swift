@@ -21,12 +21,18 @@ class EndGameCardView: UIView {
         super.init(coder: aDecoder)
         setupView()
     }
+    lazy var container:UIView = {
 
+        var view = UIView(frame: CGRect(x: 0, y: 0, width: 200, height: 400))
+        view.backgroundColor = UIColor.white
+        view.layer.cornerRadius = 20
+        return view
+    }()
     lazy var promptLabel:UILabel = {
-        var label = UILabel(frame: CGRect(x: 20, y: 20, width: 160, height: 80))
+        var label = UILabel(frame: CGRect(x: 10, y: 20, width: self.container.frame.width - 10, height: 80))
 
         //label.backgroundColor = UIColor.green
-        label.text = "Kadeem Wins!!"
+        label.text = "Kadeem wins the game!"
         label.textColor = UIColor.black
         label.lineBreakMode = NSLineBreakMode.byWordWrapping
         label.numberOfLines = 4
@@ -36,7 +42,9 @@ class EndGameCardView: UIView {
 
     lazy var newGameButton:UIButton = {
         //TODO:- CHANGE TO PROGRAMMATIC CONSTRAINTS
-        var btn = UIButton(frame: CGRect(x: 50, y: 240, width: 100, height: 40))
+        var btn = UIButton(frame: CGRect(x: 0, y: 0, width: 150, height: 40))
+        print(btn.frame.origin)
+        btn.center = CGPoint(x: self.container.frame.midX, y: self.container.frame.maxY - 175)
         btn.setTitle("New Game", for: .normal)
         btn.layer.backgroundColor = UIColor(red: 21/255, green: 209/255, blue: 200/255, alpha: 1).cgColor
         btn.layer.cornerRadius = 10
@@ -44,33 +52,29 @@ class EndGameCardView: UIView {
         return btn
     }()
 
-
-
     lazy var returntoLobby:UIButton = {
         //TODO:- CHANGE TO PROGRAMMATIC CONSTRAINTS
-        var btn = UIButton(frame: CGRect(x: 150, y: 240, width: 100, height: 40))
+        var btn = UIButton(frame: CGRect(x: self.container.frame.midX, y: 0, width: 150, height: 40))
         btn.setTitle("Return to Lobby", for: .normal)
+
         btn.layer.backgroundColor = UIColor.red.cgColor
         btn.layer.cornerRadius = 10
-
+        btn.center = CGPoint(x: self.container.frame.midX, y: self.container.frame.maxY - 130)
+         print(btn.frame.origin)
 
         return btn
     }()
 
-
     //common func to init our view
     private func setupView() {
-        self.layer.cornerRadius = 15
+
         backgroundColor = .white
         layer.borderColor = UIColor.white.cgColor
         layer.borderWidth = 1
-        self.addSubview(promptLabel)
-        self.addSubview(returntoLobby)
-        self.addSubview(newGameButton)
-        let deadline = DispatchTime.now() + 5
-        DispatchQueue.main.asyncAfter(deadline: deadline) {
-            self.removeFromSuperview()
-        }
+
+        container.addSubview(promptLabel)
+        container.addSubview(returntoLobby)
+        container.addSubview(newGameButton)
+        self.addSubview(container)
     }
 }
-

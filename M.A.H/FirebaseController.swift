@@ -274,7 +274,6 @@ class FirebaseController {
     func observeResponses(gameKey:String, completion:@escaping (([MemeCard]?) -> ())) {
         var responses:[MemeCard]! = []
 
-
         REF_GAMES.child(gameKey).child("table").child("responses").observe(.value) { (dataSnapshot) in
                         guard let data = dataSnapshot.children.allObjects as? [DataSnapshot] else {
                             return
