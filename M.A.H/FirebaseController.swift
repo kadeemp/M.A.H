@@ -165,6 +165,34 @@ class FirebaseController {
             }
         }
     }
+    func observePlayedCards(gameKey:String, completion:@escaping (([Int]) -> ())) {
+        REF_GAMES.child(gameKey).child("table").child("revealedResponses").observe(.value) { (dataSnapshot) in
+                if dataSnapshot.exists() {
+                    let responsesIndexes = dataSnapshot.value as! [Int]
+                    completion(responsesIndexes)
+
+                }
+            }
+        }
+    func addResponseIndex(gameKey:String,index:Int) {
+        var result:[Int] = []
+        REF_GAMES.child(gameKey).child("table").child("revealedResponses").observeSingleEvent(of: .value) { (dataSnapshot) in
+            print("data snaptshot value is\(dataSnapshot.value)")
+            print(10000)
+            if dataSnapshot.exists() {
+                let returnedIndexes = dataSnapshot.value as! [Int]
+                print("returned indexes = \(returnedIndexes)")
+            } else {
+
+                result.append(index)
+                print("result = \(result)")
+                self.REF_GAMES.child(gameKey).child("table").updateChildValues(["revealedResponses":result])
+                print("dataSnapshot does not exist")
+            }
+        }
+
+
+    }
     func observeIsModerator(sessionKey:String,userKey:String, completion: @escaping ((Bool)  -> ())) {
         REF_SESSIONS.child(sessionKey).child("members").child(userKey).child("isModerator").observeSingleEvent(of: .value) { (dataSnapshot) in
             if dataSnapshot.exists() {
