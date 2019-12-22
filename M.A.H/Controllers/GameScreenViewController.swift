@@ -114,15 +114,16 @@ class GameScreenViewController: UIViewController {
                 }
             }
             FirebaseController.instance.observePlayedCards(gameKey: self.game.key) { (indexes) in
-                if self.game.state == 2 {
-                    if let indexToReveal = indexes.last {
-                        print("revealing index:\(indexToReveal)")
-                        let indexPathOfResponse = IndexPath(item: indexToReveal, section: 0)
-                        let cell = self.playedCardCollectionView.cellForItem(at: indexPathOfResponse) as! PlayedCardCollectionViewCell
-                        UIView.transition(from: cell.cardImageView, to: cell.revealedCardImageView, duration: 1, options: .transitionFlipFromLeft, completion: nil)
+                if self.game.state == 2 || self.game.state == 3 {
+                    if !self.isModerator() {
+                        if let indexToReveal = indexes.last {
+                            print("revealing index:\(indexToReveal)")
+                            let indexPathOfResponse = IndexPath(item: indexToReveal, section: 0)
+                            let cell = self.playedCardCollectionView.cellForItem(at: indexPathOfResponse) as! PlayedCardCollectionViewCell
+                            UIView.transition(from: cell.cardImageView, to: cell.revealedCardImageView, duration: 1, options: .transitionFlipFromLeft, completion: nil)
 
+                        }
                     }
-
                 }
 
             }

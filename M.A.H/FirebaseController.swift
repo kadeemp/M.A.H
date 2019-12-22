@@ -181,7 +181,10 @@ class FirebaseController {
             print(10000)
             if dataSnapshot.exists() {
                 let returnedIndexes = dataSnapshot.value as! [Int]
-                print("returned indexes = \(returnedIndexes)")
+                result = returnedIndexes
+                result.append(index)
+                self.REF_GAMES.child(gameKey).child("table").updateChildValues(["revealedResponses":result])
+                print("the snapshot exists and the result is:  \(result)")
             } else {
 
                 result.append(index)
