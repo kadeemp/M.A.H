@@ -22,6 +22,9 @@ class GameScreenViewController: UIViewController {
     let columns:CGFloat = 2.5
     let inset:CGFloat = 10.0
     let spacing:CGFloat = 8.0
+    var isUserModerator:Bool = false
+    var hasRoundEnded = false
+    var hasGameEnded = false
 
     @IBOutlet var tableHolderView: UIView!
     @IBOutlet var scoreboardButton: UIButton!
@@ -57,23 +60,24 @@ class GameScreenViewController: UIViewController {
         self.drawerBottomConstraint.constant = -280
         self.view.layoutIfNeeded()
 
-        if isModerator() {
-            self.moderatorBadgeImageView.backgroundColor = UIColor.red
-            //add card animation
-        } else {
-            self.moderatorBadgeImageView.backgroundColor = UIColor.green
-        }
+
 
 
         if let game = game {
+//            FirebaseController.instance.observeIsModerator(sessionKey: session.key, userKey: Auth.auth().currentUser!.uid) { (moderatorStatus) in
+//                print("\(Auth.auth().currentUser?.displayName)'s moderator status is \(moderatorStatus) \n the game state is \(self.game.state)")
+//                self.isUserModerator = moderatorStatus
+//                self.updateState(self.game.state)
+//
+//            }
             FirebaseController.instance.observeGameState(gameKey: game.key) { (newState) in
-                print("The new state is \(newState)")
+                print("The new state is \(newState) \n \(Auth.auth().currentUser?.displayName)'s moderator status is \(self.isModerator())")
                 if self.game.state != newState {
-                    self.self.game.state = newState
+                    self.game.state = newState
                     self.updateState(newState)
                     self.stateLabel.text! = "\(newState)"
                 }
-                print("the state has been set to \(self.self.game.state)")
+                print("the state has been set to \(self.game.state)")
             }
             FirebaseController.instance.observeCurrentPrompt(gameKey: game.key) { (currentPrompt) in
                 if let currentPrompt = currentPrompt {
@@ -168,6 +172,13 @@ class GameScreenViewController: UIViewController {
                     print("ERROR OBSERVING SESSION", #function)
                 }
             }
+            if isModerator() {
+                self.moderatorBadgeImageView.backgroundColor = UIColor.red
+                //add card animation
+            } else {
+                self.moderatorBadgeImageView.backgroundColor = UIColor.green
+            }
+
             updateState(self.game.state)
         }
 
@@ -244,11 +255,12 @@ class GameScreenViewController: UIViewController {
             //Start game. Initial setup
         //waiting for moderator to pick prompt
         case 0:
+            self.hasRoundEnded = false
             //amke deck border glow
            // print("case 0 running \n")
             self.memeDeckimageview.isUserInteractionEnabled = false
 
-            if isModerator() {
+            if isModerator() == true {
 
                 //  print("\(Auth.auth().currentUser!.displayName) has access to promots")
                 self.promptDeckImageView.isUserInteractionEnabled = true
@@ -325,19 +337,34 @@ class GameScreenViewController: UIViewController {
             memeDeckimageview.isUserInteractionEnabled = true
         //add animation
         case 5:
-            let deadlineTime = DispatchTime.now() + .seconds(5)
-            DispatchQueue.main.asyncAfter(deadline: deadlineTime) {
-                FirebaseController.instance.startNewRound(game: self.game, session:self.session)
+            if hasRoundEnded == false {
+                self.hasRoundEnded = true
+                let deadlineTime = DispatchTime.now() + .seconds(5)
+                DispatchQueue.main.asyncAfter(deadline: deadlineTime) {
+                    if self.isModerator() {
+                    FirebaseController.instance.swapModerator(session: self.session)
+                    FirebaseController.instance.startNewRound(game: self.game, session:self.session)
+                    }
+                    self.responses = []
+                    self.playedCardCollectionView.reloadData()
+                    self.hasCardBeenRevealed = false
+                    self.promptLabel.text! = ""
+                    self.hasRoundEnded = true
 
-                //TODO: Add  animations
-                self.responses = []
-                self.playedCardCollectionView.reloadData()
-                self.hasCardBeenRevealed = false
-                self.promptLabel.text! = ""
+
+                    //TODO: Add  animations
+
+
+                }
             }
+
         //TODO: Present Game Over. Restart game or send everyone back to lobby
         case 6:
-            checkScoreboard(session: self.session)
+            if hasGameEnded == false {
+                checkScoreboard(session: self.session)
+            }
+
+
 
         default:
             cardCollectionView.dragInteractionEnabled = false
@@ -359,7 +386,7 @@ class GameScreenViewController: UIViewController {
         return result
     }
     @objc func startNewGame() {
-
+print("AAaa")
     }
     @objc func returntoLobby() {
         self.dismiss(animated: true) {
@@ -370,7 +397,7 @@ class GameScreenViewController: UIViewController {
         let members = session.members
         var didWin = false
         for member in members {
-            if member.value["score"] as! Int >= 3 {
+            if member.value["score"] as! Int >= 3 && self.hasGameEnded == false {
                 //var label = UILabel(frame: CGRect(x: self.view.frame.midX, y: self.view.frame.midY, width: 150, height: 30))
                 var endGameCard = EndGameCardView()
                 endGameCard.center = CGPoint(x: self.view.frame.midX - 100, y: self.view.frame.midY - self.view.frame.height/3)
@@ -382,13 +409,16 @@ class GameScreenViewController: UIViewController {
                     endGameCard.returntoLobby.isHidden = true
 
                 }
+                endGameCard.newGameButton.addTarget(self, action: #selector(startNewGame), for: .allTouchEvents)
 
                 //label.backgroundColor = UIColor.yellow
                 self.view.addSubview(endGameCard)
+                self.hasGameEnded = true
                 didWin = true
             }
         }
         if didWin {
+            
             print("success!!")
         } else {
             print(#function, "FAILED TO GET WINNINING SCORE")

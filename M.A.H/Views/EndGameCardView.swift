@@ -48,9 +48,13 @@ class EndGameCardView: UIView {
         btn.setTitle("New Game", for: .normal)
         btn.layer.backgroundColor = UIColor(red: 21/255, green: 209/255, blue: 200/255, alpha: 1).cgColor
         btn.layer.cornerRadius = 10
+        btn.addTarget(self, action: #selector(test), for: .allTouchEvents)
 
         return btn
     }()
+    @objc func test() {
+print("touched")
+    }
 
     lazy var returntoLobby:UIButton = {
         //TODO:- CHANGE TO PROGRAMMATIC CONSTRAINTS
@@ -60,7 +64,7 @@ class EndGameCardView: UIView {
         btn.layer.backgroundColor = UIColor.red.cgColor
         btn.layer.cornerRadius = 10
         btn.center = CGPoint(x: self.container.frame.midX, y: self.container.frame.maxY - 30)
-         print(btn.frame.origin)
+
 
         return btn
     }()
@@ -68,13 +72,14 @@ class EndGameCardView: UIView {
     //common func to init our view
     private func setupView() {
 
-        backgroundColor = .white
+        self.backgroundColor = .white
         layer.borderColor = UIColor.white.cgColor
         layer.borderWidth = 1
-
-        container.addSubview(promptLabel)
-        container.addSubview(returntoLobby)
-        container.addSubview(newGameButton)
+        container.isUserInteractionEnabled = true
         self.addSubview(container)
+        self.addSubview(promptLabel)
+        self.addSubview(returntoLobby)
+        self.addSubview(newGameButton)
+
     }
 }

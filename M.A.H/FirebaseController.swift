@@ -149,12 +149,11 @@ class FirebaseController {
     func startNewRound(game:Game, session:Session) {
         var round = game.round
         round += 1
-
-        swapModerator(session: session)
-
-        REF_GAMES.child(game.key).updateChildValues(["round":round, "state":0])
         REF_GAMES.child(game.key).child("winning result").removeValue()
         clearResponses(game: game)
+       REF_GAMES.child(game.key).updateChildValues(["round":round, "state":0])
+
+
 
     }
     func observeGameTable(gameKey:String, completion:@escaping (([String:[String:Any]]) -> ())) {
@@ -165,6 +164,15 @@ class FirebaseController {
 
             }
         }
+    }
+    func observeIsModerator(sessionKey:String,userKey:String, completion: @escaping ((Bool)  -> ())) {
+        REF_SESSIONS.child(sessionKey).child("members").child(userKey).child("isModerator").observeSingleEvent(of: .value) { (dataSnapshot) in
+            if dataSnapshot.exists() {
+                let isModerator = dataSnapshot.value as! Bool
+                completion(isModerator)
+            }
+        }
+
     }
 
     func returnResponses(gameKey:String, completion: @escaping (([MemeCard]) -> ())) {
