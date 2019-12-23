@@ -150,12 +150,14 @@ class FirebaseController {
         var round = game.round
         round += 1
         REF_GAMES.child(game.key).child("winning result").removeValue()
+        REF_GAMES.child(game.key).child("table").child("revealedResponses").removeValue()
         clearResponses(game: game)
        REF_GAMES.child(game.key).updateChildValues(["round":round, "state":0])
 
 
 
     }
+
     func observeGameTable(gameKey:String, completion:@escaping (([String:[String:Any]]) -> ())) {
         REF_GAMES.child(gameKey).child("table").observe(.value) {  (datasnapshot) in
             if datasnapshot.exists() {
@@ -177,20 +179,15 @@ class FirebaseController {
     func addResponseIndex(gameKey:String,index:Int) {
         var result:[Int] = []
         REF_GAMES.child(gameKey).child("table").child("revealedResponses").observeSingleEvent(of: .value) { (dataSnapshot) in
-            print("data snaptshot value is\(dataSnapshot.value)")
-            print(10000)
             if dataSnapshot.exists() {
                 let returnedIndexes = dataSnapshot.value as! [Int]
                 result = returnedIndexes
                 result.append(index)
                 self.REF_GAMES.child(gameKey).child("table").updateChildValues(["revealedResponses":result])
-                print("the snapshot exists and the result is:  \(result)")
-            } else {
 
+            } else {
                 result.append(index)
-                print("result = \(result)")
                 self.REF_GAMES.child(gameKey).child("table").updateChildValues(["revealedResponses":result])
-                print("dataSnapshot does not exist")
             }
         }
 

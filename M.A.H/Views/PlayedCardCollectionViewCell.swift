@@ -30,6 +30,10 @@ class PlayedCardCollectionViewCell: UICollectionViewCell {
 
         }
     }
+    func AddCardView() {
+        cardImageView.frame.size = revealedCardImageView.frame.size
+        self.addSubview(cardImageView)
+    }
     override func awakeFromNib() {
     }
 

@@ -71,13 +71,13 @@ class GameScreenViewController: UIViewController {
             //
             //            }
             FirebaseController.instance.observeGameState(gameKey: game.key) { (newState) in
-                print("The new state is \(newState) \n \(Auth.auth().currentUser?.displayName)'s moderator status is \(self.isModerator())")
+//                print("The new state is \(newState) \n \(Auth.auth().currentUser?.displayName)'s moderator status is \(self.isModerator())")
                 if self.game.state != newState {
                     self.game.state = newState
                     self.updateState(newState)
                     self.stateLabel.text! = "\(newState)"
                 }
-                print("the state has been set to \(self.game.state)")
+//                print("the state has been set to \(self.game.state)")
             }
             FirebaseController.instance.observeCurrentPrompt(gameKey: game.key) { (currentPrompt) in
                 if let currentPrompt = currentPrompt {
@@ -117,10 +117,9 @@ class GameScreenViewController: UIViewController {
                 if self.game.state == 2 || self.game.state == 3 {
                     if !self.isModerator() {
                         if let indexToReveal = indexes.last {
-                            print("revealing index:\(indexToReveal)")
                             let indexPathOfResponse = IndexPath(item: indexToReveal, section: 0)
                             let cell = self.playedCardCollectionView.cellForItem(at: indexPathOfResponse) as! PlayedCardCollectionViewCell
-                            UIView.transition(from: cell.cardImageView, to: cell.revealedCardImageView, duration: 1, options: .transitionFlipFromLeft, completion: nil)
+                            UIView.transition(from: cell.cardImageView, to: cell.revealedCardImageView, duration: 1, options: [.transitionFlipFromLeft,.showHideTransitionViews])
 
                         }
                     }
@@ -134,67 +133,20 @@ class GameScreenViewController: UIViewController {
                     //print(returnedResponses!,"\n",self.responses)
                     if self.game.state == 1 {
                         if returnedResponses!.count != self.responses.count {
-                            let mostrecentResponse = returnedResponses!.last!
-                            print("THe most recent response is \(mostrecentResponse.fileName)")
-
-                            print("responses before is \(self.responses)","\n -------------")
-                            self.responses.append(mostrecentResponse)
-                            let index = self.responses.count - 1
-                            let indexPathOfResponse = IndexPath(item: index, section: 0)
-                            let indexes = [indexPathOfResponse]
-                            print("responses after  is \(self.responses) \n \n \n")
-                            self.playedCardCollectionView.insertItems(at: indexes)
-
-
-//                            for response in returnedResponses! {
-//                                if !self.responses.contains(response) {
-//                                    let index = self.responses.count - 1
-//                                    let indexPathOfResponse = IndexPath(item: index, section: 0)
-//                                    let indexes = [indexPathOfResponse]
-//                                    self.responses.append(response)
-//                                   // print("the responses that has been appended is \(response.fileName) \n", #function)
-//
-//
-//
-//                                    self.playedCardCollectionView.insertItems(at: indexes)
-//                                    //self.playedCardCollectionView.reloadItems(at: indexes)
-//                                }
-//                            }
+                        for response in returnedResponses! {
+                            if !self.responses.contains(response) {
+                                self.responses.append(response)
+                                let index = self.responses.count - 1
+                                let indexPathOfResponse = IndexPath(item: index, section: 0)
+                                let indexes = [indexPathOfResponse]
+                                self.playedCardCollectionView.insertItems(at: indexes)
+                            }
                         }
+
+                        }
+
                     }
                 }
-
-//                var indexPathTracker:[IndexPath] = []
-//                if  returnedResponses != nil {
-//                    indexPathTracker = []
-//                    if !self.cardTableHasBeenLoaded {
-//                        self.responses = returnedResponses!
-//                        self.cardTableHasBeenLoaded = true
-//                        self.playedCardCollectionView.reloadData()
-//                    } else {
-//                        print("There are \(returnedResponses!.count) responses")
-//                        var index = 0
-//                        for response in returnedResponses! {
-//                            if self.toKeyArray(memes: self.responses).contains(response.cardKey) {
-//                                //TODO: check if self.responses contains the whole card
-//                                //if it doesn't, find the indexpath, and do a view transition
-//                                if self.responses.contains(response) {
-//                                    break
-//                                } else {
-//                                    let indexPathOfResponse = IndexPath(item: index, section: 0)
-//                                    let cell = self.playedCardCollectionView.cellForItem(at: indexPathOfResponse) as! PlayedCardCollectionViewCell
-//                                    UIView.transition(from: cell.cardImageView, to: cell.revealedCardImageView, duration: 1, options: .transitionFlipFromLeft, completion: nil)
-//                                }
-//
-//                            } else {
-//                                self.responses.append(response)
-//                                let indexPathOfResponse = IndexPath(item: index, section: 0)
-//                                index += 1
-//                                self.playedCardCollectionView.insertItems(at: indexPathTracker)
-//                            }
-//                        }
-//                    }
-//                }
 
                 if (self.responses.count >=  self.session.members.count - 1) && (self.game!.state <= 1) {
                     FirebaseController.instance.setStateTo(2, game: game)
@@ -562,7 +514,7 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
                     if self.game.state == 2 {
                         //TODO: FIX SO THAT OBERVER CAN CALL THE ANIMATION RATHER THAN RELOADING
 
-                        UIView.transition(from: cell.cardImageView, to: cell.revealedCardImageView, duration: 1, options: .transitionFlipFromLeft, completion: nil)
+                        UIView.transition(from: cell.cardImageView, to: cell.revealedCardImageView, duration: 1, options: [.transitionFlipFromLeft, .showHideTransitionViews], completion: nil)
                         let deadline = DispatchTime.now() + 1
                         DispatchQueue.main.asyncAfter(deadline: deadline) {
                             FirebaseController.instance.revealResponse(gameKey: self.game.key, card: response)
@@ -650,7 +602,10 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
         case playedCardCollectionView:
             let cell2 = playedCardCollectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! PlayedCardCollectionViewCell
             //            print("responses is \(responses), index path is \(indexPath.row)")
+            cell2.cardImageView.isHidden = false
+            cell2.imageHolderView.bringSubviewToFront(cell2.cardImageView)
             if responses.count > 0 {
+
 
                 let maxIndex = responses.count - 1
                 // print("maxIndex is \(maxIndex ), index path is \(indexPath.row)")
@@ -664,7 +619,7 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
                         if response.isRevealed == true {
                             cell2.cardImageView.isHidden = true
                         } else {
-                            cell2.cardImageView.isHidden = true
+                            cell2.cardImageView.isHidden = false
                         }
 
 
@@ -684,6 +639,13 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
                             }
 
                         }
+                        print("isRevealed status is:\(response.isRevealed) \n the cardimageHidden status is \(cell2.cardImageView.isHidden)")
+                        print("subviewCount is:\(cell2.imageHolderView.subviews.count)")
+//                        if cell2.imageHolderView.subviews.count < 2 {
+//                            cell2.AddCardView()
+//
+//                        }
+
 
                         return cell2
                     }
