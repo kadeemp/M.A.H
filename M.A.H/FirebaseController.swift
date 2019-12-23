@@ -153,9 +153,6 @@ class FirebaseController {
         REF_GAMES.child(game.key).child("table").child("revealedResponses").removeValue()
         clearResponses(game: game)
        REF_GAMES.child(game.key).updateChildValues(["round":round, "state":0])
-
-
-
     }
 
     func observeGameTable(gameKey:String, completion:@escaping (([String:[String:Any]]) -> ())) {
