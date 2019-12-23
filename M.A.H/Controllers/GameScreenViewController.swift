@@ -131,21 +131,35 @@ class GameScreenViewController: UIViewController {
             FirebaseController.instance.observeResponses(gameKey: game.key) { (returnedResponses) in
 
                 if  returnedResponses != nil {
+                    //print(returnedResponses!,"\n",self.responses)
                     if self.game.state == 1 {
                         if returnedResponses!.count != self.responses.count {
-                            for response in returnedResponses! {
-                                if !self.responses.contains(response) {
-                                    let index = self.responses.count - 1
-                                    let indexPathOfResponse = IndexPath(item: 0, section: 0)
-                                    let indexes = [indexPathOfResponse]
-                                    self.responses.append(response)
+                            let mostrecentResponse = returnedResponses!.last!
+                            print("THe most recent response is \(mostrecentResponse.fileName)")
+
+                            print("responses before is \(self.responses)","\n -------------")
+                            self.responses.append(mostrecentResponse)
+                            let index = self.responses.count - 1
+                            let indexPathOfResponse = IndexPath(item: index, section: 0)
+                            let indexes = [indexPathOfResponse]
+                            print("responses after  is \(self.responses) \n \n \n")
+                            self.playedCardCollectionView.insertItems(at: indexes)
 
 
-                                    
-                                    self.playedCardCollectionView.insertItems(at: indexes)
-                                    //self.playedCardCollectionView.reloadItems(at: indexes)
-                                }
-                            }
+//                            for response in returnedResponses! {
+//                                if !self.responses.contains(response) {
+//                                    let index = self.responses.count - 1
+//                                    let indexPathOfResponse = IndexPath(item: index, section: 0)
+//                                    let indexes = [indexPathOfResponse]
+//                                    self.responses.append(response)
+//                                   // print("the responses that has been appended is \(response.fileName) \n", #function)
+//
+//
+//
+//                                    self.playedCardCollectionView.insertItems(at: indexes)
+//                                    //self.playedCardCollectionView.reloadItems(at: indexes)
+//                                }
+//                            }
                         }
                     }
                 }
@@ -265,7 +279,7 @@ class GameScreenViewController: UIViewController {
 
     func updateState(_ state:Int) {
 //        print("the state in the fn is \(state) \n the state on the game is \(self.self.game.state)")
-        print("the responses are \(self.responses)")
+       // print("the responses are \(self.responses)")
 
         guard let user = Auth.auth().currentUser else {
             return
@@ -298,6 +312,7 @@ class GameScreenViewController: UIViewController {
         case 1:
             // print("case 1 running \n")
             if !isModerator() {
+                self.cardCollectionView.isUserInteractionEnabled = true
                 self.cardCollectionView.dragInteractionEnabled = true
             }
             if let currentPrompt = currentPrompt {
@@ -643,11 +658,13 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
                     if responses[indexPath.row] != nil {
 
                         let response = responses[indexPath.row]
+                        print(self.responses, "\n _____________")
+                        print("the response on indexpath:\(indexPath.row) is \(response.fileName) \n", #function)
                         cell2.response = response
                         if response.isRevealed == true {
                             cell2.cardImageView.isHidden = true
                         } else {
-                            cell2.cardImageView.isHidden = false
+                            cell2.cardImageView.isHidden = true
                         }
 
 
@@ -659,6 +676,7 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
                                 gifView.frame.origin = CGPoint(x: 0, y: 0)
                                 gifView.frame = CGRect(x:0, y:0, width: 100, height: 100)
                                 cell2.revealedCardImageView.setGifImage(gif)
+
 
                             }
                             catch {
