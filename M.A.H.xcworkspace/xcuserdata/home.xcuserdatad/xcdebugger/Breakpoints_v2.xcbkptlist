@@ -78,8 +78,8 @@
             filePath = "M.A.H/Controllers/GameScreenViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "71"
-            endingLineNumber = "71"
+            startingLineNumber = "76"
+            endingLineNumber = "76"
             landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>
@@ -94,8 +94,8 @@
             filePath = "M.A.H/Controllers/GameScreenViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "433"
-            endingLineNumber = "433"
+            startingLineNumber = "438"
+            endingLineNumber = "438"
             landmarkName = "slideupIndicatorTriggered(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -126,41 +126,9 @@
             filePath = "M.A.H/Controllers/GameScreenViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "340"
-            endingLineNumber = "340"
+            startingLineNumber = "345"
+            endingLineNumber = "345"
             landmarkName = "updateState(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "FBCC9A0A-F188-4ED4-9EB1-31698434AC1A"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Pods/SwiftyGif/SwiftyGif/UIImageView+SwiftyGif.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "102"
-            endingLineNumber = "102"
-            landmarkName = "setGifFromURL(_:manager:loopCount:levelOfIntegrity:showLoader:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "C96CBBC0-478D-4499-B6B6-856D852A546F"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Pods/SwiftyGif/SwiftyGif/UIImageView+SwiftyGif.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "93"
-            endingLineNumber = "93"
-            landmarkName = "setGifFromURL(_:manager:loopCount:levelOfIntegrity:showLoader:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -174,8 +142,8 @@
             filePath = "M.A.H/Controllers/GameScreenViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "641"
-            endingLineNumber = "641"
+            startingLineNumber = "646"
+            endingLineNumber = "646"
             landmarkName = "collectionView(_:cellForItemAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -183,72 +151,8 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "2C82C787-9FD3-4C7C-9FD1-4EB5246AF458"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Pods/SwiftyGif/SwiftyGif/UIImageView+SwiftyGif.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "87"
-            endingLineNumber = "87"
-            landmarkName = "setGifFromURL(_:manager:loopCount:levelOfIntegrity:showLoader:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "5B4454C9-5DFD-465A-862F-327C57CE5917"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Pods/SwiftyGif/SwiftyGif/UIImageView+SwiftyGif.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "146"
-            endingLineNumber = "146"
-            landmarkName = "parseDownloadedGif(url:data:error:manager:loopCount:levelOfIntegrity:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "BFB7CFA4-FF30-44E9-86B8-A98120BEFF78"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Pods/SwiftyGif/SwiftyGif/UIImageView+SwiftyGif.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "154"
-            endingLineNumber = "154"
-            landmarkName = "UIImageView"
-            landmarkType = "21">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "A86BA675-7455-4D52-AF39-3675D8810D04"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Pods/SwiftyGif/SwiftyGif/UIImageView+SwiftyGif.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "104"
-            endingLineNumber = "104"
-            landmarkName = "setGifFromURL(_:manager:loopCount:levelOfIntegrity:showLoader:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "B603D3F3-D832-43A8-8168-E67210405708"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pods/SwiftyGif/SwiftyGif/UIImageView+SwiftyGif.swift"
@@ -257,6 +161,86 @@
             startingLineNumber = "143"
             endingLineNumber = "143"
             landmarkName = "parseDownloadedGif(url:data:error:manager:loopCount:levelOfIntegrity:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "904D2383-03F7-40A4-813B-223FD52A421D"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pods/SwiftyGif/SwiftyGif/UIImageView+SwiftyGif.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "89"
+            endingLineNumber = "89"
+            landmarkName = "setGifFromURL(_:manager:loopCount:levelOfIntegrity:showLoader:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "904D2383-03F7-40A4-813B-223FD52A421D - 6a7e3451bd74e106"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(extension in SwiftyGif):__C.UIImageView.setGifFromURL(_: Foundation.URL, manager: SwiftyGif.SwiftyGifManager, loopCount: Swift.Int, levelOfIntegrity: Swift.Float, showLoader: Swift.Bool) -&gt; __C.NSURLSessionDataTask"
+                  moduleName = "SwiftyGif"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/home/Desktop/Directory/Swift/M.A.H/Pods/SwiftyGif/SwiftyGif/UIImageView+SwiftyGif.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "90"
+                  endingLineNumber = "90"
+                  offsetFromSymbolStart = "302">
+               </Location>
+               <Location
+                  uuid = "904D2383-03F7-40A4-813B-223FD52A421D - f9de414d11dad39c"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;Foundation.Data&gt;, Swift.Optional&lt;__C.NSURLResponse&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in (extension in SwiftyGif):__C.UIImageView.setGifFromURL(_: Foundation.URL, manager: SwiftyGif.SwiftyGifManager, loopCount: Swift.Int, levelOfIntegrity: Swift.Float, showLoader: Swift.Bool) -&gt; __C.NSURLSessionDataTask"
+                  moduleName = "SwiftyGif"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/home/Desktop/Directory/Swift/M.A.H/Pods/SwiftyGif/SwiftyGif/UIImageView+SwiftyGif.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "82"
+                  endingLineNumber = "82"
+                  offsetFromSymbolStart = "313">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D263BF7B-CE6B-4856-BE1E-39AB83F8FA1D"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pods/SwiftyGif/SwiftyGif/UIImageView+SwiftyGif.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "94"
+            endingLineNumber = "94"
+            landmarkName = "setGifFromURL(_:manager:loopCount:levelOfIntegrity:showLoader:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F31AD0DE-4797-450F-B612-3AF493A804F8"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pods/SwiftyGif/SwiftyGif/UIImageView+SwiftyGif.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "95"
+            endingLineNumber = "95"
+            landmarkName = "setGifFromURL(_:manager:loopCount:levelOfIntegrity:showLoader:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

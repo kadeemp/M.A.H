@@ -61,6 +61,11 @@ class GameScreenViewController: UIViewController {
 
         self.drawerBottomConstraint.constant = -280
         self.view.layoutIfNeeded()
+        self.navigationController?.hidesBarsOnTap = true
+
+
+
+
 
 
 

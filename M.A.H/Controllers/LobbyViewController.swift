@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 
+@available(iOS 13.0, *)
 class LobbyViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     let defaults = UserDefaults.standard
@@ -20,6 +21,7 @@ class LobbyViewController: UIViewController, UITableViewDataSource, UITableViewD
         super.viewDidLoad()
         lobbyTableView.dataSource = self
         lobbyTableView.delegate = self
+        let gameScreen = storyboard?.instantiateViewController(identifier: "Game")
 
 
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Leave Lobby", style: .plain, target: self, action: #selector(leaveLobby(_:)))
@@ -45,6 +47,7 @@ class LobbyViewController: UIViewController, UITableViewDataSource, UITableViewD
             self.session = session
             if session.isActive {
                 if self.game != nil {
+
                     self.performSegue(withIdentifier: "toGameScreen", sender: self)
                 } else {
                     FirebaseController.instance.returnGameSession(session: session) { (returnedGame) in
@@ -112,8 +115,8 @@ class LobbyViewController: UIViewController, UITableViewDataSource, UITableViewD
 
             FirebaseController.instance.createGame(session: session) { returnedGame in
                 self.game = returnedGame
-                 self.performSegue(withIdentifier: "toGameScreen", sender: self)
-                print("it would have perfomred segue here")
+//                 self.performSegue(withIdentifier: "toGameScreen", sender: self)
+//                print("it would have perfomred segue here")
             }
             if session.members.count > 0 {
                 //create game

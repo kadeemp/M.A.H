@@ -40,6 +40,7 @@ class StartGameViewController: UIViewController {
         }
     }
 
+    @available(iOS 13.0, *)
     @IBAction func startGamePressed(_ sender: Any) {
         let uid = UUID().description
         var code = ""
@@ -53,7 +54,9 @@ class StartGameViewController: UIViewController {
         if code.count == 4 && Auth.auth().currentUser != nil {
             userDefaults.set(code, forKey: "code")
             FirebaseController.instance.createSession(code: code, hostID: Auth.auth().currentUser!.uid, host: (Auth.auth().currentUser?.displayName)!)
-            performSegue(withIdentifier: "toLobby", sender: self)
+            let lobby = storyboard?.instantiateViewController(identifier: "Lobby")
+            self.navigationController?.pushViewController(lobby!, animated: true)
+            //performSegue(withIdentifier: "toLobby", sender: self)
         }
     }
     

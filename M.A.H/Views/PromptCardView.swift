@@ -24,13 +24,17 @@ class PromptCardView: UIView {
     }
     
     lazy var promptLabel:UILabel = {
-        var label = UILabel(frame: CGRect(x: 20, y: 20, width: 160, height: 200))
+        var label = UILabel(frame: CGRect(x: 20, y: 0, width: 160, height: 200))
 
         //label.backgroundColor = UIColor.green
         label.text = "Prompt:  Sample prompt text here"
         label.textColor = UIColor.black
         label.lineBreakMode = NSLineBreakMode.byWordWrapping
-        label.numberOfLines = 4
+        label.numberOfLines = 6
+        //label.backgroundColor = .brown
+        label.contentMode = .center
+        label.adjustsFontSizeToFitWidth = true
+        label.textAlignment = .left
 
         return label
     }()

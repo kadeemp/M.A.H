@@ -42,7 +42,7 @@ class SignUpViewController: UIViewController {
                 print("successful registration")
                 FirebaseController.instance.loginUser(withEmail: self.emailTxtField.text!, andPassword: self.passwordTxtField.text!, completion: { (loginComplete, error) in
                     if loginComplete {
-                        self.performSegue(withIdentifier: "toStartGame", sender: self)
+                        //self.performSegue(withIdentifier: "toStartGame", sender: self)
                         var userData:[String:Any] = [:]
                         userData["email"] = self.emailTxtField.text!
                         userData["firstName"] = self.firstNameTxTField.text!
@@ -58,6 +58,13 @@ class SignUpViewController: UIViewController {
                         })
                         FirebaseController.instance.createDBUser(uid: Auth.auth().currentUser!.uid.stripID(), userData: userData)
                         print("user saved to database")
+                         let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                        let navigationController:UINavigationController = storyboard.instantiateInitialViewController() as! UINavigationController
+                        let rootViewController:UIViewController = storyboard.instantiateViewController(withIdentifier: "StartGame")
+                        navigationController.viewControllers = [rootViewController]
+                        self.view.window?.rootViewController = navigationController
+                        self.view.window?.makeKeyAndVisible()
+
                     } else {
                         print("Error signing user in during registration")
                         print(error)
