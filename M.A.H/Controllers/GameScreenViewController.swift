@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import AlamofireImage
 
 class GameScreenViewController: UIViewController {
 
@@ -25,6 +26,7 @@ class GameScreenViewController: UIViewController {
     var isUserModerator:Bool = false
     var hasRoundEnded = false
     var hasGameEnded = false
+    var imageCache = NSCache<NSString, NSData>()
 
     @IBOutlet var tableHolderView: UIView!
     @IBOutlet var scoreboardButton: UIButton!
@@ -93,24 +95,26 @@ class GameScreenViewController: UIViewController {
                     let resultCard = WinningCardView()
                     resultCard.frame = CGRect(x: 100, y: 130, width: 200, height: 290)
                     resultCard.promptLabel.text = "\(self.session.members[result.playedBy!]!["name"]!) wins!"
-                    FirebaseController.instance.downloadGif(gifName: result.fileName) { (data) in
-                        do {
-                            let gif = try UIImage(gifData:data)
-                            resultCard.gifImage.setGifImage(gif)
-                            self.view.addSubview(resultCard)
-                            let deadline = DispatchTime.now() + 5
-                            DispatchQueue.main.asyncAfter(deadline: deadline) {
+                    resultCard.gifImage.setGifFromURL(URL(string: result.fileName)!)
+                    self.view.addSubview(resultCard)
+                    let deadline = DispatchTime.now() + 5
+                    DispatchQueue.main.asyncAfter(deadline: deadline) {
 
-                                resultCard.removeFromSuperview()
+                        resultCard.removeFromSuperview()
 
-                            }
-
-                        }
-                        catch {
-                            print(error)
-                        }
-                        //TODO:Update scoreboard
                     }
+//                    FirebaseController.instance.downloadGif(gifName: result.fileName) { (data) in
+//                        do {
+//                            let gif = try UIImage(gifData:data)
+//                            resultCard.gifImage.setGifImage(gif)
+//
+//
+//                        }
+//                        catch {
+//                            print(error)
+//                        }
+                        //TODO:Update scoreboard
+//                    }
                 }
             }
             FirebaseController.instance.observePlayedCards(gameKey: self.game.key) { (indexes) in
@@ -184,6 +188,7 @@ class GameScreenViewController: UIViewController {
             FirebaseController.instance.returnHand(user: user.uid) { returnedCards in
                 self.cards = returnedCards
                 print("card count", returnedCards.count)
+                print(self.cards)
                 //                if returnedCards.count == 0 {
                 //                    FirebaseController.instance.loadHand(session: self.session) {
                 //                        FirebaseController.instance.returnHand(user: Auth.auth().currentUser!.uid) { (newHand) in
@@ -306,18 +311,20 @@ class GameScreenViewController: UIViewController {
                     let resultCard = WinningCardView()
                     resultCard.frame = CGRect(x: 100, y: 130, width: 200, height: 290)
                     resultCard.promptLabel.text = "\(self.session.members[winningCard.playedBy!]!["name"]!) wins!"
-                    FirebaseController.instance.downloadGif(gifName: winningCard.fileName) { (data) in
-                        do {
-                            let gif = try UIImage(gifData:data)
-                            resultCard.gifImage.setGifImage(gif)
-                            self.view.addSubview(resultCard)
-                            FirebaseController.instance.setStateTo(5, game: self.game)
-                        }
-                        catch {
-                            print(error)
-                        }
-                        //TODO:Update scoreboard
-                    }
+                    resultCard.gifImage.setGifFromURL(URL(string: winningCard.fileName)!)
+                    self.view.addSubview(resultCard)
+                    FirebaseController.instance.setStateTo(5, game: self.game)
+//                    FirebaseController.instance.downloadGif(gifName: winningCard.fileName) { (data) in
+////                        do {
+////                            let gif = try UIImage(gifData:data)
+////                            resultCard.gifImage.setGifImage(gif)
+////
+////                        }
+////                        catch {
+////                            print(error)
+////                        }
+//                        //TODO:Update scoreboard
+//                    }
                 }
             }
             cardCollectionView.dragInteractionEnabled = true
@@ -580,19 +587,38 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
         case cardCollectionView:
             let cell = cardCollectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CardCollectionViewCell
             let card = cards[indexPath.row]
+            let url = URL(string: card.fileName)!
+            //let imageCache = AutoPurgingImageCache()
 
-            FirebaseController.instance.downloadGif(gifName: card.fileName) { (data) in
-                do {
-                    let gif = try UIImage(gifData:data)
-                    let gifView = UIImageView(gifImage: gif)
-                    gifView.frame.origin = CGPoint(x: 0, y: 0)
-                    gifView.frame = CGRect(x:0, y:0, width: 100, height: 100)
-                    cell.cardImage.setGifImage(gif)
-                }
-                catch {
-                    print(error)
-                }
-            }
+//            if let cachedImage = imageCache.object(forKey: NSString(string:card.fileName ) )
+//            {
+//                do {
+//                    cell.cardImage.gifImage = try UIImage(gifData: cachedImage as Data)
+//                }
+//                catch {
+//                    print(error)
+//                }
+//
+//                //cell.cardImage.setGifImage(cachedImage)
+//            } else {
+//
+//                cell.cardImage.setGifFromURL(url)
+//                imageCache.setObject(cell.cardImage.image!.imageData , forKey: NSString(string: card.fileName))
+//            }
+        cell.cardImage.setGifFromURL(url)
+//            cell.cardImage.af_setImage(withURL: url)
+//            FirebaseController.instance.downloadGif(gifName: card.fileName) { (data) in
+//                do {
+//                    let gif = try UIImage(gifData:data)
+//                    let gifView = UIImageView(gifImage: gif)
+//                    gifView.frame.origin = CGPoint(x: 0, y: 0)
+//                    gifView.frame = CGRect(x:0, y:0, width: 100, height: 100)
+//                    cell.cardImage.setGifImage(gif)
+//                }
+//                catch {
+//                    print(error)
+//                }
+           // }
             return cell
         case playedCardCollectionView:
             let cell2 = playedCardCollectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! PlayedCardCollectionViewCell
@@ -612,19 +638,20 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
                         } else {
                             cell2.cardImageView.isHidden = false
                         }
-                        FirebaseController.instance.downloadGif(gifName: response.fileName) { (data) in
-                            do {
-                                cell2.revealedCardImageView.clear()
-                                let gif = try UIImage(gifData:data)
-                                let gifView = UIImageView(gifImage: gif)
-                                gifView.frame.origin = CGPoint(x: 0, y: 0)
-                                gifView.frame = CGRect(x:0, y:0, width: 100, height: 100)
-                                cell2.revealedCardImageView.setGifImage(gif)
-                            }
-                            catch {
-                                print(error)
-                            }
-                        }
+                        cell2.revealedCardImageView.setGifFromURL(URL(string: response.fileName)!)
+//                        FirebaseController.instance.downloadGif(gifName: response.fileName) { (data) in
+//                            do {
+//                                cell2.revealedCardImageView.clear()
+//                                let gif = try UIImage(gifData:data)
+//                                let gifView = UIImageView(gifImage: gif)
+//                                gifView.frame.origin = CGPoint(x: 0, y: 0)
+//                                gifView.frame = CGRect(x:0, y:0, width: 100, height: 100)
+//                                cell2.revealedCardImageView.setGifImage(gif)
+//                            }
+//                            catch {
+//                                print(error)
+//                            }
+//                        }
                         return cell2
                     }
                 }

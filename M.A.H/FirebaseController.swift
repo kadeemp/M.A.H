@@ -20,6 +20,7 @@ class FirebaseController {
     private var _REF_BASE = DB_BASE
     private var _REF_USERS = DB_BASE.child("users")
     private var _REF_SESSIONS = DB_BASE.child("sessions")
+    private var _REF_GIPHYGIFS = DB_BASE.child("GiphyGifs")
     private var _REF_GIFS = DB_BASE.child("gifs")
     private var _REF_GAMES = DB_BASE.child("games")
     private var _REF_IMAGES = DB_BASE.child("images")
@@ -38,6 +39,9 @@ class FirebaseController {
     }
     var REF_GIFS:DatabaseReference {
         return _REF_GIFS
+    }
+    var REF_GIPHYGIFS:DatabaseReference {
+        return _REF_GIPHYGIFS
     }
     var REF_IMAGES:DatabaseReference {
         return _REF_IMAGES
@@ -473,6 +477,7 @@ class FirebaseController {
     func addCardtoHand(gameKey:String,completion: @escaping ((MemeCard) -> ())) {
         let key = REF_GAMES.childByAutoId().key!.stripID()
         var returnedCards:[MemeCard] = []
+
         REF_GAMES.child(gameKey).child("meme deck").observeSingleEvent(of: .value) { (dataSnapshot) in
             guard let data = dataSnapshot.children.allObjects as? [DataSnapshot] else {
                 return
@@ -560,34 +565,52 @@ class FirebaseController {
             competion(result)
         }
     }
+    func loadGifURLStringsWithCompletion(completion:@escaping (([String]) -> ()))  {
+        var strings:[String] = []
+        REF_GIPHYGIFS.observeSingleEvent(of: .value) { (dataSnapshot) in
+            if dataSnapshot.exists() {
+                let gifSnapshots = dataSnapshot.children.allObjects as! [DataSnapshot]
+                for snapshot in gifSnapshots {
+                    let urlString = snapshot.childSnapshot(forPath: "url").value as! String
+                    strings.append(urlString)
+                }
+                completion(strings)
+                print("Strings arrray contents:\(strings)")
+            }
+        }
+    }
 
     func createMemeDeck(gameKey:String,completion:@escaping (([String:[String:String]]) -> ())) {
+        REF_GIPHYGIFS.observeSingleEvent(of: .value) { (dataSnapshot) in
+
+        }
         var result :[String:[String:String]] = [:]
         let queue = DispatchQueue.init(label: "queue")
-        loadGifsStringsWithCompletion(competion: { gifs in
-            queue.async {
-                for gif in gifs {
-                    guard let key = self.REF_GAMES.child(gameKey).child("meme-deck").childByAutoId().key?.stripID() else {
-                        //                        print("error creating key")
-                        return
-                    }
+        loadGifURLStringsWithCompletion { (urlStrings) in
+            for url in urlStrings {
+                let key = self.REF_GIPHYGIFS.childByAutoId().key!
 
-                    result[key] = ["cardKey":key, "fileName":gif, "fileType":"gif","playedby":""]
-                }
+
+                     result[key] = ["cardKey":key, "fileName":url, "fileType":"gif","playedby":""]
             }
-            queue.async(execute: {
-                self.loadGifsStringsWithCompletion(competion: { (images) in
-                    for image in images {
-                        guard let key = self.REF_GAMES.child(gameKey).child("meme-deck").childByAutoId().key?.stripID() else {
-                            //                            print("error creating key")
-                            return
-                        }
-                        result[key] = ["cardKey":key, "fileName":image, "fileType":"image","playedby":""]
-                    }
-                    completion(result)
-                })
-            })
-        })
+            print("contents of result \(result)", #function)
+            completion(result)
+        }
+//        loadGifsStringsWithCompletion(competion: { gifs in
+//            queue.async(execute: {
+//                self.loadGifsStringsWithCompletion(competion: { (images) in
+//                    for image in images {
+//                        guard let key = self.REF_GAMES.child(gameKey).child("meme-deck").childByAutoId().key?.stripID() else {
+//                            //                            print("error creating key")
+//                            return
+//                        }
+//
+//                    }
+////                     result[key] = ["cardKey":key, "fileName":image, "fileType":"image","playedby":""]
+//
+//                })
+//            })
+//        })
     }
 
 
@@ -906,7 +929,7 @@ class FirebaseController {
 
         imageToDownload.getData(maxSize: 1 * 2024 * 2024, completion: {(data, error) in
             if let error = error {
-                print(error,#function)
+               // print(error,#function)
             } else {
 
                 returnedData = data!

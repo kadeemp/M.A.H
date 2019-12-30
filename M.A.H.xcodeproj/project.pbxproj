@@ -40,6 +40,7 @@
 		F48D8A7C23207C630043402E /* Extention + String.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48D8A7B23207C630043402E /* Extention + String.swift */; };
 		F49023D823AC1CC700645362 /* FACEBOOK_LINE-01-512.png in Resources */ = {isa = PBXBuildFile; fileRef = F49023D723AC1CC700645362 /* FACEBOOK_LINE-01-512.png */; };
 		F4A19BF8232807A600C453AA /* ResponseCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A19BF7232807A600C453AA /* ResponseCard.swift */; };
+		F4B8458E23B3BE180023EF55 /* NetworkingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B8458D23B3BE180023EF55 /* NetworkingService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -79,6 +80,7 @@
 		F48D8A7B23207C630043402E /* Extention + String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extention + String.swift"; sourceTree = "<group>"; };
 		F49023D723AC1CC700645362 /* FACEBOOK_LINE-01-512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FACEBOOK_LINE-01-512.png"; sourceTree = "<group>"; };
 		F4A19BF7232807A600C453AA /* ResponseCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseCard.swift; sourceTree = "<group>"; };
+		F4B8458D23B3BE180023EF55 /* NetworkingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingService.swift; sourceTree = "<group>"; };
 		F8FB59231A99A12FDDD63F3A /* Pods-M.A.H.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-M.A.H.release.xcconfig"; path = "Target Support Files/Pods-M.A.H/Pods-M.A.H.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -189,6 +191,7 @@
 				F483A3D522E39E9900D099BE /* Podfile */,
 				F438B39C22E933C9008314AE /* Extension+UIImageView.swift */,
 				F438B3A222EA1050008314AE /* Constants.swift */,
+				F4B8458D23B3BE180023EF55 /* NetworkingService.swift */,
 			);
 			path = M.A.H;
 			sourceTree = "<group>";
@@ -347,6 +350,7 @@
 				F483A3D422E39AC000D099BE /* FirebaseController.swift in Sources */,
 				F438B3B122EB765D008314AE /* MemesCollectionViewController.swift in Sources */,
 				F438B3A922EA19BB008314AE /* SignUpViewController.swift in Sources */,
+				F4B8458E23B3BE180023EF55 /* NetworkingService.swift in Sources */,
 				F438B3AF22EB6782008314AE /* InvitePlayersViewController.swift in Sources */,
 				F45DACD422C5D25A004090C1 /* LoginViewController.swift in Sources */,
 				F48D8A7C23207C630043402E /* Extention + String.swift in Sources */,
