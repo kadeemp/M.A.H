@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="JhG-cF-nsl">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ge6-ty-ms8">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -502,17 +502,18 @@
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3IF-3g-jbw" userLabel="Clipboard Icon">
                                 <rect key="frame" x="20" y="66" width="1" height="22"/>
+                                <rect key="frame" x="20" y="66" width="52" height="70"/>
                                 <state key="normal" image="Clipboard Icon"/>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6AG-qV-Qf9" userLabel="Meme  Deck">
-                                <rect key="frame" x="152" y="404" width="1" height="108"/>
+                                <rect key="frame" x="93" y="452" width="60" height="108"/>
                                 <state key="normal" image="CardStack"/>
                                 <connections>
                                     <action selector="memeDeckPressed:" destination="H6H-um-jyN" eventType="touchUpInside" id="lOo-7F-a2c"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zi5-zY-w6L" userLabel="Prompt Deck">
-                                <rect key="frame" x="299" y="397" width="1" height="108"/>
+                                <rect key="frame" x="240" y="445" width="60" height="108"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="108" id="9f3-La-Ks5"/>
                                 </constraints>
@@ -578,13 +579,13 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="wordWrap" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nV3-gx-zob">
-                                <rect key="frame" x="30" y="402" width="354" height="0.0"/>
+                                <rect key="frame" x="30" y="450" width="354" height="0.0"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xY7-aP-jIw" userLabel="table Holder">
-                                <rect key="frame" x="20" y="128" width="374" height="268"/>
+                                <rect key="frame" x="20" y="176" width="374" height="268"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="TempTable" translatesAutoresizingMaskIntoConstraints="NO" id="2Fg-ad-Fqk">
                                         <rect key="frame" x="0.0" y="0.0" width="372" height="268"/>
@@ -758,11 +759,76 @@
                         <outlet property="stateLabel" destination="vzJ-7v-2t0" id="qRN-kk-Koo"/>
                         <outlet property="tableHolderView" destination="xY7-aP-jIw" id="jNH-zP-Sgr"/>
                         <outlet property="tableImageView" destination="2Fg-ad-Fqk" id="Y1b-PU-xMh"/>
+                        <segue destination="ge6-ty-ms8" kind="presentation" identifier="1" id="N8v-fL-EOz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jPa-sv-uhl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="5444.9275362318849" y="908.70535714285711"/>
+        </scene>
+        <!--End Game View Controller-->
+        <scene sceneID="cFE-dr-8Bp">
+            <objects>
+                <viewController id="ge6-ty-ms8" customClass="EndGameViewController" customModule="M_A_H" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="NCf-wV-rQp">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lOd-EE-SMd" userLabel="ContainerView">
+                                <rect key="frame" x="20" y="80" width="374" height="324"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="d60-1E-3qg" userLabel="Button Holder Stack View">
+                                        <rect key="frame" x="112" y="221" width="150" height="68"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dFj-XD-rIC">
+                                                <rect key="frame" x="0.0" y="0.0" width="150" height="30"/>
+                                                <color key="backgroundColor" systemColor="systemTealColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <state key="normal" title="   Restart Game   ">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="restartGamePressed:" destination="ge6-ty-ms8" eventType="touchUpInside" id="qnZ-CZ-owQ"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kXt-oM-Ok3">
+                                                <rect key="frame" x="0.0" y="38" width="150" height="30"/>
+                                                <color key="backgroundColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <state key="normal" title="   Return to Lobby  ">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="returnToLobbyPressed:" destination="ge6-ty-ms8" eventType="touchUpInside" id="Sls-jY-vKi"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="d60-1E-3qg" firstAttribute="width" secondItem="lOd-EE-SMd" secondAttribute="width" multiplier="0.4" id="Kw2-3x-Qd3"/>
+                                    <constraint firstAttribute="bottom" secondItem="d60-1E-3qg" secondAttribute="bottom" constant="35" id="fJF-xS-OOg"/>
+                                    <constraint firstItem="d60-1E-3qg" firstAttribute="centerX" secondItem="lOd-EE-SMd" secondAttribute="centerX" id="hPm-hX-9dT"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="lOd-EE-SMd" firstAttribute="top" secondItem="Rgx-IO-ECx" secondAttribute="top" constant="80" id="6NF-XV-CKr"/>
+                            <constraint firstItem="lOd-EE-SMd" firstAttribute="leading" secondItem="Rgx-IO-ECx" secondAttribute="leading" constant="20" id="MWG-jU-jBs"/>
+                            <constraint firstItem="lOd-EE-SMd" firstAttribute="height" secondItem="NCf-wV-rQp" secondAttribute="height" multiplier="0.385045" id="OxN-vq-poc"/>
+                            <constraint firstItem="Rgx-IO-ECx" firstAttribute="trailing" secondItem="lOd-EE-SMd" secondAttribute="trailing" constant="20" id="mmL-Ti-tYJ"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Rgx-IO-ECx"/>
+                    </view>
+                    <connections>
+                        <outlet property="containerView" destination="lOd-EE-SMd" id="Cd0-T5-L7E"/>
+                        <outlet property="restartGameBtn" destination="dFj-XD-rIC" id="7Jq-6W-8eQ"/>
+                        <outlet property="returnToLobbyBtn" destination="kXt-oM-Ok3" id="rAe-gm-yK2"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ywo-qL-94c" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="6216" y="1026"/>
         </scene>
         <!--Memes Collection View Controller-->
         <scene sceneID="N1e-LM-2kS">

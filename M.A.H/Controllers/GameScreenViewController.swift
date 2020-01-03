@@ -46,6 +46,9 @@ class GameScreenViewController: UIViewController {
     @IBOutlet var stateLabel: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
+        NotificationCenter.default.addObserver(self, selector: #selector(returntoLobby), name: Notification.Name("returnToLobby"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(startNewGame), name: Notification.Name("startNewGame"), object: nil)
+
 
         cardCollectionView.delegate = self
         cardCollectionView.dataSource = self
@@ -61,14 +64,6 @@ class GameScreenViewController: UIViewController {
 
         self.drawerBottomConstraint.constant = -280
         self.view.layoutIfNeeded()
-        self.navigationController?.hidesBarsOnTap = true
-
-
-
-
-
-
-
 
         if let game = game {
             //            FirebaseController.instance.observeIsModerator(sessionKey: session.key, userKey: Auth.auth().currentUser!.uid) { (moderatorStatus) in
@@ -108,18 +103,6 @@ class GameScreenViewController: UIViewController {
                         resultCard.removeFromSuperview()
 
                     }
-//                    FirebaseController.instance.downloadGif(gifName: result.fileName) { (data) in
-//                        do {
-//                            let gif = try UIImage(gifData:data)
-//                            resultCard.gifImage.setGifImage(gif)
-//
-//
-//                        }
-//                        catch {
-//                            print(error)
-//                        }
-                        //TODO:Update scoreboard
-//                    }
                 }
             }
             FirebaseController.instance.observePlayedCards(gameKey: self.game.key) { (indexes) in
@@ -127,8 +110,10 @@ class GameScreenViewController: UIViewController {
                     if !self.isModerator() {
                         if let indexToReveal = indexes.last {
                             let indexPathOfResponse = IndexPath(item: indexToReveal, section: 0)
-                            let cell = self.playedCardCollectionView.cellForItem(at: indexPathOfResponse) as! PlayedCardCollectionViewCell
-                            UIView.transition(from: cell.cardImageView, to: cell.revealedCardImageView, duration: 1, options: [.transitionFlipFromLeft,.showHideTransitionViews])
+
+                            if let cell = self.playedCardCollectionView.cellForItem(at: indexPathOfResponse) as? PlayedCardCollectionViewCell {
+                                                            UIView.transition(from: cell.cardImageView, to: cell.revealedCardImageView, duration: 1, options: [.transitionFlipFromLeft,.showHideTransitionViews])
+                            }
 
                         }
                     }
@@ -380,12 +365,13 @@ class GameScreenViewController: UIViewController {
         return result
     }
     @objc func startNewGame() {
-        print("AAaa")
+        FirebaseController.instance.startNewGame(session: self.session) {
+
+        }
     }
     @objc func returntoLobby() {
-        self.dismiss(animated: true) {
-            //TODO:Database cleanup
-        }
+        print("retrn2lbby")
+        self.navigationController?.popViewController(animated: true)
     }
     func checkScoreboard(session:Session) {
         let members = session.members
@@ -398,17 +384,19 @@ class GameScreenViewController: UIViewController {
                 endGameCard.promptLabel.text = "\(member.value["name"] as! String) won the game!"
                 if session.hostID == Auth.auth().currentUser?.uid {
                     print("this person is the host")
+                    performSegue(withIdentifier: "1", sender: self)
                 } else {
                     endGameCard.newGameButton.isHidden = true
                     endGameCard.returntoLobby.isHidden = true
+                    self.view.addSubview(endGameCard)
+                    self.view.bringSubviewToFront(endGameCard)
 
                 }
-                endGameCard.returntoLobby.addTarget(self, action: #selector(startNewGame), for: .allTouchEvents)
-                endGameCard.newGameButton.addTarget(self, action: #selector(startNewGame), for: .allTouchEvents)
+//                endGameCard.returntoLobby.addTarget(self, action: #selector(startNewGame), for: .allTouchEvents)
+//                endGameCard.newGameButton.addTarget(self, action: #selector(startNewGame), for: .allTouchEvents)
 
                 //label.backgroundColor = UIColor.yellow
-                self.view.addSubview(endGameCard)
-                self.view.bringSubviewToFront(endGameCard)
+
                 self.hasGameEnded = true
                 didWin = true
             }
@@ -504,11 +492,12 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
                 if self.game.state == 3 {
                     var gameHasBeenWon = false
                     let members = session.members
-                    for member in members {
-                        if member.value["score"] as! Int >= 3 && response.playedBy! == member.key as! String {
-                            gameHasBeenWon = true
-                        }
+                    let member = members[response.playedBy!]
+                    var score: Int = member!["score"] as! Int
+                        if (score + 1) >= 3 {
+                        gameHasBeenWon = true
                     }
+
                     if gameHasBeenWon {
                         FirebaseController.instance.incrementScore(game: self.game, session: self.session, userID: response.playedBy!)
                         FirebaseController.instance.setStateTo(6, game: self.game)

@@ -57,7 +57,30 @@ class FirebaseController {
     }
 
     //MARK:- Game
+    func startNewGame(session:Session, completion:@escaping ( () -> ())) {
 
+        for member in session.members.keys {
+            REF_SESSIONS.child(session.key).child("members").child(member).updateChildValues(["score":0, "isModerator":false,"hasBeenModerator":false])
+        }
+        let moderator = session.members.keys.randomElement()!
+        REF_SESSIONS.child(session.key).child("members").child(moderator).updateChildValues(["isModerator":true])
+
+        createMemeDeck(gameKey: session.gameID!) { (memeDeck) in
+            self.createPromptDeck(gameKey: session.gameID!) { (promptDeck) in
+                self.REF_GAMES.child(session.gameID!).updateChildValues(["key":session.gameID!,
+                                                                 "prompts":promptDeck,
+                                                                 "round":1,
+                                                                 "meme deck":memeDeck,
+                                                                 "sessionID":session.key,
+                                                                 "state":0,
+                                                                 "table": ["currentPrompt":["cardKey":"","isRevealed":false,"playedBy":"","prompt":""]]]
+                )
+                completion()
+            }
+        }
+
+
+    }
     func createGame(session:Session, completion: @escaping ((Game)->())) {
         var gameKey = REF_GAMES.childByAutoId().key!.stripID()
         var newSession = session
@@ -439,11 +462,12 @@ class FirebaseController {
 
                         let card = MemeCard(cardKey: cardKey!, fileName: fileName!, fileType: fileType!, playedBy: user, cardType: "meme", isRevealed: false)
                         memberHand.append(card)
+                        self.REF_GAMES.child(gameID).child("meme deck").child(cardKey!).removeValue()
 
                     }
                     self.REF_USERS.child(member.key).child("hand").removeValue()
                     self.REF_USERS.child(member.key).child("hand").updateChildValues(cardDictionary)
-                    print(1)
+
                     if cardDictionary.count > 0{
                         print("hand loaded on first attempt")
                         completion()
@@ -482,23 +506,30 @@ class FirebaseController {
             guard let data = dataSnapshot.children.allObjects as? [DataSnapshot] else {
                 return
             }
-            for cardData in data {
-                let fileName = cardData.childSnapshot(forPath: "fileName").value as? String
-                //                    print(fileName!)
-                let fileType = cardData.childSnapshot(forPath: "fileType").value as? String
-                let playedBy = cardData.childSnapshot(forPath: "playedBy").value as? String
-                let cardKey = cardData.childSnapshot(forPath: "cardKey").value as? String
-                //                let isRevealed = cardData.childSnapshot(forPath: "isRevealed").value as? Bool
 
-                let card = MemeCard(cardKey: cardKey!, fileName: fileName!, fileType: fileType!, playedBy: playedBy, cardType: "meme", isRevealed: false)
-                //                    print(card)
-                returnedCards.append(card)
+            if dataSnapshot.exists() && data.count > 0 {
+                let newCardData = data.randomElement()!
+
+
+                let fileName = newCardData.childSnapshot(forPath: "fileName").value as? String
+                    //                    print(fileName!)
+                let fileType = newCardData.childSnapshot(forPath: "fileType").value as? String
+                let playedBy = newCardData.childSnapshot(forPath: "playedBy").value as? String
+                let cardKey = newCardData.childSnapshot(forPath: "cardKey").value as? String
+                    //                let isRevealed = cardData.childSnapshot(forPath: "isRevealed").value as? Bool
+
+                    let card = MemeCard(cardKey: cardKey!, fileName: fileName!, fileType: fileType!, playedBy: playedBy, cardType: "meme", isRevealed: false)
+                    //                    print(card)
+
+                self.REF_GAMES.child(gameKey).child("meme deck").child(card.cardKey).removeValue()
+
+                self.REF_USERS.child(Auth.auth().currentUser!.uid).child("hand").updateChildValues(["\(card.cardKey)":["cardKey": card.cardKey, "fileName": card.fileName, "fileType": card.fileType, "playedBy": "", "cardType": "meme", "isRevealed": card.isRevealed]])
+                completion(card)
             }
+
             if let newCard = returnedCards.randomElement() {
                 completion(newCard)
-                self.REF_GAMES.child(gameKey).child("meme deck").child(newCard.cardKey).removeValue()
 
-                self.REF_USERS.child(Auth.auth().currentUser!.uid).child("hand").updateChildValues(["\(newCard.cardKey)":["cardKey": newCard.cardKey, "fileName": newCard.fileName, "fileType": newCard.fileType, "playedBy": "", "cardType": "meme", "isRevealed": newCard.isRevealed]])
             } else {
                 print("COULD NOT FIND ")
             }
@@ -528,6 +559,7 @@ class FirebaseController {
     }
     func addPromptToTable(gameId:String, card:PromptCard) {
         REF_GAMES.child(gameId).child("table").child("currentPrompt").updateChildValues(["cardKey":card.cardKey,"isRevealed":false, "playedBy":Auth.auth().currentUser!.uid,"prompt":card.prompt])
+        //REF_GAMES.child(gameId).child("prompts").child(card.cardKey).removeValue()
     }
 
     func returnPromptFromDeck(gameID:String, completion:@escaping ((PromptCard)->())) {

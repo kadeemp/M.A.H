@@ -59,7 +59,7 @@ class SignUpViewController: UIViewController {
                         FirebaseController.instance.createDBUser(uid: Auth.auth().currentUser!.uid.stripID(), userData: userData)
                         print("user saved to database")
                          let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                        let navigationController:UINavigationController = storyboard.instantiateInitialViewController() as! UINavigationController
+                        let navigationController:UINavigationController =  UINavigationController()
                         let rootViewController:UIViewController = storyboard.instantiateViewController(withIdentifier: "StartGame")
                         navigationController.viewControllers = [rootViewController]
                         self.view.window?.rootViewController = navigationController

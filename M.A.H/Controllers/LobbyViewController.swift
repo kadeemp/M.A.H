@@ -16,6 +16,7 @@ class LobbyViewController: UIViewController, UITableViewDataSource, UITableViewD
     var users:[String] = []
     var session:Session?
     var game:Game!
+    var gamehasLoaded = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,13 +47,15 @@ class LobbyViewController: UIViewController, UITableViewDataSource, UITableViewD
             self.hostLabel.text = "\(session.members.count)/6"
             self.session = session
             if session.isActive {
-                if self.game != nil {
-
-                    self.performSegue(withIdentifier: "toGameScreen", sender: self)
-                } else {
-                    FirebaseController.instance.returnGameSession(session: session) { (returnedGame) in
-                        self.game = returnedGame
+                if self.gamehasLoaded == false {
+                    self.gamehasLoaded = !self.gamehasLoaded
+                    if self.game != nil {
                         self.performSegue(withIdentifier: "toGameScreen", sender: self)
+                    } else {
+                        FirebaseController.instance.returnGameSession(session: session) { (returnedGame) in
+                            self.game = returnedGame
+                            self.performSegue(withIdentifier: "toGameScreen", sender: self)
+                        }
                     }
                 }
             }
