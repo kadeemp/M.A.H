@@ -73,7 +73,7 @@ class GameScreenViewController: UIViewController {
                             let memberIndex = members.index(forKey: Auth.auth().currentUser!.uid)
                             print("member:\(members[memberIndex!].value["isModerator"] as! Bool)")
                             self.session.members.updateValue(["isModerator":moderatorStatus], forKey: Auth.auth().currentUser!.uid)
-                            
+
                             self.updateState(self.game.state)
                         }
             FirebaseController.instance.observeGameState(gameKey: game.key) { (newState) in
@@ -240,6 +240,12 @@ class GameScreenViewController: UIViewController {
             //Start game. Initial setup
         //waiting for moderator to pick prompt
         case 0:
+            if self.responses.count != 0 {
+                //TODO FIX THIS BUG
+                self.responses = []
+                self.cardCollectionView.reloadData()
+                print("TABLE NOT PROPERLY CLEARED")
+            }
             self.hasRoundEnded = false
             //amke deck border glow
             // print("case 0 running \n")
