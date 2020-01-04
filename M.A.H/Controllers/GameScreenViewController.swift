@@ -239,6 +239,11 @@ class GameScreenViewController: UIViewController {
         switch state {
             //Start game. Initial setup
         //waiting for moderator to pick prompt
+        case -1:
+            self.responses = []
+            self.promptLabel.text = ""
+            //todo:Check if person has 5 cards
+            //todo:alert next moderator
         case 0:
             if self.responses.count != 0 {
                 //TODO FIX THIS BUG
