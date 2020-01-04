@@ -218,7 +218,7 @@ class FirebaseController {
 
     }
     func observeIsModerator(sessionKey:String,userKey:String, completion: @escaping ((Bool)  -> ())) {
-        REF_SESSIONS.child(sessionKey).child("members").child(userKey).child("isModerator").observeSingleEvent(of: .value) { (dataSnapshot) in
+        REF_SESSIONS.child(sessionKey).child("members").child(userKey).child("isModerator").observe(.value) { (dataSnapshot) in
             if dataSnapshot.exists() {
                 let isModerator = dataSnapshot.value as! Bool
                 completion(isModerator)

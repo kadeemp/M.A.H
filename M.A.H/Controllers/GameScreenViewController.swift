@@ -66,12 +66,16 @@ class GameScreenViewController: UIViewController {
         self.view.layoutIfNeeded()
 
         if let game = game {
-            //            FirebaseController.instance.observeIsModerator(sessionKey: session.key, userKey: Auth.auth().currentUser!.uid) { (moderatorStatus) in
-            //                print("\(Auth.auth().currentUser?.displayName)'s moderator status is \(moderatorStatus) \n the game state is \(self.game.state)")
-            //                self.isUserModerator = moderatorStatus
-            //                self.updateState(self.game.state)
-            //
-            //            }
+                        FirebaseController.instance.observeIsModerator(sessionKey: session.key, userKey: Auth.auth().currentUser!.uid) { (moderatorStatus) in
+                            print("\(Auth.auth().currentUser?.displayName)'s moderator status is \(moderatorStatus) \n the game state is \(self.game.state)")
+                            let members = self.session.members
+                            print("member index:\(members.index(forKey: Auth.auth().currentUser!.uid)) \n")
+                            let memberIndex = members.index(forKey: Auth.auth().currentUser!.uid)
+                            print("member:\(members[memberIndex!].value["isModerator"] as! Bool)")
+                            self.session.members.updateValue(["isModerator":moderatorStatus], forKey: Auth.auth().currentUser!.uid)
+                            
+                            self.updateState(self.game.state)
+                        }
             FirebaseController.instance.observeGameState(gameKey: game.key) { (newState) in
                 //                print("The new state is \(newState) \n \(Auth.auth().currentUser?.displayName)'s moderator status is \(self.isModerator())")
                 if self.game.state != newState {
