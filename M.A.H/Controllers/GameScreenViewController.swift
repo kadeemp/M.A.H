@@ -69,11 +69,8 @@ class GameScreenViewController: UIViewController {
                         FirebaseController.instance.observeIsModerator(sessionKey: session.key, userKey: Auth.auth().currentUser!.uid) { (moderatorStatus) in
                             print("\(Auth.auth().currentUser?.displayName)'s moderator status is \(moderatorStatus) \n the game state is \(self.game.state)")
                             let members = self.session.members
-                            print("member index:\(members.index(forKey: Auth.auth().currentUser!.uid)) \n")
                             let memberIndex = members.index(forKey: Auth.auth().currentUser!.uid)
-                            print("member:\(members[memberIndex!].value["isModerator"] as! Bool)")
                             self.session.members.updateValue(["isModerator":moderatorStatus], forKey: Auth.auth().currentUser!.uid)
-
                             self.updateState(self.game.state)
                         }
             FirebaseController.instance.observeGameState(gameKey: game.key) { (newState) in
@@ -129,7 +126,7 @@ class GameScreenViewController: UIViewController {
 
                 if  returnedResponses != nil {
                     //print(returnedResponses!,"\n",self.responses)
-                    if self.game.state == 1 {
+                    if self.game.state == 1 || self.game.state == 0  {
                         if returnedResponses!.count != self.responses.count {
                             for response in returnedResponses! {
                                 if !self.responses.contains(response) {
@@ -140,9 +137,7 @@ class GameScreenViewController: UIViewController {
                                     self.playedCardCollectionView.insertItems(at: indexes)
                                 }
                             }
-
                         }
-
                     }
                 }
 
@@ -151,7 +146,6 @@ class GameScreenViewController: UIViewController {
                     print("STATE CHANGE TO 2")
                 }
                 self.updateState(self.game.state)
-
             }
             FirebaseController.instance.observeSession(session: session) { (returnedSession) in
                 if returnedSession != nil {
@@ -177,12 +171,12 @@ class GameScreenViewController: UIViewController {
         }
         UsernameLabel.text = user.displayName!
 
-        //TODO:Convert this to observe hand?
+        //TODO:Convert this to observe hand?/check if person is a member, if they arent, add them , and give them a hand.
         DispatchQueue.main.asyncAfter(deadline: DispatchTime(uptimeNanoseconds: 5)) {
             FirebaseController.instance.returnHand(user: user.uid) { returnedCards in
                 self.cards = returnedCards
-                print("card count", returnedCards.count)
-                print(self.cards)
+//                print("card count", returnedCards.count)
+//                print(self.cards)
                 //                if returnedCards.count == 0 {
                 //                    FirebaseController.instance.loadHand(session: self.session) {
                 //                        FirebaseController.instance.returnHand(user: Auth.auth().currentUser!.uid) { (newHand) in
@@ -405,7 +399,7 @@ class GameScreenViewController: UIViewController {
         }
         if didWin {
             
-            print("success!!")
+            print("did win successs triggered", #function)
         } else {
             print(#function, "FAILED TO GET WINNINING SCORE")
         }

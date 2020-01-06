@@ -97,7 +97,7 @@ class FirebaseController {
                                                                                      "state":0,
                                                                                      "table": ["currentPrompt":["cardKey":"","isRevealed":false,"playedBy":"","prompt":""]]]
                                     )
-                                    self.REF_SESSIONS.child(session.key.stripID()).updateChildValues(["gameID":gameKey, "isGameActive":true])
+                                    self.REF_SESSIONS.child(session.key).updateChildValues(["gameID":gameKey, "isGameActive":true])
                                     newSession.gameID = gameKey
                                     let game = Game(key: gameKey, round: 1, table:  ["currentPrompt":["cardKey":"","isRevealed":false,"playedBy":"","prompt":""]], state: 0)
                                     self.loadHand(session: newSession) {

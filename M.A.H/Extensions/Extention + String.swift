@@ -11,6 +11,13 @@ import Foundation
 extension String {
 
     func stripID() -> String {
+        let dateNow = Date(timeIntervalSinceNow: 0)
+        let dateformatter = DateFormatter()
+        dateformatter.dateStyle = .long
+
+        let dateString = dateformatter.string(from: dateNow)
+
+
         var strippped = Array(self)
         var inc = 0
         for i in 0..<strippped.count - 1 {
@@ -24,6 +31,6 @@ extension String {
                 inc = inc + 1
             }
         }
-        return String(strippped)
+        return String(dateString + strippped )
     }
 }
