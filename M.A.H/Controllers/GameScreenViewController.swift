@@ -248,7 +248,7 @@ class GameScreenViewController: UIViewController {
             if self.responses.count != 0 {
                 //TODO FIX THIS BUG
                 self.responses = []
-                self.cardCollectionView.reloadData()
+                self.playedCardCollectionView.reloadData()
                 print("TABLE NOT PROPERLY CLEARED")
             }
             self.hasRoundEnded = false
@@ -319,17 +319,7 @@ class GameScreenViewController: UIViewController {
                     resultCard.gifImage.setGifFromURL(URL(string: winningCard.fileName)!)
                     self.view.addSubview(resultCard)
                     FirebaseController.instance.setStateTo(5, game: self.game)
-//                    FirebaseController.instance.downloadGif(gifName: winningCard.fileName) { (data) in
-////                        do {
-////                            let gif = try UIImage(gifData:data)
-////                            resultCard.gifImage.setGifImage(gif)
-////
-////                        }
-////                        catch {
-////                            print(error)
-////                        }
-//                        //TODO:Update scoreboard
-//                    }
+
                 }
             }
             cardCollectionView.dragInteractionEnabled = true
@@ -394,23 +384,20 @@ class GameScreenViewController: UIViewController {
         for member in members {
             if member.value["score"] as! Int >= 3 && self.hasGameEnded == false {
                 //var label = UILabel(frame: CGRect(x: self.view.frame.midX, y: self.view.frame.midY, width: 150, height: 30))
-                var endGameCard = EndGameCardView()
-                endGameCard.center = CGPoint(x: self.view.frame.midX - 100, y: self.view.frame.midY - self.view.frame.height/3)
-                endGameCard.promptLabel.text = "\(member.value["name"] as! String) won the game!"
+
                 if session.hostID == Auth.auth().currentUser?.uid {
                     print("this person is the host")
                     performSegue(withIdentifier: "1", sender: self)
                 } else {
+                    var endGameCard = EndGameCardView()
+                    endGameCard.center = CGPoint(x: self.view.frame.midX - 100, y: self.view.frame.midY - self.view.frame.height/3)
+                    endGameCard.promptLabel.text = "\(member.value["name"] as! String) won the game!"
                     endGameCard.newGameButton.isHidden = true
                     endGameCard.returntoLobby.isHidden = true
                     self.view.addSubview(endGameCard)
                     self.view.bringSubviewToFront(endGameCard)
 
                 }
-//                endGameCard.returntoLobby.addTarget(self, action: #selector(startNewGame), for: .allTouchEvents)
-//                endGameCard.newGameButton.addTarget(self, action: #selector(startNewGame), for: .allTouchEvents)
-
-                //label.backgroundColor = UIColor.yellow
 
                 self.hasGameEnded = true
                 didWin = true
@@ -521,6 +508,7 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
                         FirebaseController.instance.addWinningResult(card: response, gameKey: game.key)
                         FirebaseController.instance.setStateTo(4, game: self.game)
                     }
+
                 }
             } else  {
                 if  isModerator() {

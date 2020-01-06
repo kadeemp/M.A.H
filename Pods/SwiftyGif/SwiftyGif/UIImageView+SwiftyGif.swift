@@ -89,6 +89,8 @@ public extension UIImageView {
         
         let task = URLSession.shared.dataTask(with: url) { data, _, error in
             DispatchQueue.main.async {
+                print(error,url, #function)
+                //TODO fix so that it checks the cache first. 
                 loader?.removeFromSuperview()
                 self.parseDownloadedGif(url: url,
                                         data: data,

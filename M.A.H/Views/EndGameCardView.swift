@@ -80,6 +80,7 @@ print("touched")
         self.addSubview(promptLabel)
         self.addSubview(returntoLobby)
         self.addSubview(newGameButton)
+        
 
     }
 }

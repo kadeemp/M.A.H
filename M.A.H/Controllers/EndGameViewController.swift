@@ -16,6 +16,11 @@ class EndGameViewController: UIViewController {
         returnToLobbyBtn.layer.cornerRadius = 10
         restartGameBtn.layer.cornerRadius = 10
 
+        let deadline = DispatchTime.now() + 6
+        DispatchQueue.main.asyncAfter(deadline: deadline) {
+            self.dismiss(animated: true, completion: nil)
+        }
+
         // Do any additional setup after loading the view.
     }
     
