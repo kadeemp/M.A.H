@@ -31,6 +31,7 @@ extension String {
                 inc = inc + 1
             }
         }
-        return String(dateString + strippped )
+        //TODO: this was added on 1/7. if this doesnt cause any bugs in a week. keep it this way.
+        return String(dateString + "-" + strippped )
     }
 }
