@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
+<<<<<<< HEAD
    LastUpgradeVersion = "1100"
+=======
+   LastUpgradeVersion = "0930"
+>>>>>>> parent of 5d4d478... Enabled reccomended changes/updated settings/depreciated stuff
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -29,6 +33,8 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
       </Testables>
+      <AdditionalOptions>
+      </AdditionalOptions>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
@@ -40,6 +46,20 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
+<<<<<<< HEAD
+=======
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "EADD9F329CC19420FA32FF7ED370E060"
+            BuildableName = "leveldb.framework"
+            BlueprintName = "leveldb-library"
+            ReferencedContainer = "container:Pods.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
+      <AdditionalOptions>
+      </AdditionalOptions>
+>>>>>>> parent of 5d4d478... Enabled reccomended changes/updated settings/depreciated stuff
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"

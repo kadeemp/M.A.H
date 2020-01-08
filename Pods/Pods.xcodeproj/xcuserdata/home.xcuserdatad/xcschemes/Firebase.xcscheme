@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
+<<<<<<< HEAD
    LastUpgradeVersion = "1100"
+=======
+   LastUpgradeVersion = "0930"
+>>>>>>> parent of 5d4d478... Enabled reccomended changes/updated settings/depreciated stuff
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,10 +18,15 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+<<<<<<< HEAD
                BlueprintIdentifier = "072CEA044D2EF26F03496D5996BBF59F"
                BuildableName = "Firebase"
+=======
+               BlueprintIdentifier = "F2F10A8592399CCF0019051EDD0689D9"
+>>>>>>> parent of 5d4d478... Enabled reccomended changes/updated settings/depreciated stuff
                BlueprintName = "Firebase"
-               ReferencedContainer = "container:Pods.xcodeproj">
+               ReferencedContainer = "container:Pods.xcodeproj"
+               BuildableName = "Firebase">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
