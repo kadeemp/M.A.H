@@ -8,9 +8,9 @@
 
 import UIKit
 import Firebase
-import AlamofireImage
+import FloatingPanel
 
-class GameScreenViewController: UIViewController {
+class GameScreenViewController: UIViewController, FloatingPanelControllerDelegate{
 
     var isCardVisible = false
     var session:Session!
@@ -27,6 +27,7 @@ class GameScreenViewController: UIViewController {
     var hasRoundEnded = false
     var hasGameEnded = false
     var imageCache = NSCache<NSString, NSData>()
+    var fpc:FloatingPanelController!
 
     @IBOutlet var tableHolderView: UIView!
     @IBOutlet var scoreboardButton: UIButton!
@@ -48,7 +49,12 @@ class GameScreenViewController: UIViewController {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(returntoLobby), name: Notification.Name("returnToLobby"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(startNewGame), name: Notification.Name("startNewGame"), object: nil)
-
+//        fpc = FloatingPanelController()
+//        fpc.delegate = self
+//        let contentView = CardCollectionViewController()
+//        fpc.set(contentViewController: contentView)
+//        fpc.track(scrollView: contentView.cardCollectionView)
+//        fpc.addPanel(toParent: self)
 
         cardCollectionView.delegate = self
         cardCollectionView.dataSource = self
@@ -175,15 +181,6 @@ class GameScreenViewController: UIViewController {
         DispatchQueue.main.asyncAfter(deadline: DispatchTime(uptimeNanoseconds: 5)) {
             FirebaseController.instance.returnHand(user: user.uid) { returnedCards in
                 self.cards = returnedCards
-//                print("card count", returnedCards.count)
-//                print(self.cards)
-                //                if returnedCards.count == 0 {
-                //                    FirebaseController.instance.loadHand(session: self.session) {
-                //                        FirebaseController.instance.returnHand(user: Auth.auth().currentUser!.uid) { (newHand) in
-                //                            self.cards = newHand
-                //                        }
-                //                    }
-                //                }
                 self.cardCollectionView.reloadData()
             }
         }
