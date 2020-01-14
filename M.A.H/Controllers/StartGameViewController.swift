@@ -56,7 +56,7 @@ class StartGameViewController: UIViewController {
             FirebaseController.instance.createSession(code: code, hostID: Auth.auth().currentUser!.uid, host: (Auth.auth().currentUser?.displayName)!)
             let lobby = storyboard?.instantiateViewController(identifier: "Lobby")
             self.navigationController?.pushViewController(lobby!, animated: true)
-            //performSegue(withIdentifier: "toLobby", sender: self)
+            performSegue(withIdentifier: "toLobby", sender: self)
         }
     }
     
@@ -107,6 +107,7 @@ class StartGameViewController: UIViewController {
     @IBAction func signOutPressed(_ sender: Any) {
 
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let navController = UINavigationController()
         guard let navigationController:UINavigationController = storyboard.instantiateInitialViewController() as? UINavigationController else {
             print("error creating navigation controller")
             do {
@@ -119,16 +120,13 @@ class StartGameViewController: UIViewController {
             return
         }
         let loginGameViewController: UIViewController = storyboard.instantiateViewController(withIdentifier: "Login")
-        navigationController.viewControllers = [loginGameViewController]
-        self.windw = UIWindow(frame: UIScreen.main.bounds)
-        self.windw?.rootViewController = navigationController
-        self.windw?.makeKeyAndVisible()
-        do {
-            try Auth.auth().signOut()
-        }
-        catch {
-            print(error)
-        }
+        navController.viewControllers = [loginGameViewController]
+        self.view.window?.rootViewController = navController
+        self.view.window?.makeKeyAndVisible()
+//        self.windw = UIWindow(frame: UIScreen.main.bounds)
+//        self.windw?.rootViewController = navigationController
+//        self.windw?.makeKeyAndVisible()
+
     }
     
     /*

@@ -8,6 +8,9 @@
 
 import UIKit
 import Firebase
+import FirebaseAuth
+import FirebaseDatabase
+import FirebaseStorage
 
 class SignUpViewController: UIViewController {
 
@@ -15,13 +18,30 @@ class SignUpViewController: UIViewController {
     @IBOutlet var passwordTxtField: UITextField!
     @IBOutlet var firstNameTxTField: UITextField!
     @IBOutlet var lastNameTxtField: UITextField!
+    @IBOutlet var avatar: UIImageView!
+    var image:UIImage? = nil
 
     @IBOutlet var submitBtn: UIButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        setupAvatar()
         // Do any additional setup after loading the view.
+    }
+
+    func setupAvatar() {
+        avatar.clipsToBounds = true
+        avatar.layer.cornerRadius = avatar.frame.width/2
+        avatar.isUserInteractionEnabled = true
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(presentPicker))
+        avatar.addGestureRecognizer(tapGesture)
+    }
+    @objc func presentPicker() {
+        let picker = UIImagePickerController()
+        picker.sourceType = .photoLibrary
+        picker.allowsEditing = true
+        picker.delegate = self
+        self.present(picker, animated: true, completion: nil)
     }
     @IBAction func signOut(_ sender: Any) {
         do {
@@ -33,6 +53,13 @@ class SignUpViewController: UIViewController {
     }
 
     @IBAction func submitTxtField(_ sender: Any) {
+        guard let imageSelected = self.image else {
+            print("AVATAR is nil")
+            return
+        }
+        guard let imageData = imageSelected.jpegData(compressionQuality: 0.4) else {
+            return
+        }
         submitBtn.isEnabled = false
         let fullName = self.firstNameTxTField.text! + " "
             + self.lastNameTxtField.text!
@@ -42,12 +69,43 @@ class SignUpViewController: UIViewController {
                 print("successful registration")
                 FirebaseController.instance.loginUser(withEmail: self.emailTxtField.text!, andPassword: self.passwordTxtField.text!, completion: { (loginComplete, error) in
                     if loginComplete {
-                        //self.performSegue(withIdentifier: "toStartGame", sender: self)
+                        let storageRef = Storage.storage().reference(forURL: "gs://m-a-h-43593.appspot.com/")
                         var userData:[String:Any] = [:]
-                        userData["email"] = self.emailTxtField.text!
-                        userData["firstName"] = self.firstNameTxTField.text!
 
-                        userData["fullName"] = fullName
+                        let storageProfileRef = storageRef.child("profilePhotos").child(Auth.auth().currentUser!.uid)
+                        let metaData = StorageMetadata()
+                        metaData.contentType = "image/jpg"
+                        storageProfileRef.putData(imageData, metadata: metaData) { (storageMetadata, error) in
+                            if error != nil {
+                                print(error?.localizedDescription)
+                                return
+                            }
+                            storageProfileRef.downloadURL { (url, error) in
+                                if error != nil {
+                                    print(error?.localizedDescription)
+                                    return
+                                }
+
+
+                                userData["profilePhotoURL"] = url?.absoluteString
+                                userData["email"] = self.emailTxtField.text!
+                                userData["firstName"] = self.firstNameTxTField.text!
+
+                                userData["fullName"] = fullName
+                                FirebaseController.instance.createDBUser(uid: Auth.auth().currentUser!.uid.stripID(), userData: userData)
+                                 print("user saved to database")
+                                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                                let navigationController:UINavigationController =  UINavigationController()
+                                let rootViewController:UIViewController = storyboard.instantiateViewController(withIdentifier: "StartGame")
+                                navigationController.viewControllers = [rootViewController]
+                                self.view.window?.rootViewController = navigationController
+                                self.view.window?.makeKeyAndVisible()
+                            }
+
+                        }
+                        //self.performSegue(withIdentifier: "toStartGame", sender: self)
+
+
                         let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
                         changeRequest?.displayName = fullName
                         changeRequest?.commitChanges(completion: { (error) in
@@ -56,18 +114,13 @@ class SignUpViewController: UIViewController {
                                 print("error commiting profile changes")
                             }
                         })
-                        FirebaseController.instance.createDBUser(uid: Auth.auth().currentUser!.uid.stripID(), userData: userData)
-                        print("user saved to database")
-                         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                        let navigationController:UINavigationController =  UINavigationController()
-                        let rootViewController:UIViewController = storyboard.instantiateViewController(withIdentifier: "StartGame")
-                        navigationController.viewControllers = [rootViewController]
-                        self.view.window?.rootViewController = navigationController
-                        self.view.window?.makeKeyAndVisible()
+
+
+
 
                     } else {
                         print("Error signing user in during registration")
-                        print(error)
+                        print("\(error?.localizedDescription)")
                     }
                 })
 
@@ -78,4 +131,20 @@ class SignUpViewController: UIViewController {
         }
     }
 
+}
+
+extension SignUpViewController:UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let imageSelected = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
+            image = imageSelected
+            avatar.image = imageSelected
+        }
+        if let imageOriginal = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            image = imageOriginal
+            avatar.image = imageOriginal
+        }
+
+        picker.dismiss(animated: true, completion: nil)
+
+    }
 }

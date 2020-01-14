@@ -119,7 +119,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CRJ-Lk-jEQ">
-                                <rect key="frame" x="157" y="408" width="100" height="60"/>
+                                <rect key="frame" x="157" y="489" width="100" height="60"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="GaR-4E-G0r"/>
@@ -141,7 +141,7 @@
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="KWZ-7k-RR2">
-                                <rect key="frame" x="20" y="107" width="374" height="286"/>
+                                <rect key="frame" x="20" y="188" width="374" height="286"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yg0-I2-Qgv">
                                         <rect key="frame" x="0.0" y="0.0" width="54" height="27.5"/>
@@ -149,7 +149,7 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="LJU-YR-AQP">
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="a@m.com" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="LJU-YR-AQP">
                                         <rect key="frame" x="0.0" y="35.5" width="374" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="B9V-WC-MaS"/>
@@ -163,7 +163,7 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oVa-sB-QrP">
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="password" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oVa-sB-QrP">
                                         <rect key="frame" x="0.0" y="109" width="374" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="97d-N8-iSV"/>
@@ -177,7 +177,7 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Qkp-C3-ulD">
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Test" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Qkp-C3-ulD">
                                         <rect key="frame" x="0.0" y="182.5" width="374" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="Jnh-3p-O6a"/>
@@ -191,7 +191,7 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vzR-cY-AGc">
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="User" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vzR-cY-AGc">
                                         <rect key="frame" x="0.0" y="256" width="374" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="MCu-TX-v6z"/>
@@ -207,9 +207,19 @@
                                     <constraint firstItem="vzR-cY-AGc" firstAttribute="width" secondItem="KWZ-7k-RR2" secondAttribute="width" id="b8q-8C-l54"/>
                                 </constraints>
                             </stackView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Nqs-2c-kaM">
+                                <rect key="frame" x="172" y="108" width="70" height="70"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="70" id="56p-Va-POG"/>
+                                    <constraint firstAttribute="height" constant="70" id="B4y-34-rsi"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="Nqs-2c-kaM" firstAttribute="centerX" secondItem="KWZ-7k-RR2" secondAttribute="centerX" id="2CV-Rv-edI"/>
+                            <constraint firstItem="KWZ-7k-RR2" firstAttribute="top" secondItem="Nqs-2c-kaM" secondAttribute="bottom" constant="10" id="Eh9-Xx-ygu"/>
                             <constraint firstItem="KWZ-7k-RR2" firstAttribute="centerX" secondItem="h7A-Q4-Keg" secondAttribute="centerX" id="MQv-vb-ARJ"/>
                             <constraint firstItem="4b3-Vt-Jws" firstAttribute="leading" secondItem="9Jj-2K-dii" secondAttribute="leading" constant="20" id="NOK-xG-iXh"/>
                             <constraint firstItem="CRJ-Lk-jEQ" firstAttribute="top" secondItem="KWZ-7k-RR2" secondAttribute="bottom" constant="15" id="brZ-C6-fhN"/>
@@ -217,12 +227,13 @@
                             <constraint firstItem="4b3-Vt-Jws" firstAttribute="top" secondItem="9Jj-2K-dii" secondAttribute="top" constant="-44" id="nW0-dk-X52"/>
                             <constraint firstItem="9Jj-2K-dii" firstAttribute="trailing" secondItem="KWZ-7k-RR2" secondAttribute="trailing" constant="20" id="voQ-rC-x7R"/>
                             <constraint firstItem="KWZ-7k-RR2" firstAttribute="leading" secondItem="9Jj-2K-dii" secondAttribute="leading" constant="20" id="wH1-yU-bU9"/>
-                            <constraint firstItem="KWZ-7k-RR2" firstAttribute="top" secondItem="9Jj-2K-dii" secondAttribute="top" constant="19" id="x6H-l6-F5Q"/>
+                            <constraint firstItem="KWZ-7k-RR2" firstAttribute="top" secondItem="9Jj-2K-dii" secondAttribute="top" constant="100" id="x6H-l6-F5Q"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="9Jj-2K-dii"/>
                     </view>
                     <navigationItem key="navigationItem" id="Xqw-st-9TX"/>
                     <connections>
+                        <outlet property="avatar" destination="Nqs-2c-kaM" id="9F3-Gg-VsY"/>
                         <outlet property="emailTxtField" destination="LJU-YR-AQP" id="QRZ-jw-Tra"/>
                         <outlet property="firstNameTxTField" destination="Qkp-C3-ulD" id="t3V-23-SlX"/>
                         <outlet property="lastNameTxtField" destination="vzR-cY-AGc" id="5wz-au-QNz"/>
@@ -1007,7 +1018,7 @@
         <image name="TempTable" width="204" height="278"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="rOh-l5-m7Q"/>
+        <segue reference="FXI-5F-r9p"/>
         <segue reference="qR9-kU-4rx"/>
     </inferredMetricsTieBreakers>
 </document>

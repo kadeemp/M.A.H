@@ -39,7 +39,6 @@
 		F483A3D422E39AC000D099BE /* FirebaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F483A3D322E39AC000D099BE /* FirebaseController.swift */; };
 		F483A3D622E39E9900D099BE /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = F483A3D522E39E9900D099BE /* Podfile */; };
 		F48D8A7C23207C630043402E /* Extention + String.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48D8A7B23207C630043402E /* Extention + String.swift */; };
-		F49023D823AC1CC700645362 /* FACEBOOK_LINE-01-512.png in Resources */ = {isa = PBXBuildFile; fileRef = F49023D723AC1CC700645362 /* FACEBOOK_LINE-01-512.png */; };
 		F4A19BF8232807A600C453AA /* ResponseCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A19BF7232807A600C453AA /* ResponseCard.swift */; };
 		F4B8459023B9AF4D0023EF55 /* EndGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B8458F23B9AF4D0023EF55 /* EndGameViewController.swift */; };
 		F4B8459223BA6AFA0023EF55 /* NotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B8459123BA6AFA0023EF55 /* NotificationCenter.swift */; };
@@ -81,7 +80,6 @@
 		F483A3D322E39AC000D099BE /* FirebaseController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseController.swift; sourceTree = "<group>"; };
 		F483A3D522E39E9900D099BE /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		F48D8A7B23207C630043402E /* Extention + String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extention + String.swift"; sourceTree = "<group>"; };
-		F49023D723AC1CC700645362 /* FACEBOOK_LINE-01-512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FACEBOOK_LINE-01-512.png"; sourceTree = "<group>"; };
 		F4A19BF7232807A600C453AA /* ResponseCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseCard.swift; sourceTree = "<group>"; };
 		F4B8458F23B9AF4D0023EF55 /* EndGameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndGameViewController.swift; sourceTree = "<group>"; };
 		F4B8459123BA6AFA0023EF55 /* NotificationCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCenter.swift; sourceTree = "<group>"; };
@@ -151,13 +149,6 @@
 			path = Controllers;
 			sourceTree = "<group>";
 		};
-		F438B3A722EA16F8008314AE /* Services */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Services;
-			sourceTree = "<group>";
-		};
 		F45DACC522C5D25A004090C1 = {
 			isa = PBXGroup;
 			children = (
@@ -181,7 +172,6 @@
 			isa = PBXGroup;
 			children = (
 				F48D8A7A23207C4A0043402E /* Extensions */,
-				F438B3A722EA16F8008314AE /* Services */,
 				F438B3A622EA1160008314AE /* Controllers */,
 				F438B3A522EA1158008314AE /* Views */,
 				F438B3A422EA114E008314AE /* Models */,
@@ -189,7 +179,6 @@
 				F483A3D322E39AC000D099BE /* FirebaseController.swift */,
 				F45DACD522C5D25A004090C1 /* Main.storyboard */,
 				F45DACDB22C5D25B004090C1 /* Assets.xcassets */,
-				F49023D723AC1CC700645362 /* FACEBOOK_LINE-01-512.png */,
 				F45DACDD22C5D25B004090C1 /* LaunchScreen.storyboard */,
 				F45DACE022C5D25B004090C1 /* Info.plist */,
 				F45DACD822C5D25A004090C1 /* M_A_H.xcdatamodeld */,
@@ -283,7 +272,6 @@
 				F45DACE722C5D2C3004090C1 /* GoogleService-Info.plist in Resources */,
 				F45DACDC22C5D25B004090C1 /* Assets.xcassets in Resources */,
 				F45DACD722C5D25A004090C1 /* Main.storyboard in Resources */,
-				F49023D823AC1CC700645362 /* FACEBOOK_LINE-01-512.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
