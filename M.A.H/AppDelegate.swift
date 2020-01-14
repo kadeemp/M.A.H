@@ -16,23 +16,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         FirebaseApp.configure()
+
+        self.window = UIWindow(frame: UIScreen.main.bounds)
+        self.window?.rootViewController = RootViewController()
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let navigationController:UINavigationController = storyboard.instantiateInitialViewController() as? UINavigationController ?? UINavigationController()
         if Auth.auth().currentUser != nil {
-            let startGameViewController: UIViewController = storyboard.instantiateViewController(withIdentifier: "StartGame")
-            navigationController.viewControllers = [startGameViewController]
-            self.window = UIWindow(frame: UIScreen.main.bounds)
-            self.window?.rootViewController = navigationController
-            self.window?.makeKeyAndVisible()
+//            let startGameViewController: UIViewController = storyboard.instantiateViewController(withIdentifier: "StartGame")
+//            navigationController.viewControllers = [startGameViewController]
+//            self.window = UIWindow(frame: UIScreen.main.bounds)
+//            self.window?.rootViewController = navigationController
+//            self.window?.makeKeyAndVisible()
+            AppDelegate.shared.rootViewController.showMainScreen()
         } else {
-            let loginGameViewController: UIViewController = storyboard.instantiateViewController(withIdentifier: "Login")
-            navigationController.viewControllers = [loginGameViewController]
-            self.window = UIWindow(frame: UIScreen.main.bounds)
-            self.window?.rootViewController = navigationController
-            self.window?.makeKeyAndVisible()
+//            let loginGameViewController: UIViewController = storyboard.instantiateViewController(withIdentifier: "Login")
+//            navigationController.viewControllers = [loginGameViewController]
+//            self.window = UIWindow(frame: UIScreen.main.bounds)
+//            self.window?.rootViewController = navigationController
+//            self.window?.makeKeyAndVisible()
+            AppDelegate.shared.rootViewController.showLoginScreen()
         }
 
         return true
@@ -109,3 +115,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
+extension AppDelegate {
+   static var shared: AppDelegate {
+      return UIApplication.shared.delegate as! AppDelegate
+   }
+var rootViewController: RootViewController {
+      return window!.rootViewController as! RootViewController
+   }
+}

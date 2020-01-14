@@ -871,6 +871,19 @@ class FirebaseController {
             completion(true, nil)
         }
     }
+    func returnUserProfileURL(completion:@escaping ((String) -> ())) {
+        REF_USERS.child(Auth.auth().currentUser!.uid).observeSingleEvent(of: .value) { (dataSnapshot) in
+            if dataSnapshot.exists() {
+                if let url = dataSnapshot.childSnapshot(forPath: "profilePhotoURL").value as? String {
+                    completion(url)
+                } else {
+                    print("could not get url")
+                }
+            } else {
+
+            }
+        }
+    }
 
     func searchEmails(forSearchQuery query: String, handler: @escaping (_ emailArray: [String]) -> ()) {
         var emailArray = [String]()

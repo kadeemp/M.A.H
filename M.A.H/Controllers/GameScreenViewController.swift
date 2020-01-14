@@ -48,6 +48,9 @@ class GameScreenViewController: UIViewController {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(returntoLobby), name: Notification.Name("returnToLobby"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(startNewGame), name: Notification.Name("startNewGame"), object: nil)
+        FirebaseController.instance.returnUserProfileURL { (urlString ) in
+            self.profileImageView.setGifFromURL(URL(string: urlString)!)
+        }
 
 
         cardCollectionView.delegate = self
