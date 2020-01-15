@@ -26,9 +26,13 @@ class SignUpViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupAvatar()
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissView))
+        self.view.addGestureRecognizer(tapGesture)
         // Do any additional setup after loading the view.
     }
-
+    @objc func dismissView() {
+        self.view.endEditing(true)
+    }
     func setupAvatar() {
         avatar.clipsToBounds = true
         avatar.layer.cornerRadius = avatar.frame.width/2

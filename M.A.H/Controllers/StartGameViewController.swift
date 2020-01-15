@@ -12,7 +12,6 @@ import Firebase
 class StartGameViewController: UIViewController {
 
     let userDefaults = UserDefaults.standard
-    var windw:UIWindow?
     var session:Session?
 
     @IBOutlet var enterLobby: UIButton!
@@ -54,8 +53,9 @@ class StartGameViewController: UIViewController {
         if code.count == 4 && Auth.auth().currentUser != nil {
             userDefaults.set(code, forKey: "code")
             FirebaseController.instance.createSession(code: code, hostID: Auth.auth().currentUser!.uid, host: (Auth.auth().currentUser?.displayName)!)
-            let lobby = storyboard?.instantiateViewController(identifier: "Lobby")
-            self.navigationController?.pushViewController(lobby!, animated: true)
+//            let lobby = storyboard?.instantiateViewController(identifier: "Lobby")
+//            self.navigationController?.pushViewController(lobby!, animated: true)
+            
             performSegue(withIdentifier: "toLobby", sender: self)
         }
     }
@@ -106,27 +106,13 @@ class StartGameViewController: UIViewController {
     }
     @IBAction func signOutPressed(_ sender: Any) {
 
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let navController = UINavigationController()
-        guard let navigationController:UINavigationController = storyboard.instantiateInitialViewController() as? UINavigationController else {
-            print("error creating navigation controller")
-            do {
-                try Auth.auth().signOut()
-                self.navigationController?.popToRootViewController(animated: true)
-            }
-            catch {
-                print(error)
-            }
-            return
+        do {
+            try Auth.auth().signOut()
         }
-        let loginGameViewController: UIViewController = storyboard.instantiateViewController(withIdentifier: "Login")
-        navController.viewControllers = [loginGameViewController]
-        self.view.window?.rootViewController = navController
-        self.view.window?.makeKeyAndVisible()
-//        self.windw = UIWindow(frame: UIScreen.main.bounds)
-//        self.windw?.rootViewController = navigationController
-//        self.windw?.makeKeyAndVisible()
-
+        catch {
+            print(error)
+        }
+           AppDelegate.shared.rootViewController.showLoginScreen()
     }
     
     /*

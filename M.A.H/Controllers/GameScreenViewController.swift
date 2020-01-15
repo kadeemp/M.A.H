@@ -384,7 +384,20 @@ class GameScreenViewController: UIViewController {
 
                 if session.hostID == Auth.auth().currentUser?.uid {
                     print("this person is the host")
-                    performSegue(withIdentifier: "1", sender: self)
+                    var alert = UIAlertController(title: "\(member.value["name"] as! String) won", message: "What would you like to do?", preferredStyle: .alert)
+                    let returnAction = UIAlertAction(title: "Return to Lobby", style: .cancel) { (action) in
+                        self.navigationController?.popViewController(animated: true)
+                        //TODO:- Set GameIsActive to false, record game data,  destory game data
+
+                    }
+                    let restartGameAction = UIAlertAction(title: "Restart Game", style: .default) { (action) in
+
+                        let notificationCenter = NotificationCenter.default
+                        notificationCenter.post(name:  Notification.Name("startNewGame"), object: nil)
+                    }
+                    alert.addAction(returnAction)
+                    alert.addAction(restartGameAction)
+                    self.present(alert, animated: true, completion: nil)
                 } else {
                     var endGameCard = EndGameCardView()
                     endGameCard.center = CGPoint(x: self.view.frame.midX - 100, y: self.view.frame.midY - self.view.frame.height/3)
