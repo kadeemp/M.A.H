@@ -51,6 +51,13 @@ class GameScreenViewController: UIViewController {
         FirebaseController.instance.returnUserProfileURL { (urlString ) in
             self.profileImageView.setGifFromURL(URL(string: urlString)!)
         }
+        switch self.view.frame.height {
+        case 896:
+            self.drawerBottomConstraint.constant = -cardDrawer.frame.height - 65
+        default:
+            self.drawerBottomConstraint.constant = -cardDrawer.frame.height
+        }
+//        slideupIndicatorTriggered(self)
 
 
         cardCollectionView.delegate = self
@@ -65,9 +72,10 @@ class GameScreenViewController: UIViewController {
         moderatorBadgeImageView.layer.cornerRadius = moderatorBadgeImageView.frame.width/2
         //TODO: Add observers for state, table, winning result,
 
-        self.drawerBottomConstraint.constant = -280
+       // self.drawerBottomConstraint.constant = -cardDrawer.frame.height
         self.view.layoutIfNeeded()
 
+        print(" height is\(self.view.frame.height)")
         if let game = game {
                         FirebaseController.instance.observeIsModerator(sessionKey: session.key, userKey: Auth.auth().currentUser!.uid) { (moderatorStatus) in
                             print("\(Auth.auth().currentUser?.displayName)'s moderator status is \(moderatorStatus) \n the game state is \(self.game.state)")
@@ -195,6 +203,7 @@ class GameScreenViewController: UIViewController {
         self.tableHolderView.addInteraction(tableDropInteraction)
         self.playedCardCollectionView.addInteraction(tableDropInteraction)
         self.memeDeckimageview.isUserInteractionEnabled = true
+        print(" constant is\(self.drawerBottomConstraint.constant)")
 
     }
 
@@ -431,25 +440,40 @@ class GameScreenViewController: UIViewController {
         if responses.count == 0 {
             result = false
         }
+
         return result
     }
 
     @IBAction func slideupIndicatorTriggered(_ sender: Any) {
+        print("constant before is\(self.drawerBottomConstraint.constant) \n")
         if !isCardVisible {
             isCardVisible = !isCardVisible
             DispatchQueue.main.async {
                 UIView.animate(withDuration: 0.5) {
-                    self.drawerBottomConstraint.constant = 0
+                   // self.drawerBottomConstraint.constant = 0
+                    switch self.view.frame.height {
+                    case 896:
+                        self.drawerBottomConstraint.constant += self.cardDrawer.frame.height + 65
+                    default:
+                        self.drawerBottomConstraint.constant += self.cardDrawer.frame.height
+                    }
                     self.view.layoutIfNeeded()
                 }}} else {
             self.isCardVisible = false
             DispatchQueue.main.async {
                 UIView.animate(withDuration: 0.5) {
-                    self.drawerBottomConstraint.constant = -280
+                    switch self.view.frame.height {
+                    case 896:
+                        self.drawerBottomConstraint.constant = -self.cardDrawer.frame.height - 65
+                    default:
+                        self.drawerBottomConstraint.constant = -self.cardDrawer.frame.height
+                    }
+//                    self.drawerBottomConstraint.constant = -280
                     self.view.layoutIfNeeded()
                 }
             }
         }
+        print("constant after is\(self.drawerBottomConstraint.constant) \n")
     }
 
     @IBAction func promptDeckPressed(_ sender: Any) {
@@ -613,23 +637,10 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
 //                imageCache.setObject(cell.cardImage.image!.imageData , forKey: NSString(string: card.fileName))
 //            }
         cell.cardImage.setGifFromURL(url)
-//            cell.cardImage.af_setImage(withURL: url)
-//            FirebaseController.instance.downloadGif(gifName: card.fileName) { (data) in
-//                do {
-//                    let gif = try UIImage(gifData:data)
-//                    let gifView = UIImageView(gifImage: gif)
-//                    gifView.frame.origin = CGPoint(x: 0, y: 0)
-//                    gifView.frame = CGRect(x:0, y:0, width: 100, height: 100)
-//                    cell.cardImage.setGifImage(gif)
-//                }
-//                catch {
-//                    print(error)
-//                }
-           // }
+
             return cell
         case playedCardCollectionView:
             let cell2 = playedCardCollectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! PlayedCardCollectionViewCell
-            //            print("responses is \(responses), index path is \(indexPath.row)")
             cell2.cardImageView.isHidden = false
             cell2.imageHolderView.bringSubviewToFront(cell2.cardImageView)
             if responses.count > 0 {
@@ -646,19 +657,6 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
                             cell2.cardImageView.isHidden = false
                         }
                         cell2.revealedCardImageView.setGifFromURL(URL(string: response.fileName)!)
-//                        FirebaseController.instance.downloadGif(gifName: response.fileName) { (data) in
-//                            do {
-//                                cell2.revealedCardImageView.clear()
-//                                let gif = try UIImage(gifData:data)
-//                                let gifView = UIImageView(gifImage: gif)
-//                                gifView.frame.origin = CGPoint(x: 0, y: 0)
-//                                gifView.frame = CGRect(x:0, y:0, width: 100, height: 100)
-//                                cell2.revealedCardImageView.setGifImage(gif)
-//                            }
-//                            catch {
-//                                print(error)
-//                            }
-//                        }
                         return cell2
                     }
                 }

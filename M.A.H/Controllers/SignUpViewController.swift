@@ -26,11 +26,12 @@ class SignUpViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupAvatar()
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissView))
-        self.view.addGestureRecognizer(tapGesture)
         // Do any additional setup after loading the view.
+        let tapG = UITapGestureRecognizer(target: self, action: #selector(dismissKey))
+        self.view.addGestureRecognizer(tapG)
+
     }
-    @objc func dismissView() {
+    @objc func dismissKey() {
         self.view.endEditing(true)
     }
     func setupAvatar() {

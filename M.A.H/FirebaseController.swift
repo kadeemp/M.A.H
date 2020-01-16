@@ -214,7 +214,22 @@ class FirebaseController {
                 self.REF_GAMES.child(gameKey).child("table").updateChildValues(["revealedResponses":result])
             }
         }
+    }
 
+    func observeGameIsActive(session:Session, completion:@escaping ((Bool?) -> ())) {
+        REF_SESSIONS.child(session.key).child("isGameActive").observe(.value, with: { (dataSnapshot) in
+            if dataSnapshot.exists() {
+                let status = dataSnapshot.value as! Bool
+                completion(status)
+            }
+        })
+    }
+
+    func observeSessionMembers(session:Session, completion:@escaping ((Bool?) -> ())) {
+        REF_SESSIONS.child(session.key).child("members").observe(.value, with: { (dataSnapshot) in
+        if dataSnapshot.exists() {
+            }
+        })
 
     }
     func observeIsModerator(sessionKey:String,userKey:String, completion: @escaping ((Bool)  -> ())) {
