@@ -49,7 +49,17 @@ class GameScreenViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(returntoLobby), name: Notification.Name("returnToLobby"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(startNewGame), name: Notification.Name("startNewGame"), object: nil)
         FirebaseController.instance.returnUserProfileURL { (urlString ) in
-            self.profileImageView.setGifFromURL(URL(string: urlString)!)
+            let url = URL(string: urlString)!
+                URLSession.shared.dataTask(with: url) { (data, response, error) in
+                    if error != nil {
+                        print(error?.localizedDescription)
+                        return
+                    }
+                    let image = UIImage(data: data!)
+                         DispatchQueue.main.async {
+                    self.profileImageView.image = image!
+                     }
+                }.resume()
         }
         switch self.view.frame.height {
         case 896:
@@ -57,8 +67,6 @@ class GameScreenViewController: UIViewController {
         default:
             self.drawerBottomConstraint.constant = -cardDrawer.frame.height
         }
-//        slideupIndicatorTriggered(self)
-
 
         cardCollectionView.delegate = self
         cardCollectionView.dataSource = self
