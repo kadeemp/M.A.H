@@ -225,9 +225,20 @@ class FirebaseController {
         })
     }
 
-    func observeSessionMembers(session:Session, completion:@escaping ((Bool?) -> ())) {
+    func observeSessionMembers(session:Session, completion:@escaping (([Member]) -> ())) {
+        var returnedMebers:[Member] = []
         REF_SESSIONS.child(session.key).child("members").observe(.value, with: { (dataSnapshot) in
         if dataSnapshot.exists() {
+            let snapshots = dataSnapshot.children.allObjects as! [DataSnapshot]
+            for snap in snapshots {
+                let photoURL =  snap.childSnapshot(forPath: "photoURL").value as! String
+                let moderatorStatus = snap.childSnapshot(forPath: "isModerator").value as! Bool
+                let name = snap.childSnapshot(forPath: "name").value as! String
+                let score = snap.childSnapshot(forPath: "score").value as! Int
+                let member = Member(name:name, profileURL: photoURL, moderatorStatus: moderatorStatus, score: score)
+                returnedMebers.append(member)
+            }
+            completion(returnedMebers)
             }
         })
 
@@ -771,8 +782,9 @@ class FirebaseController {
 
     func createSession(code:String, hostID:String, host:String) {
         var key = REF_SESSIONS.childByAutoId().key!.stripID()
+        guard let currentUser = Auth.auth().currentUser else {return}
 
-        REF_SESSIONS.child(key).updateChildValues(["code":code, "hostID":hostID, "host":host, "members":["\(Auth.auth().currentUser!.uid)":["name":Auth.auth().currentUser?.displayName!,"score":0,"isModerator":true,"hasBeenModerator":false]], "key":key, "isGameActive":false, "gameID":""])
+        REF_SESSIONS.child(key).updateChildValues(["code":code, "hostID":hostID, "host":host, "members":["\(Auth.auth().currentUser!.uid)":["name":Auth.auth().currentUser?.displayName!,"score":0,"isModerator":true,"hasBeenModerator":false, "photoURL":currentUser.photoURL?.absoluteString]], "key":key, "isGameActive":false, "gameID":""])
     }
 
     func updateSessionMembers(session:Session, members:[String], completion: @escaping (() -> ())) {
@@ -824,10 +836,11 @@ class FirebaseController {
             guard let sessionSnapshot = sessionSnapshot.children.allObjects as? [DataSnapshot] else {
                 return
             }
+            guard let currentUser = Auth.auth().currentUser else {return}
             for session in sessionSnapshot {
                 if session.childSnapshot(forPath: "code").value as! String == code {
                     var members = session.childSnapshot(forPath: "members").value as! [String:[String:Any]]
-                    members[userID] = ["name":Auth.auth().currentUser?.displayName!,"score":0,"isModerator":false, "hasBeenModerator":false]
+                    members[userID] = ["name":Auth.auth().currentUser?.displayName!,"score":0,"isModerator":false, "hasBeenModerator":false, "photoURL":currentUser.photoURL?.absoluteString]
                     self.REF_SESSIONS.child(session.key).updateChildValues(["members":members])
                 }
             }

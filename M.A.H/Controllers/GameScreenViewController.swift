@@ -109,7 +109,9 @@ class GameScreenViewController: UIViewController {
                     }
                 }
             }
-
+            FirebaseController.instance.observeSessionMembers(session: session) { (members) in
+                print("members list:\(members) \n")
+            }
             FirebaseController.instance.observeGameWinningResult(gameKey: game.key) { (result) in
                 if let result = result {
                     let resultCard = WinningCardView()

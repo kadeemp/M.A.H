@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		376819AECA3A5D60329F6E2F /* Pods_M_A_H.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03ECB90DC98F63EC987F9453 /* Pods_M_A_H.framework */; };
+		F40832AD23D25C6900CEFF81 /* Member.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40832AC23D25C6900CEFF81 /* Member.swift */; };
 		F41AC31E23BAC21B00F2B8C9 /* Extension + UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41AC31D23BAC21B00F2B8C9 /* Extension + UIView.swift */; };
 		F41DCC0B230259C70018C3D9 /* PromptCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41DCC0A230259C70018C3D9 /* PromptCard.swift */; };
 		F41DCC0D23033D1D0018C3D9 /* PromptCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41DCC0C23033D1D0018C3D9 /* PromptCardView.swift */; };
@@ -48,6 +49,7 @@
 /* Begin PBXFileReference section */
 		03ECB90DC98F63EC987F9453 /* Pods_M_A_H.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_M_A_H.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7F765A56BFF834DCC60BE0D /* Pods-M.A.H.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-M.A.H.debug.xcconfig"; path = "Target Support Files/Pods-M.A.H/Pods-M.A.H.debug.xcconfig"; sourceTree = "<group>"; };
+		F40832AC23D25C6900CEFF81 /* Member.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Member.swift; sourceTree = "<group>"; };
 		F41AC31D23BAC21B00F2B8C9 /* Extension + UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + UIView.swift"; sourceTree = "<group>"; };
 		F41DCC0A230259C70018C3D9 /* PromptCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptCard.swift; sourceTree = "<group>"; };
 		F41DCC0C23033D1D0018C3D9 /* PromptCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptCardView.swift; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 				F451CBBD23104F44008FDFE8 /* CardTable.swift */,
 				F44F468B231614C8009585EA /* Game.swift */,
 				F427EE1023260A1F0005F2A2 /* CollectionViewCard.swift */,
+				F40832AC23D25C6900CEFF81 /* Member.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -367,6 +370,7 @@
 				F465139823CE3CFE003D2DAA /* RootViewController.swift in Sources */,
 				F438B3AD22EB675A008314AE /* LobbyViewController.swift in Sources */,
 				F451CBBE23104F44008FDFE8 /* CardTable.swift in Sources */,
+				F40832AD23D25C6900CEFF81 /* Member.swift in Sources */,
 				F438B3A322EA1050008314AE /* Constants.swift in Sources */,
 				F4A19BF8232807A600C453AA /* ResponseCard.swift in Sources */,
 				F427EE1123260A1F0005F2A2 /* CollectionViewCard.swift in Sources */,

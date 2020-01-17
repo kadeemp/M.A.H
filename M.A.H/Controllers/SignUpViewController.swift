@@ -96,19 +96,22 @@ class SignUpViewController: UIViewController {
                                     userData["fullName"] = fullName
                                     FirebaseController.instance.createDBUser(uid: Auth.auth().currentUser!.uid.stripID(), userData: userData)
                                     print("user saved to database")
+                                    let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
+                                    changeRequest?.displayName = fullName
+
+                                    changeRequest?.photoURL =  URL(string: url!.absoluteString) 
+                                    changeRequest?.commitChanges(completion: { (error) in
+                                        if error != nil {
+                                            print(error)
+                                            print("error commiting profile changes")
+                                        }
+                                    })
                                     AppDelegate.shared.rootViewController.showMainScreen()
                                 }
                             }
                         }
                     })
-                        let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
-                        changeRequest?.displayName = fullName
-                        changeRequest?.commitChanges(completion: { (error) in
-                            if error != nil {
-                                print(error)
-                                print("error commiting profile changes")
-                            }
-                        })
+
                     } else {
                         print("Error signing user in during registration")
                         print("\(error?.localizedDescription)")
