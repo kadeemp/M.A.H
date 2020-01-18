@@ -20,6 +20,7 @@ class GameScreenViewController: UIViewController {
     var hasCardBeenRevealed:Bool = false
     var responses:[MemeCard] = []
     var cards:[MemeCard] = []
+    var members:[Member] = []
     let columns:CGFloat = 2.5
     let inset:CGFloat = 10.0
     let spacing:CGFloat = 8.0
@@ -27,9 +28,10 @@ class GameScreenViewController: UIViewController {
     var hasRoundEnded = false
     var hasGameEnded = false
     var imageCache = NSCache<NSString, NSData>()
-
+    @IBOutlet var scoreboardCollectionView: UICollectionView!
+    
     @IBOutlet var tableHolderView: UIView!
-    @IBOutlet var scoreboardButton: UIButton!
+
     @IBOutlet var drawerBottomConstraint: NSLayoutConstraint!
     @IBOutlet var tableImageView: UIImageView!
     @IBOutlet var promptDeckImageView: UIButton!
@@ -37,9 +39,6 @@ class GameScreenViewController: UIViewController {
     @IBOutlet var cardDrawer: UIView!
     @IBOutlet var cardCollectionView: UICollectionView!
     @IBOutlet var slideUpIndicatorButton: UIButton!
-    @IBOutlet var profileImageView: UIImageView!
-    @IBOutlet var moderatorBadgeImageView: UIImageView!
-    @IBOutlet var UsernameLabel: UILabel!
     @IBOutlet var playedCardCollectionView: UICollectionView!
     @IBOutlet var promptLabel: UILabel!
 
@@ -48,19 +47,7 @@ class GameScreenViewController: UIViewController {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(returntoLobby), name: Notification.Name("returnToLobby"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(startNewGame), name: Notification.Name("startNewGame"), object: nil)
-        FirebaseController.instance.returnUserProfileURL { (urlString ) in
-            let url = URL(string: urlString)!
-                URLSession.shared.dataTask(with: url) { (data, response, error) in
-                    if error != nil {
-                        print(error?.localizedDescription)
-                        return
-                    }
-                    let image = UIImage(data: data!)
-                         DispatchQueue.main.async {
-                    self.profileImageView.image = image!
-                     }
-                }.resume()
-        }
+
         switch self.view.frame.height {
         case 896:
             self.drawerBottomConstraint.constant = -cardDrawer.frame.height - 65
@@ -75,9 +62,8 @@ class GameScreenViewController: UIViewController {
         playedCardCollectionView.delegate = self
         playedCardCollectionView.dataSource = self
         playedCardCollectionView.dropDelegate = self
-        profileImageView.clipsToBounds = true
-        moderatorBadgeImageView.clipsToBounds = true
-        moderatorBadgeImageView.layer.cornerRadius = moderatorBadgeImageView.frame.width/2
+
+
         //TODO: Add observers for state, table, winning result,
 
        // self.drawerBottomConstraint.constant = -cardDrawer.frame.height
@@ -97,7 +83,6 @@ class GameScreenViewController: UIViewController {
                 if self.game.state != newState {
                     self.game.state = newState
                     self.updateState(newState)
-                    self.stateLabel.text! = "\(newState)"
                 }
                 //                print("the state has been set to \(self.game.state)")
             }
@@ -109,8 +94,10 @@ class GameScreenViewController: UIViewController {
                     }
                 }
             }
-            FirebaseController.instance.observeSessionMembers(session: session) { (members) in
-                print("members list:\(members) \n")
+            FirebaseController.instance.observeSessionMembers(session: session) { (returnedMembers) in
+                print("members list:\(returnedMembers) \n",Auth.auth().currentUser?.displayName!)
+                self.members = returnedMembers
+                self.scoreboardCollectionView.reloadData()
             }
             FirebaseController.instance.observeGameWinningResult(gameKey: game.key) { (result) in
                 if let result = result {
@@ -136,7 +123,6 @@ class GameScreenViewController: UIViewController {
                             if let cell = self.playedCardCollectionView.cellForItem(at: indexPathOfResponse) as? PlayedCardCollectionViewCell {
                                                             UIView.transition(from: cell.cardImageView, to: cell.revealedCardImageView, duration: 1, options: [.transitionFlipFromLeft,.showHideTransitionViews])
                             }
-
                         }
                     }
                 }
@@ -175,22 +161,12 @@ class GameScreenViewController: UIViewController {
                     print("ERROR OBSERVING SESSION", #function)
                 }
             }
-            if isModerator() {
-                self.moderatorBadgeImageView.backgroundColor = UIColor.red
-                //add card animation
-            } else {
-                self.moderatorBadgeImageView.backgroundColor = UIColor.green
-            }
-
             updateState(self.game.state)
         }
 
-
-        profileImageView.layer.cornerRadius = profileImageView.frame.width/2
         guard let user = Auth.auth().currentUser else {
             return
         }
-        UsernameLabel.text = user.displayName!
 
         //TODO:Convert this to observe hand?/check if person is a member, if they arent, add them , and give them a hand.
         DispatchQueue.main.asyncAfter(deadline: DispatchTime(uptimeNanoseconds: 5)) {
@@ -251,7 +227,6 @@ class GameScreenViewController: UIViewController {
         guard let user = Auth.auth().currentUser else {
             return
         }
-        stateLabel.text! = String(state)
         switch state {
             //Start game. Initial setup
         //waiting for moderator to pick prompt
@@ -276,12 +251,12 @@ class GameScreenViewController: UIViewController {
 
                 //  print("\(Auth.auth().currentUser!.displayName) has access to promots")
                 self.promptDeckImageView.isUserInteractionEnabled = true
-                self.moderatorBadgeImageView.backgroundColor = UIColor.red
+
                 //add card animation
             } else {
                 self.promptDeckImageView.isUserInteractionEnabled = false
                 //     print("\(Auth.auth().currentUser!.displayName) doeesn't have access to promots")
-                self.moderatorBadgeImageView.backgroundColor = UIColor.green
+
             }
             memeDeckimageview.isUserInteractionEnabled = false
             cardCollectionView.dragInteractionEnabled = false
@@ -425,9 +400,7 @@ class GameScreenViewController: UIViewController {
                     endGameCard.returntoLobby.isHidden = true
                     self.view.addSubview(endGameCard)
                     self.view.bringSubviewToFront(endGameCard)
-
                 }
-
                 self.hasGameEnded = true
                 didWin = true
             }
@@ -583,6 +556,8 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
             count = cards.count
         case playedCardCollectionView:
             count = responses.count
+        case scoreboardCollectionView:
+            count = members.count
         default:
             return 0
         }
@@ -606,21 +581,25 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
                 2)
             size = CGSize(width: width, height: height)
             return size
+        case scoreboardCollectionView:
+            width = 50
+            height = 70
+            size = CGSize(width: width, height: height)
+            return size
         default:
             print()
-
         }
         return CGSize(width: 0, height: 0)
     }
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
-    }
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return spacing
-    }
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return spacing
-    }
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+//        return UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
+//    }
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+//        return spacing
+//    }
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+//        return spacing
+//    }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
 
@@ -671,6 +650,31 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
                     }
                 }
             }
+        case scoreboardCollectionView:
+
+            let cell3 = scoreboardCollectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ScoreboardCollectionViewCell
+            let member = members[indexPath.row]
+            
+            let url = URL(string: member.profileURL)!
+                            URLSession.shared.dataTask(with: url) { (data, response, error) in
+                                if error != nil {
+                                    print(error?.localizedDescription)
+                                    return
+                                }
+                                let image = UIImage(data: data!)
+                                     DispatchQueue.main.async {
+                                        cell3.profilePhoto.image = image!
+                                 }
+                            }.resume()
+            if member.moderatorStatus {
+                cell3.profilePhoto.layer.borderColor = UIColor.yellow.cgColor
+
+            } else {
+                cell3.profilePhoto.layer.borderColor = UIColor.purple.cgColor
+            }
+            cell3.nameLabel.text = member.name
+            cell3.scoreLabel.text = "\(member.score)"
+            return cell3
 
         default:
             print()

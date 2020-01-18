@@ -230,6 +230,7 @@ class FirebaseController {
         REF_SESSIONS.child(session.key).child("members").observe(.value, with: { (dataSnapshot) in
         if dataSnapshot.exists() {
             let snapshots = dataSnapshot.children.allObjects as! [DataSnapshot]
+            returnedMebers = []
             for snap in snapshots {
                 let photoURL =  snap.childSnapshot(forPath: "photoURL").value as! String
                 let moderatorStatus = snap.childSnapshot(forPath: "isModerator").value as! Bool
