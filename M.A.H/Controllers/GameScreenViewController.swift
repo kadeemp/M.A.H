@@ -59,6 +59,7 @@ class GameScreenViewController: UIViewController {
         cardCollectionView.dataSource = self
         cardCollectionView.dragDelegate = self
         cardCollectionView.dropDelegate = self
+//        cardCollectionView.
         playedCardCollectionView.delegate = self
         playedCardCollectionView.dataSource = self
         playedCardCollectionView.dropDelegate = self
@@ -591,15 +592,15 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
         }
         return CGSize(width: 0, height: 0)
     }
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-//        return UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
-//    }
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-//        return spacing
-//    }
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-//        return spacing
-//    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return spacing
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return spacing
+    }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
 

@@ -20,5 +20,5 @@ struct Member {
         self.moderatorStatus = moderatorStatus
         self.score = score
     }
-
 }
+
