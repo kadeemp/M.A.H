@@ -655,18 +655,8 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
 
             let cell3 = scoreboardCollectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ScoreboardCollectionViewCell
             let member = members[indexPath.row]
-            
-            let url = URL(string: member.profileURL)!
-                            URLSession.shared.dataTask(with: url) { (data, response, error) in
-                                if error != nil {
-                                    print(error?.localizedDescription)
-                                    return
-                                }
-                                let image = UIImage(data: data!)
-                                     DispatchQueue.main.async {
-                                        cell3.profilePhoto.image = image!
-                                 }
-                            }.resume()
+
+            cell3.profilePhoto.loadImageUsingCacheWithUrlString(urlString: member.profileURL)
             if member.moderatorStatus {
                 cell3.profilePhoto.layer.borderColor = UIColor.yellow.cgColor
 
