@@ -21,7 +21,7 @@ class GameScreenViewController: UIViewController {
     var responses:[MemeCard] = []
     var cards:[MemeCard] = []
     var members:[Member] = []
-    let columns:CGFloat = 2.5
+    var columns:CGFloat = 2.5
     let inset:CGFloat = 10.0
     let spacing:CGFloat = 8.0
     var isUserModerator:Bool = false
@@ -59,7 +59,7 @@ class GameScreenViewController: UIViewController {
         cardCollectionView.dataSource = self
         cardCollectionView.dragDelegate = self
         cardCollectionView.dropDelegate = self
-//        cardCollectionView.
+        //        cardCollectionView.
         playedCardCollectionView.delegate = self
         playedCardCollectionView.dataSource = self
         playedCardCollectionView.dropDelegate = self
@@ -67,18 +67,18 @@ class GameScreenViewController: UIViewController {
 
         //TODO: Add observers for state, table, winning result,
 
-       // self.drawerBottomConstraint.constant = -cardDrawer.frame.height
+        // self.drawerBottomConstraint.constant = -cardDrawer.frame.height
         self.view.layoutIfNeeded()
 
         print(" height is\(self.view.frame.height)")
         if let game = game {
-                        FirebaseController.instance.observeIsModerator(sessionKey: session.key, userKey: Auth.auth().currentUser!.uid) { (moderatorStatus) in
-                            print("\(Auth.auth().currentUser?.displayName)'s moderator status is \(moderatorStatus) \n the game state is \(self.game.state)")
-                            let members = self.session.members
-                            let memberIndex = members.index(forKey: Auth.auth().currentUser!.uid)
-                            self.session.members.updateValue(["isModerator":moderatorStatus], forKey: Auth.auth().currentUser!.uid)
-                            self.updateState(self.game.state)
-                        }
+            FirebaseController.instance.observeIsModerator(sessionKey: session.key, userKey: Auth.auth().currentUser!.uid) { (moderatorStatus) in
+                print("\(Auth.auth().currentUser?.displayName)'s moderator status is \(moderatorStatus) \n the game state is \(self.game.state)")
+                let members = self.session.members
+                let memberIndex = members.index(forKey: Auth.auth().currentUser!.uid)
+                self.session.members.updateValue(["isModerator":moderatorStatus], forKey: Auth.auth().currentUser!.uid)
+                self.updateState(self.game.state)
+            }
             FirebaseController.instance.observeGameState(gameKey: game.key) { (newState) in
                 //                print("The new state is \(newState) \n \(Auth.auth().currentUser?.displayName)'s moderator status is \(self.isModerator())")
                 if self.game.state != newState {
@@ -122,7 +122,7 @@ class GameScreenViewController: UIViewController {
                             let indexPathOfResponse = IndexPath(item: indexToReveal, section: 0)
 
                             if let cell = self.playedCardCollectionView.cellForItem(at: indexPathOfResponse) as? PlayedCardCollectionViewCell {
-                                                            UIView.transition(from: cell.cardImageView, to: cell.revealedCardImageView, duration: 1, options: [.transitionFlipFromLeft,.showHideTransitionViews])
+                                UIView.transition(from: cell.cardImageView, to: cell.revealedCardImageView, duration: 1, options: [.transitionFlipFromLeft,.showHideTransitionViews])
                             }
                         }
                     }
@@ -173,8 +173,8 @@ class GameScreenViewController: UIViewController {
         DispatchQueue.main.asyncAfter(deadline: DispatchTime(uptimeNanoseconds: 5)) {
             FirebaseController.instance.returnHand(user: user.uid) { returnedCards in
                 self.cards = returnedCards
-//                print("card count", returnedCards.count)
-//                print(self.cards)
+                //                print("card count", returnedCards.count)
+                //                print(self.cards)
                 //                if returnedCards.count == 0 {
                 //                    FirebaseController.instance.loadHand(session: self.session) {
                 //                        FirebaseController.instance.returnHand(user: Auth.auth().currentUser!.uid) { (newHand) in
@@ -235,7 +235,7 @@ class GameScreenViewController: UIViewController {
             self.responses = []
             self.promptLabel.text = ""
             //todo:Check if person has 5 cards
-            //todo:alert next moderator
+        //todo:alert next moderator
         case 0:
             if self.responses.count != 0 {
                 //TODO FIX THIS BUG
@@ -434,7 +434,7 @@ class GameScreenViewController: UIViewController {
             isCardVisible = !isCardVisible
             DispatchQueue.main.async {
                 UIView.animate(withDuration: 0.5) {
-                   // self.drawerBottomConstraint.constant = 0
+                    // self.drawerBottomConstraint.constant = 0
                     switch self.view.frame.height {
                     case 896:
                         self.drawerBottomConstraint.constant += self.cardDrawer.frame.height + 65
@@ -452,7 +452,7 @@ class GameScreenViewController: UIViewController {
                     default:
                         self.drawerBottomConstraint.constant = -self.cardDrawer.frame.height
                     }
-//                    self.drawerBottomConstraint.constant = -280
+                    //                    self.drawerBottomConstraint.constant = -280
                     self.view.layoutIfNeeded()
                 }
             }
@@ -514,7 +514,7 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
                     let members = session.members
                     let member = members[response.playedBy!]
                     var score: Int = member!["score"] as! Int
-                        if (score + 1) >= 3 {
+                    if (score + 1) >= 3 {
                         gameHasBeenWon = true
                     }
 
@@ -583,8 +583,9 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
             size = CGSize(width: width, height: height)
             return size
         case scoreboardCollectionView:
-            width = 50
-            height = 70
+            columns = CGFloat(Int(members.count))
+            width = Int(collectionView.frame.width / columns)
+            height = Int(collectionView.frame.height)
             size = CGSize(width: width, height: height)
             return size
         default:
@@ -593,12 +594,50 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
         return CGSize(width: 0, height: 0)
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
+        switch collectionView {
+        case cardCollectionView:
+            return UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
+
+        case playedCardCollectionView:
+            return UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
+        case scoreboardCollectionView:
+
+            return UIEdgeInsets(top: 5, left: 5 ,bottom: 5, right: 5)
+        default:
+            print()
+        }
+        return UIEdgeInsets(top: 0, left: 0, bottom: 0 ,right: 0)
     }
+    //    let columns:CGFloat = 2.5
+    //    let inset:CGFloat = 10.0
+    //    let spacing:CGFloat = 8.0
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        switch collectionView {
+        case cardCollectionView:
+            return spacing
+        case playedCardCollectionView:
+            return spacing
+        case scoreboardCollectionView:
+            return 0
+
+        default:
+            print()
+        }
         return spacing
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        switch collectionView {
+        case cardCollectionView:
+            return spacing
+        case playedCardCollectionView:
+            return spacing
+        case scoreboardCollectionView:
+            return 0
+
+        default:
+            print()
+        }
         return spacing
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -609,24 +648,8 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
             let cell = cardCollectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CardCollectionViewCell
             let card = cards[indexPath.row]
             let url = URL(string: card.fileName)!
-            //let imageCache = AutoPurgingImageCache()
 
-//            if let cachedImage = imageCache.object(forKey: NSString(string:card.fileName ) )
-//            {
-//                do {
-//                    cell.cardImage.gifImage = try UIImage(gifData: cachedImage as Data)
-//                }
-//                catch {
-//                    print(error)
-//                }
-//
-//                //cell.cardImage.setGifImage(cachedImage)
-//            } else {
-//
-//                cell.cardImage.setGifFromURL(url)
-//                imageCache.setObject(cell.cardImage.image!.imageData , forKey: NSString(string: card.fileName))
-//            }
-        cell.cardImage.setGifFromURL(url)
+            cell.cardImage.setGifFromURL(url)
 
             return cell
         case playedCardCollectionView:
@@ -663,15 +686,18 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
             } else {
                 cell3.profilePhoto.layer.borderColor = UIColor.purple.cgColor
             }
+            cell3.profilePhoto.contentMode = .scaleAspectFill
             cell3.nameLabel.text = member.name
             cell3.scoreLabel.text = "\(member.score)"
+
             return cell3
 
         default:
             print()
         }
         return cell
-    }
+           }
+
 
 
     func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
