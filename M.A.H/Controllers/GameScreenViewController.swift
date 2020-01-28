@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import AlamofireImage
+import SwiftyGif
 
 class GameScreenViewController: UIViewController {
 
@@ -47,6 +48,7 @@ class GameScreenViewController: UIViewController {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(returntoLobby), name: Notification.Name("returnToLobby"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(startNewGame), name: Notification.Name("startNewGame"), object: nil)
+        //UIView.animateKeyframes(withDuration: 2, delay: 0, options: .repeat, animations: <#T##() -> Void#>, completion: <#T##((Bool) -> Void)?##((Bool) -> Void)?##(Bool) -> Void#>)
 
         switch self.view.frame.height {
         case 896:
@@ -55,11 +57,12 @@ class GameScreenViewController: UIViewController {
             self.drawerBottomConstraint.constant = -cardDrawer.frame.height
         }
 
+
         cardCollectionView.delegate = self
         cardCollectionView.dataSource = self
         cardCollectionView.dragDelegate = self
         cardCollectionView.dropDelegate = self
-        //        cardCollectionView.
+
         playedCardCollectionView.delegate = self
         playedCardCollectionView.dataSource = self
         playedCardCollectionView.dropDelegate = self
@@ -173,15 +176,15 @@ class GameScreenViewController: UIViewController {
         DispatchQueue.main.asyncAfter(deadline: DispatchTime(uptimeNanoseconds: 5)) {
             FirebaseController.instance.returnHand(user: user.uid) { returnedCards in
                 self.cards = returnedCards
-                //                print("card count", returnedCards.count)
-                //                print(self.cards)
-                //                if returnedCards.count == 0 {
-                //                    FirebaseController.instance.loadHand(session: self.session) {
-                //                        FirebaseController.instance.returnHand(user: Auth.auth().currentUser!.uid) { (newHand) in
-                //                            self.cards = newHand
-                //                        }
-                //                    }
-                //                }
+                                print("card count", returnedCards.count)
+                                print(self.cards)
+                                if returnedCards.count == 0 {
+                                    FirebaseController.instance.loadHand(session: self.session) {
+                                        FirebaseController.instance.returnHand(user: Auth.auth().currentUser!.uid) { (newHand) in
+                                            self.cards = newHand
+                                        }
+                                    }
+                                }
                 self.cardCollectionView.reloadData()
             }
         }
@@ -602,7 +605,7 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
             return UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
         case scoreboardCollectionView:
 
-            return UIEdgeInsets(top: 5, left: 5 ,bottom: 5, right: 5)
+            return UIEdgeInsets(top: 5, left: 20 ,bottom: 5, right: 5)
         default:
             print()
         }

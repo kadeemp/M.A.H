@@ -13,7 +13,6 @@ class PlayedCardCollectionViewCell: UICollectionViewCell {
     @IBOutlet var imageHolderView: UIView!
     @IBOutlet var cardImageView: UIImageView!
     @IBOutlet var revealedCardImageView: UIImageView!
-
     override func awakeFromNib() {
     }
 

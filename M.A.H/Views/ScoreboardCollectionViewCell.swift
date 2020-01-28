@@ -15,12 +15,9 @@ class ScoreboardCollectionViewCell: UICollectionViewCell {
     @IBOutlet var scoreLabel: UILabel!
     override func awakeFromNib() {
         profilePhoto.clipsToBounds = true
-
-       // profilePhoto.frame.size = CGSize(width: profilePhoto.frame.height, height: profilePhoto.frame.height)
         profilePhoto.layer.borderWidth = 2
         profilePhoto.layer.cornerRadius = profilePhoto.frame.height/2
-//        print(profilePhoto.frame.height)
-//        print(profilePhoto.frame.width)
+
 
 
     }
