@@ -14,8 +14,8 @@
             filePath = "M.A.H/FirebaseController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "96"
-            endingLineNumber = "96"
+            startingLineNumber = "94"
+            endingLineNumber = "94"
             landmarkName = "createGame(session:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -30,8 +30,8 @@
             filePath = "M.A.H/FirebaseController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "99"
-            endingLineNumber = "99"
+            startingLineNumber = "97"
+            endingLineNumber = "97"
             landmarkName = "createGame(session:completion:)"
             landmarkType = "7">
             <Locations>
@@ -295,16 +295,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "4FF16D09-8A9C-446B-BD43-706C6C9ACAFD"
-            shouldBeEnabled = "Yes"
+            uuid = "62B07FE7-38D5-4E9E-AE17-43831C362CDA"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "M.A.H/Controllers/GameScreenViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "681"
-            endingLineNumber = "681"
-            landmarkName = "collectionView(_:cellForItemAt:)"
+            startingLineNumber = "278"
+            endingLineNumber = "278"
+            landmarkName = "updateState(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

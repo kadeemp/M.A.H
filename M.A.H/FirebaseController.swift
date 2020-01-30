@@ -78,8 +78,6 @@ class FirebaseController {
                 completion()
             }
         }
-
-
     }
     func createGame(session:Session, completion: @escaping ((Game)->())) {
         var gameKey = REF_GAMES.childByAutoId().key!.stripID()
@@ -107,7 +105,6 @@ class FirebaseController {
             })
         }
     }
-
 
     func observeGame(session:Session, completion:@escaping ((Game?) -> ())) {
         guard let gameId = session.gameID else { return }
@@ -161,7 +158,6 @@ class FirebaseController {
 
             }
         }
-
     }
 
     func observeGameRound(gameKey:String, completion:@escaping ((Int) -> ())) {
@@ -169,7 +165,6 @@ class FirebaseController {
             if datasnapshot.exists() {
                 let round = datasnapshot.value as! Int
                 completion(round)
-
             }
         }
     }
@@ -638,11 +633,25 @@ class FirebaseController {
             }
         }
     }
+    func loadGifKeyStringsWithCompletion(completion:@escaping (([String]) -> ()))  {
+        var strings:[String] = []
+        REF_GIPHYGIFS.observeSingleEvent(of: .value) { (dataSnapshot) in
+            if dataSnapshot.exists() {
+                let gifSnapshots = dataSnapshot.children.allObjects as! [DataSnapshot]
+                for snapshot in gifSnapshots {
+                    let urlString = snapshot.childSnapshot(forPath: "id").value as! String
+                    strings.append(urlString)
+                }
+                completion(strings)
+                print("Strings arrray contents:\(strings) \n")
+            }
+        }
+    }
 
     func createMemeDeck(gameKey:String,completion:@escaping (([String:[String:String]]) -> ())) {
-        REF_GIPHYGIFS.observeSingleEvent(of: .value) { (dataSnapshot) in
-
-        }
+//        REF_GIPHYGIFS.observeSingleEvent(of: .value) { (dataSnapshot) in
+//
+//        }
         var result :[String:[String:String]] = [:]
         let queue = DispatchQueue.init(label: "queue")
         loadGifURLStringsWithCompletion { (urlStrings) in

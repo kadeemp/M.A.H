@@ -22,7 +22,7 @@ class GameScreenViewController: UIViewController {
     var responses:[MemeCard] = []
     var cards:[MemeCard] = []
     var members:[Member] = []
-    var columns:CGFloat = 2.5
+    var columns:CGFloat = 3
     let inset:CGFloat = 10.0
     let spacing:CGFloat = 8.0
     var isUserModerator:Bool = false
@@ -94,6 +94,7 @@ class GameScreenViewController: UIViewController {
                 if let currentPrompt = currentPrompt {
                     self.currentPrompt = currentPrompt
                     if self.game.state == 1 {
+
                         self.updateState(self.game.state)
                     }
                 }
@@ -274,13 +275,11 @@ class GameScreenViewController: UIViewController {
             }
             if let currentPrompt = currentPrompt {
                 if currentPrompt.isRevealed == true  {
-                    promptLabel.layer.opacity = 0
-                    promptLabel.text = currentPrompt.prompt
-                    DispatchQueue.main.async {
-                        UIView.animate(withDuration: 0.5, animations: {
-                            self.promptLabel.layer.opacity = 1
-                        })
-                    }
+                    if promptLabel.text == "" {
+
+                        promptLabel.text = currentPrompt.prompt
+                        promptLabel.showLabelWithanimation()                    }
+
                 }
             }
 
@@ -327,7 +326,7 @@ class GameScreenViewController: UIViewController {
                     self.responses = []
                     self.playedCardCollectionView.reloadData()
                     self.hasCardBeenRevealed = false
-                    self.promptLabel.text! = ""
+                    self.promptLabel.resetLabel()
                     self.hasRoundEnded = true
                     if self.isModerator() {
                         FirebaseController.instance.swapModerator(session: self.session)
@@ -469,7 +468,7 @@ class GameScreenViewController: UIViewController {
                 //print(card)
                 let prompt = PromptCardView(frame:CGRect(x: 100, y: 130, width: 200, height: 290))
                 // prompt.center = CGPoint(x: self.view.frame.midX - prompt.frame.width - 15, y: self.view.frame.midY - prompt.frame.height)
-                prompt.promptLabel.text = "\(card.prompt)"
+
                 prompt.layer.opacity = 0
                 FirebaseController.instance.addPromptToTable(gameId: self.session.gameID!, card: card)
                 prompt.revealButton.addTarget(self, action: #selector(self.revealPrompt), for: .touchUpInside)
@@ -477,7 +476,7 @@ class GameScreenViewController: UIViewController {
                 DispatchQueue.main.async {
                     UIView.animate(withDuration: 0.5, animations: {
                         prompt.layer.opacity = 1
-                        self.promptLabel.text = card.prompt
+                        prompt.promptLabel.text = "\(card.prompt)"
 
                         self.promptDeckImageView.isUserInteractionEnabled = false
                     })
@@ -580,7 +579,8 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
             size = CGSize(width: width, height: height)
             return size
         case cardCollectionView:
-            width = Int(collectionView.frame.width / columns)
+
+            width = Int(collectionView.frame.width / 3)
             height = Int(collectionView.frame.height /
                 2)
             size = CGSize(width: width, height: height)
@@ -623,7 +623,6 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
             return spacing
         case scoreboardCollectionView:
             return 0
-
         default:
             print()
         }
@@ -637,7 +636,6 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
             return spacing
         case scoreboardCollectionView:
             return 0
-
         default:
             print()
         }
@@ -662,7 +660,6 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
             if responses.count > 0 {
 
                 let maxIndex = responses.count - 1
-                // print("maxIndex is \(maxIndex ), index path is \(indexPath.row)")
                 if indexPath.row <= maxIndex {
                     if responses[indexPath.row] != nil {
 
@@ -685,7 +682,6 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
             cell3.profilePhoto.loadImageUsingCacheWithUrlString(urlString: member.profileURL)
             if member.moderatorStatus {
                 cell3.profilePhoto.layer.borderColor = UIColor.yellow.cgColor
-
             } else {
                 cell3.profilePhoto.layer.borderColor = UIColor.purple.cgColor
             }
