@@ -34,7 +34,7 @@ class GameScreenViewController: UIViewController {
     
     @IBOutlet var tableHolderView: UIView!
 
-    @IBOutlet var drawerBottomConstraint: NSLayoutConstraint!
+     var drawerBottomConstraint: NSLayoutConstraint!
     @IBOutlet var tableImageView: UIImageView!
     @IBOutlet var promptDeckImageView: UIButton!
     @IBOutlet var memeDeckimageview: UIButton!
@@ -45,49 +45,26 @@ class GameScreenViewController: UIViewController {
     @IBOutlet var promptLabel: UILabel!
 
     @IBOutlet var stateLabel: UILabel!
+    func addConstraintsToCardDrawer() {
+        
+
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(returntoLobby), name: Notification.Name("returnToLobby"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(startNewGame), name: Notification.Name("startNewGame"), object: nil)
         //UIView.animateKeyframes(withDuration: 2, delay: 0, options: .repeat, animations: , completion: )
-        FirebaseController.instance.loadGifKeyStringsWithCompletion { (ids, keys) in
-            var counter = 0
-            for id in ids {
-                       let urlString = "https://api.giphy.com/v1/gifs/\(id)?api_key=TTWH3NHcKDcJskj52cpBwEurfhMaFnVc"
-                        let url = URL(string: urlString)
-                //        Alamofire.request(url, withMethod: .get, parameters: nil, encoding: .url
-                //        , headers: nil) {
-                //            response in
-                //        }
-                        let task = URLSession.shared.dataTask(with: url!) {
-                            data, response, error in
-                           // print(data,"\n", response, "\n", error)
-                            do {
-                                let jsonData = try JSON(data: data!)
-//                                print(jsonData["data"])
-                                let url2String = jsonData["data"]["images"]["original"]["mp4"].stringValue
-                                FirebaseController.instance.updateGiphyURL(key: keys[counter], url: url2String)
-                                let url2 = URL(string: url2String)
-                                print(url2!)
-                //                print(jsonData["data"]["images"]["original"]["url"].stringValue)
-                //                print("-------- \n")
-                                counter += 1
-                            }
-                            catch {
 
-                            }
+        drawerBottomConstraint = cardDrawer.topAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0)
+        drawerBottomConstraint.isActive = true
 
-                        }
-                        task.resume()
-            }
-        }
 
-        switch self.view.frame.height {
-        case 896:
-            self.drawerBottomConstraint.constant = -cardDrawer.frame.height - 65
-        default:
-            self.drawerBottomConstraint.constant = -cardDrawer.frame.height
-        }
+//        switch self.view.frame.height {
+//        case 896:
+//            self.drawerBottomConstraint.constant = -cardDrawer.frame.height - 65
+//        default:
+//            self.drawerBottomConstraint.constant = -cardDrawer.frame.height
+//        }
 
 
         cardCollectionView.delegate = self
@@ -226,7 +203,7 @@ class GameScreenViewController: UIViewController {
         self.tableHolderView.addInteraction(tableDropInteraction)
         self.playedCardCollectionView.addInteraction(tableDropInteraction)
         self.memeDeckimageview.isUserInteractionEnabled = true
-        print(" constant is\(self.drawerBottomConstraint.constant)")
+//        print(" constant is\(self.drawerBottomConstraint.constant)")
 
     }
 
@@ -358,7 +335,7 @@ class GameScreenViewController: UIViewController {
                     self.responses = []
                     self.playedCardCollectionView.reloadData()
                     self.hasCardBeenRevealed = false
-                    self.promptLabel.resetLabel()
+                    self.promptLabel.hideLabelWithAnimation()
                     self.hasRoundEnded = true
                     if self.isModerator() {
                         FirebaseController.instance.swapModerator(session: self.session)
@@ -463,35 +440,24 @@ class GameScreenViewController: UIViewController {
     }
 
     @IBAction func slideupIndicatorTriggered(_ sender: Any) {
-        print("constant before is\(self.drawerBottomConstraint.constant) \n")
+//        print("constant before is\(self.drawerBottomConstraint.constant) \n")
         if !isCardVisible {
             isCardVisible = !isCardVisible
             DispatchQueue.main.async {
                 UIView.animate(withDuration: 0.5) {
-                    // self.drawerBottomConstraint.constant = 0
-                    switch self.view.frame.height {
-                    case 896:
-                        self.drawerBottomConstraint.constant += self.cardDrawer.frame.height + 65
-                    default:
-                        self.drawerBottomConstraint.constant += self.cardDrawer.frame.height
-                    }
+                    self.drawerBottomConstraint.constant -= self.cardDrawer.frame.height
                     self.view.layoutIfNeeded()
                 }}} else {
             self.isCardVisible = false
             DispatchQueue.main.async {
                 UIView.animate(withDuration: 0.5) {
-                    switch self.view.frame.height {
-                    case 896:
-                        self.drawerBottomConstraint.constant = -self.cardDrawer.frame.height - 65
-                    default:
-                        self.drawerBottomConstraint.constant = -self.cardDrawer.frame.height
-                    }
-                    //                    self.drawerBottomConstraint.constant = -280
+
+                    self.drawerBottomConstraint.constant += self.cardDrawer.frame.height
                     self.view.layoutIfNeeded()
                 }
             }
         }
-        print("constant after is\(self.drawerBottomConstraint.constant) \n")
+//        print("constant after is\(self.drawerBottomConstraint.constant) \n")
     }
 
     @IBAction func promptDeckPressed(_ sender: Any) {

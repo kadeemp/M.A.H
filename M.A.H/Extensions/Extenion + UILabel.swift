@@ -17,6 +17,9 @@ extension UILabel {
                 self.layer.opacity = 0
             }
         }
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+            self.text = ""
+        }
     }
 
     func showLabelWithanimation() {
