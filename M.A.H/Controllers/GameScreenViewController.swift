@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import AlamofireImage
+import SwiftyJSON
 import SwiftyGif
 
 class GameScreenViewController: UIViewController {
@@ -48,7 +49,38 @@ class GameScreenViewController: UIViewController {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(returntoLobby), name: Notification.Name("returnToLobby"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(startNewGame), name: Notification.Name("startNewGame"), object: nil)
-        //UIView.animateKeyframes(withDuration: 2, delay: 0, options: .repeat, animations: <#T##() -> Void#>, completion: <#T##((Bool) -> Void)?##((Bool) -> Void)?##(Bool) -> Void#>)
+        //UIView.animateKeyframes(withDuration: 2, delay: 0, options: .repeat, animations: , completion: )
+        FirebaseController.instance.loadGifKeyStringsWithCompletion { (ids, keys) in
+            var counter = 0
+            for id in ids {
+                       let urlString = "https://api.giphy.com/v1/gifs/\(id)?api_key=TTWH3NHcKDcJskj52cpBwEurfhMaFnVc"
+                        let url = URL(string: urlString)
+                //        Alamofire.request(url, withMethod: .get, parameters: nil, encoding: .url
+                //        , headers: nil) {
+                //            response in
+                //        }
+                        let task = URLSession.shared.dataTask(with: url!) {
+                            data, response, error in
+                           // print(data,"\n", response, "\n", error)
+                            do {
+                                let jsonData = try JSON(data: data!)
+//                                print(jsonData["data"])
+                                let url2String = jsonData["data"]["images"]["original"]["mp4"].stringValue
+                                FirebaseController.instance.updateGiphyURL(key: keys[counter], url: url2String)
+                                let url2 = URL(string: url2String)
+                                print(url2!)
+                //                print(jsonData["data"]["images"]["original"]["url"].stringValue)
+                //                print("-------- \n")
+                                counter += 1
+                            }
+                            catch {
+
+                            }
+
+                        }
+                        task.resume()
+            }
+        }
 
         switch self.view.frame.height {
         case 896:

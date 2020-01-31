@@ -12,6 +12,8 @@ pod 'Firebase/Auth'
 pod 'Firebase/Analytics'
 pod 'Firebase/Storage'
 pod 'SwiftyGif'
+pod 'Giphy'
+pod 'SwiftyJSON', '~> 4.0'
   # Pods for M.A.H
 
 end

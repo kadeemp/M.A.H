@@ -633,21 +633,27 @@ class FirebaseController {
             }
         }
     }
-    func loadGifKeyStringsWithCompletion(completion:@escaping (([String]) -> ()))  {
+    func loadGifKeyStringsWithCompletion(completion:@escaping (([String],[String]) -> ()))  {
         var strings:[String] = []
+        var keys:[String] = []
         REF_GIPHYGIFS.observeSingleEvent(of: .value) { (dataSnapshot) in
             if dataSnapshot.exists() {
                 let gifSnapshots = dataSnapshot.children.allObjects as! [DataSnapshot]
                 for snapshot in gifSnapshots {
                     let urlString = snapshot.childSnapshot(forPath: "id").value as! String
                     strings.append(urlString)
+                    keys.append(snapshot.key)
                 }
-                completion(strings)
+                completion(strings, keys)
                 print("Strings arrray contents:\(strings) \n")
             }
         }
     }
 
+    func updateGiphyURL(key:String, url:String) {
+        REF_GIPHYGIFS.child(key).updateChildValues(["url2":url])
+
+    }
     func createMemeDeck(gameKey:String,completion:@escaping (([String:[String:String]]) -> ())) {
 //        REF_GIPHYGIFS.observeSingleEvent(of: .value) { (dataSnapshot) in
 //
