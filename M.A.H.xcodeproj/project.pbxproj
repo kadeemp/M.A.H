@@ -44,6 +44,8 @@
 		F48D8A7C23207C630043402E /* Extention + String.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48D8A7B23207C630043402E /* Extention + String.swift */; };
 		F494AE4023E118CE005F3BBA /* Extenion + UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F494AE3F23E118CE005F3BBA /* Extenion + UILabel.swift */; };
 		F494AE4223E50503005F3BBA /* CardCollectionViewCell2.swift in Sources */ = {isa = PBXBuildFile; fileRef = F494AE4123E50503005F3BBA /* CardCollectionViewCell2.swift */; };
+		F494AE4423E51660005F3BBA /* PlayedCardCollectionViewCell2.swift in Sources */ = {isa = PBXBuildFile; fileRef = F494AE4323E51660005F3BBA /* PlayedCardCollectionViewCell2.swift */; };
+		F494AE4823E51CDD005F3BBA /* WinningCardView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = F494AE4723E51CDD005F3BBA /* WinningCardView2.swift */; };
 		F4A19BF8232807A600C453AA /* ResponseCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A19BF7232807A600C453AA /* ResponseCard.swift */; };
 		F4B8459023B9AF4D0023EF55 /* EndGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B8458F23B9AF4D0023EF55 /* EndGameViewController.swift */; };
 		F4B8459223BA6AFA0023EF55 /* NotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B8459123BA6AFA0023EF55 /* NotificationCenter.swift */; };
@@ -90,6 +92,8 @@
 		F48D8A7B23207C630043402E /* Extention + String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extention + String.swift"; sourceTree = "<group>"; };
 		F494AE3F23E118CE005F3BBA /* Extenion + UILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extenion + UILabel.swift"; sourceTree = "<group>"; };
 		F494AE4123E50503005F3BBA /* CardCollectionViewCell2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardCollectionViewCell2.swift; sourceTree = "<group>"; };
+		F494AE4323E51660005F3BBA /* PlayedCardCollectionViewCell2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayedCardCollectionViewCell2.swift; sourceTree = "<group>"; };
+		F494AE4723E51CDD005F3BBA /* WinningCardView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinningCardView2.swift; sourceTree = "<group>"; };
 		F4A19BF7232807A600C453AA /* ResponseCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseCard.swift; sourceTree = "<group>"; };
 		F4B8458F23B9AF4D0023EF55 /* EndGameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndGameViewController.swift; sourceTree = "<group>"; };
 		F4B8459123BA6AFA0023EF55 /* NotificationCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCenter.swift; sourceTree = "<group>"; };
@@ -139,9 +143,11 @@
 				F494AE4123E50503005F3BBA /* CardCollectionViewCell2.swift */,
 				F41DCC0C23033D1D0018C3D9 /* PromptCardView.swift */,
 				F47FA1492374A36600A7F0E9 /* PlayedCardCollectionViewCell.swift */,
+				F494AE4323E51660005F3BBA /* PlayedCardCollectionViewCell2.swift */,
 				F478243A2378ECDD00E843E9 /* WinningCardView.swift */,
 				F448E79E23AB090A00AEBDF3 /* EndGameCardView.swift */,
 				F40832AE23D2693600CEFF81 /* ScoreboardCollectionViewCell.swift */,
+				F494AE4723E51CDD005F3BBA /* WinningCardView2.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -206,20 +212,12 @@
 		F48D8A7A23207C4A0043402E /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				F494AE3E23E118B3005F3BBA /* New Group */,
 				F4B8459123BA6AFA0023EF55 /* NotificationCenter.swift */,
 				F48D8A7B23207C630043402E /* Extention + String.swift */,
 				F41AC31D23BAC21B00F2B8C9 /* Extension + UIView.swift */,
 				F494AE3F23E118CE005F3BBA /* Extenion + UILabel.swift */,
 			);
 			path = Extensions;
-			sourceTree = "<group>";
-		};
-		F494AE3E23E118B3005F3BBA /* New Group */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "New Group";
 			sourceTree = "<group>";
 		};
 		FF953A71AA1D197F5457F33D /* Frameworks */ = {
@@ -365,6 +363,7 @@
 				F448E79F23AB090A00AEBDF3 /* EndGameCardView.swift in Sources */,
 				F44F468C231614C8009585EA /* Game.swift in Sources */,
 				F4B8459223BA6AFA0023EF55 /* NotificationCenter.swift in Sources */,
+				F494AE4823E51CDD005F3BBA /* WinningCardView2.swift in Sources */,
 				F438B3B522EBF7D8008314AE /* Session.swift in Sources */,
 				F45CEC0722FA26B000119E3E /* GameScreenViewController.swift in Sources */,
 				F45DACD222C5D25A004090C1 /* AppDelegate.swift in Sources */,
@@ -375,6 +374,7 @@
 				F40832AD23D25C6900CEFF81 /* Member.swift in Sources */,
 				F494AE4023E118CE005F3BBA /* Extenion + UILabel.swift in Sources */,
 				F438B3A322EA1050008314AE /* Constants.swift in Sources */,
+				F494AE4423E51660005F3BBA /* PlayedCardCollectionViewCell2.swift in Sources */,
 				F4A19BF8232807A600C453AA /* ResponseCard.swift in Sources */,
 				F427EE1123260A1F0005F2A2 /* CollectionViewCard.swift in Sources */,
 				F41AC31E23BAC21B00F2B8C9 /* Extension + UIView.swift in Sources */,

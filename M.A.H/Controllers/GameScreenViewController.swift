@@ -34,7 +34,7 @@ class GameScreenViewController: UIViewController {
     
     @IBOutlet var tableHolderView: UIView!
 
-     var drawerBottomConstraint: NSLayoutConstraint!
+    var drawerBottomConstraint: NSLayoutConstraint!
     @IBOutlet var tableImageView: UIImageView!
     @IBOutlet var promptDeckImageView: UIButton!
     @IBOutlet var memeDeckimageview: UIButton!
@@ -59,12 +59,12 @@ class GameScreenViewController: UIViewController {
         drawerBottomConstraint.isActive = true
 
 
-//        switch self.view.frame.height {
-//        case 896:
-//            self.drawerBottomConstraint.constant = -cardDrawer.frame.height - 65
-//        default:
-//            self.drawerBottomConstraint.constant = -cardDrawer.frame.height
-//        }
+        //        switch self.view.frame.height {
+        //        case 896:
+        //            self.drawerBottomConstraint.constant = -cardDrawer.frame.height - 65
+        //        default:
+        //            self.drawerBottomConstraint.constant = -cardDrawer.frame.height
+        //        }
 
 
         cardCollectionView.delegate = self
@@ -114,19 +114,27 @@ class GameScreenViewController: UIViewController {
                 self.scoreboardCollectionView.reloadData()
             }
             FirebaseController.instance.observeGameWinningResult(gameKey: game.key) { (result) in
-                if let result = result {
-                    let resultCard = WinningCardView()
-                    resultCard.frame = CGRect(x: 100, y: 130, width: 200, height: 290)
-                    resultCard.promptLabel.text = "\(self.session.members[result.playedBy!]!["name"]!) wins!"
-                    resultCard.gifImage.setGifFromURL(URL(string: result.fileName)!)
-                    self.view.addSubview(resultCard)
-                    let deadline = DispatchTime.now() + 5
-                    DispatchQueue.main.asyncAfter(deadline: deadline) {
-
-                        resultCard.removeFromSuperview()
-
-                    }
-                }
+//                if let result = result {
+//                    self.responses = []
+//                    self.playedCardCollectionView.deleteItems(at: self.playedCardCollectionView.indexPathsForVisibleItems)
+//
+//                    var deadline = DispatchTime.now() + 3
+//                    DispatchQueue.main.asyncAfter(deadline: deadline) {
+//
+//                        self.responses.append(result)
+//                        let indexPath = IndexPath(row: 0, section: 0)
+//                        self.playedCardCollectionView.insertItems(at: [indexPath])
+//
+//                    }
+//
+//                    deadline = DispatchTime.now() + 5
+//                    DispatchQueue.main.asyncAfter(deadline: deadline) {
+//
+//                        self.responses = []
+//                        self.playedCardCollectionView.deleteItems(at: self.playedCardCollectionView.indexPathsForVisibleItems)
+//
+//                    }
+//                }
             }
             FirebaseController.instance.observePlayedCards(gameKey: self.game.key) { (indexes) in
                 if self.game.state == 2 || self.game.state == 3 {
@@ -134,7 +142,7 @@ class GameScreenViewController: UIViewController {
                         if let indexToReveal = indexes.last {
                             let indexPathOfResponse = IndexPath(item: indexToReveal, section: 0)
 
-                            if let cell = self.playedCardCollectionView.cellForItem(at: indexPathOfResponse) as? PlayedCardCollectionViewCell {
+                            if let cell = self.playedCardCollectionView.cellForItem(at: indexPathOfResponse) as? PlayedCardCollectionViewCell2 {
                                 UIView.transition(from: cell.cardImageView, to: cell.revealedCardImageView, duration: 1, options: [.transitionFlipFromLeft,.showHideTransitionViews])
                             }
                         }
@@ -186,15 +194,15 @@ class GameScreenViewController: UIViewController {
         DispatchQueue.main.asyncAfter(deadline: DispatchTime(uptimeNanoseconds: 5)) {
             FirebaseController.instance.returnHand(user: user.uid) { returnedCards in
                 self.cards = returnedCards
-                                print("card count", returnedCards.count)
-                                print(self.cards)
-                                if returnedCards.count == 0 {
-                                    FirebaseController.instance.loadHand(session: self.session) {
-                                        FirebaseController.instance.returnHand(user: Auth.auth().currentUser!.uid) { (newHand) in
-                                            self.cards = newHand
-                                        }
-                                    }
-                                }
+                print("card count", returnedCards.count)
+                print(self.cards)
+                if returnedCards.count == 0 {
+                    FirebaseController.instance.loadHand(session: self.session) {
+                        FirebaseController.instance.returnHand(user: Auth.auth().currentUser!.uid) { (newHand) in
+                            self.cards = newHand
+                        }
+                    }
+                }
                 self.cardCollectionView.reloadData()
             }
         }
@@ -203,7 +211,7 @@ class GameScreenViewController: UIViewController {
         self.tableHolderView.addInteraction(tableDropInteraction)
         self.playedCardCollectionView.addInteraction(tableDropInteraction)
         self.memeDeckimageview.isUserInteractionEnabled = true
-//        print(" constant is\(self.drawerBottomConstraint.constant)")
+        //        print(" constant is\(self.drawerBottomConstraint.constant)")
 
     }
 
@@ -316,10 +324,10 @@ class GameScreenViewController: UIViewController {
         case 4:
             FirebaseController.instance.returnWinningResult(gameKey: game.key) { (winningCard) in
                 if let winningCard = winningCard {
-                    let resultCard = WinningCardView()
+                    let resultCard = WinningCardView2()
                     resultCard.frame = CGRect(x: 100, y: 130, width: 200, height: 290)
                     resultCard.promptLabel.text = "\(self.session.members[winningCard.playedBy!]!["name"]!) wins!"
-                    resultCard.gifImage.setGifFromURL(URL(string: winningCard.fileName)!)
+                    resultCard.setupPlayer(urlString: winningCard.fileName)
                     self.view.addSubview(resultCard)
                     FirebaseController.instance.setStateTo(5, game: self.game)
 
@@ -440,7 +448,7 @@ class GameScreenViewController: UIViewController {
     }
 
     @IBAction func slideupIndicatorTriggered(_ sender: Any) {
-//        print("constant before is\(self.drawerBottomConstraint.constant) \n")
+        //        print("constant before is\(self.drawerBottomConstraint.constant) \n")
         if !isCardVisible {
             isCardVisible = !isCardVisible
             DispatchQueue.main.async {
@@ -457,7 +465,7 @@ class GameScreenViewController: UIViewController {
                 }
             }
         }
-//        print("constant after is\(self.drawerBottomConstraint.constant) \n")
+        //        print("constant after is\(self.drawerBottomConstraint.constant) \n")
     }
 
     @IBAction func promptDeckPressed(_ sender: Any) {
@@ -506,7 +514,7 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
         if collectionView == playedCardCollectionView {
             let response = responses[indexPath.row]
 
-            let cell = collectionView.cellForItem(at: indexPath) as! PlayedCardCollectionViewCell
+            let cell = collectionView.cellForItem(at: indexPath) as! PlayedCardCollectionViewCell2
             //MARK:STATE CHANGED TO 4
             if response.isRevealed && allResponsesHaveBeenRevealed(responses: responses) {
                 if self.game.state == 3 {
@@ -647,11 +655,11 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
             print(card)
             cell.setupPlayer(urlString: card.fileName)
 
-//            cell.cardImage.setGifFromURL(url)
+            //            cell.cardImage.setGifFromURL(url)
 
             return cell
         case playedCardCollectionView:
-            let cell2 = playedCardCollectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! PlayedCardCollectionViewCell
+            let cell2 = playedCardCollectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! PlayedCardCollectionViewCell2
             cell2.cardImageView.isHidden = false
             cell2.imageHolderView.bringSubviewToFront(cell2.cardImageView)
             if responses.count > 0 {
@@ -666,7 +674,8 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
                         } else {
                             cell2.cardImageView.isHidden = false
                         }
-                        cell2.revealedCardImageView.setGifFromURL(URL(string: response.fileName)!)
+                        cell2.setupPlayer(urlString: response.fileName)
+
                         return cell2
                     }
                 }
@@ -692,7 +701,7 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
             print()
         }
         return cell
-           }
+    }
 
 
 
