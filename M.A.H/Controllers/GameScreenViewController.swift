@@ -538,7 +538,6 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
                         DispatchQueue.main.asyncAfter(deadline: deadline) {
                             FirebaseController.instance.revealResponse(gameKey: self.game.key, card: response)
                             FirebaseController.instance.addResponseIndex(gameKey: self.game.key, index: indexPath.row)
-
                         }
                         self.responses[indexPath.row].isRevealed = !response.isRevealed
                         if allResponsesHaveBeenRevealed(responses: responses) {
@@ -609,9 +608,7 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
         }
         return UIEdgeInsets(top: 0, left: 0, bottom: 0 ,right: 0)
     }
-    //    let columns:CGFloat = 2.5
-    //    let inset:CGFloat = 10.0
-    //    let spacing:CGFloat = 8.0
+
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         switch collectionView {
@@ -644,11 +641,13 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
 
         switch collectionView {
         case cardCollectionView:
-            let cell = cardCollectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CardCollectionViewCell
+            let cell = cardCollectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CardCollectionViewCell2
             let card = cards[indexPath.row]
             let url = URL(string: card.fileName)!
+            print(card)
+            cell.setupPlayer(urlString: card.fileName)
 
-            cell.cardImage.setGifFromURL(url)
+//            cell.cardImage.setGifFromURL(url)
 
             return cell
         case playedCardCollectionView:

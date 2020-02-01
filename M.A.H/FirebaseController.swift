@@ -625,7 +625,7 @@ class FirebaseController {
             if dataSnapshot.exists() {
                 let gifSnapshots = dataSnapshot.children.allObjects as! [DataSnapshot]
                 for snapshot in gifSnapshots {
-                    let urlString = snapshot.childSnapshot(forPath: "url").value as! String
+                    let urlString = snapshot.childSnapshot(forPath: "url2").value as! String
                     strings.append(urlString)
                 }
                 completion(strings)

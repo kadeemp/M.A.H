@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -43,6 +43,7 @@
 		F483A3D622E39E9900D099BE /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = F483A3D522E39E9900D099BE /* Podfile */; };
 		F48D8A7C23207C630043402E /* Extention + String.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48D8A7B23207C630043402E /* Extention + String.swift */; };
 		F494AE4023E118CE005F3BBA /* Extenion + UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F494AE3F23E118CE005F3BBA /* Extenion + UILabel.swift */; };
+		F494AE4223E50503005F3BBA /* CardCollectionViewCell2.swift in Sources */ = {isa = PBXBuildFile; fileRef = F494AE4123E50503005F3BBA /* CardCollectionViewCell2.swift */; };
 		F4A19BF8232807A600C453AA /* ResponseCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A19BF7232807A600C453AA /* ResponseCard.swift */; };
 		F4B8459023B9AF4D0023EF55 /* EndGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B8458F23B9AF4D0023EF55 /* EndGameViewController.swift */; };
 		F4B8459223BA6AFA0023EF55 /* NotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B8459123BA6AFA0023EF55 /* NotificationCenter.swift */; };
@@ -88,6 +89,7 @@
 		F483A3D522E39E9900D099BE /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		F48D8A7B23207C630043402E /* Extention + String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extention + String.swift"; sourceTree = "<group>"; };
 		F494AE3F23E118CE005F3BBA /* Extenion + UILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extenion + UILabel.swift"; sourceTree = "<group>"; };
+		F494AE4123E50503005F3BBA /* CardCollectionViewCell2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardCollectionViewCell2.swift; sourceTree = "<group>"; };
 		F4A19BF7232807A600C453AA /* ResponseCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseCard.swift; sourceTree = "<group>"; };
 		F4B8458F23B9AF4D0023EF55 /* EndGameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndGameViewController.swift; sourceTree = "<group>"; };
 		F4B8459123BA6AFA0023EF55 /* NotificationCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCenter.swift; sourceTree = "<group>"; };
@@ -134,6 +136,7 @@
 			isa = PBXGroup;
 			children = (
 				F45CEC0D22FE406500119E3E /* CardCollectionViewCell.swift */,
+				F494AE4123E50503005F3BBA /* CardCollectionViewCell2.swift */,
 				F41DCC0C23033D1D0018C3D9 /* PromptCardView.swift */,
 				F47FA1492374A36600A7F0E9 /* PlayedCardCollectionViewCell.swift */,
 				F478243A2378ECDD00E843E9 /* WinningCardView.swift */,
@@ -351,6 +354,7 @@
 				F45DACD422C5D25A004090C1 /* LoginViewController.swift in Sources */,
 				F48D8A7C23207C630043402E /* Extention + String.swift in Sources */,
 				F438B39D22E933C9008314AE /* Extension+UIImageView.swift in Sources */,
+				F494AE4223E50503005F3BBA /* CardCollectionViewCell2.swift in Sources */,
 				F41DCC0B230259C70018C3D9 /* PromptCard.swift in Sources */,
 				F40832AF23D2693600CEFF81 /* ScoreboardCollectionViewCell.swift in Sources */,
 				F45DACDA22C5D25A004090C1 /* M_A_H.xcdatamodeld in Sources */,
