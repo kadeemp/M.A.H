@@ -42,7 +42,6 @@ var avPlayerLayer: AVPlayerLayer!
         //TODO:- CHANGE TO PROGRAMMATIC CONSTRAINTS
         let View = UIView(frame: CGRect(x:20, y: 80 , width: 160, height: 100))
         //imageView.frame.center = CGPoint(x: self.frame.width/2, y: self.frame.height/2)
-        View.backgroundColor = .brown
         return View
     }()
     //TODO:- refactor so that this func doesn't have to e rewritten
@@ -88,7 +87,6 @@ var avPlayerLayer: AVPlayerLayer!
         layer.borderColor = UIColor.white.cgColor
         layer.borderWidth = 1
         self.addSubview(promptLabel)
-        gifImage.backgroundColor = .blue
         self.addSubview(gifImage)
         let deadline = DispatchTime.now() + 5
         DispatchQueue.main.asyncAfter(deadline: deadline) {

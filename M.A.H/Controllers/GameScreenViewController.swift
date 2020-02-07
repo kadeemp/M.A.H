@@ -8,7 +8,7 @@
 
 import UIKit
 import Firebase
-import AlamofireImage
+
 import SwiftyJSON
 import SwiftyGif
 
@@ -46,7 +46,9 @@ class GameScreenViewController: UIViewController {
 
     @IBOutlet var stateLabel: UILabel!
     func addConstraintsToCardDrawer() {
-        
+        drawerBottomConstraint = cardDrawer.topAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0)
+        drawerBottomConstraint.isActive = true
+            self.view.layoutIfNeeded()
 
     }
     override func viewDidLoad() {
@@ -55,17 +57,8 @@ class GameScreenViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(startNewGame), name: Notification.Name("startNewGame"), object: nil)
         //UIView.animateKeyframes(withDuration: 2, delay: 0, options: .repeat, animations: , completion: )
 
-        drawerBottomConstraint = cardDrawer.topAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0)
-        drawerBottomConstraint.isActive = true
-
-
-        //        switch self.view.frame.height {
-        //        case 896:
-        //            self.drawerBottomConstraint.constant = -cardDrawer.frame.height - 65
-        //        default:
-        //            self.drawerBottomConstraint.constant = -cardDrawer.frame.height
-        //        }
-
+        addConstraintsToCardDrawer()
+        promptLabel.resetLabel()
 
         cardCollectionView.delegate = self
         cardCollectionView.dataSource = self
@@ -75,14 +68,10 @@ class GameScreenViewController: UIViewController {
         playedCardCollectionView.delegate = self
         playedCardCollectionView.dataSource = self
         playedCardCollectionView.dropDelegate = self
-
+//        tableHolderView.layer.borderColor = UIColor.white.cgColor
+//        tableHolderView.layer.borderWidth = 1
 
         //TODO: Add observers for state, table, winning result,
-
-        // self.drawerBottomConstraint.constant = -cardDrawer.frame.height
-        self.view.layoutIfNeeded()
-
-        print(" height is\(self.view.frame.height)")
         if let game = game {
             FirebaseController.instance.observeIsModerator(sessionKey: session.key, userKey: Auth.auth().currentUser!.uid) { (moderatorStatus) in
                 print("\(Auth.auth().currentUser?.displayName)'s moderator status is \(moderatorStatus) \n the game state is \(self.game.state)")

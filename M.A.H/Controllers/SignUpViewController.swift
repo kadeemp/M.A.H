@@ -97,7 +97,7 @@ class SignUpViewController: UIViewController {
                                     FirebaseController.instance.createDBUser(uid: Auth.auth().currentUser!.uid.stripID(), userData: userData)
                                     print("user saved to database")
                                     let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
-                                    changeRequest?.displayName = fullName
+                                    changeRequest?.displayName = self.firstNameTxTField.text!
 
                                     changeRequest?.photoURL =  URL(string: url!.absoluteString) 
                                     changeRequest?.commitChanges(completion: { (error) in
