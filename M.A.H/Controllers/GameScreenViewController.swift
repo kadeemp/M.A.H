@@ -53,7 +53,6 @@ class GameScreenViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter.default.addObserver(self, selector: #selector(returntoLobby), name: Notification.Name("returnToLobby"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(startNewGame), name: Notification.Name("startNewGame"), object: nil)
         //UIView.animateKeyframes(withDuration: 2, delay: 0, options: .repeat, animations: , completion: )
 
@@ -137,7 +136,6 @@ class GameScreenViewController: UIViewController {
                         }
                     }
                 }
-
             }
 
             FirebaseController.instance.observeResponses(gameKey: game.key) { (returnedResponses) in
@@ -241,6 +239,8 @@ class GameScreenViewController: UIViewController {
         switch state {
             //Start game. Initial setup
         //waiting for moderator to pick prompt
+        case -2 :
+            AppDelegate.shared.rootViewController.popVC()
         case -1:
             self.responses = []
             self.promptLabel.text = ""
@@ -374,10 +374,7 @@ class GameScreenViewController: UIViewController {
 
         }
     }
-    @objc func returntoLobby() {
-        print("retrn2lbby")
-        self.navigationController?.popViewController(animated: true)
-    }
+
     func checkScoreboard(session:Session) {
         let members = session.members
         var didWin = false
@@ -389,7 +386,8 @@ class GameScreenViewController: UIViewController {
                     print("this person is the host")
                     var alert = UIAlertController(title: "\(member.value["name"] as! String) won", message: "What would you like to do?", preferredStyle: .alert)
                     let returnAction = UIAlertAction(title: "Return to Lobby", style: .cancel) { (action) in
-                        self.navigationController?.popViewController(animated: true)
+                        //self.navigationController?.popViewController(animated: true)
+                        AppDelegate.shared.rootViewController.popVC()
                         //TODO:- Set GameIsActive to false, record game data,  destory game data
 
                     }
@@ -438,14 +436,53 @@ class GameScreenViewController: UIViewController {
 
     @IBAction func slideupIndicatorTriggered(_ sender: Any) {
         //        print("constant before is\(self.drawerBottomConstraint.constant) \n")
+
+        let cell = self.cardCollectionView.cellForItem(at: IndexPath(row: 0, section: 0)) as! CardCollectionViewCell2
+
+        let animation = CABasicAnimation(keyPath: "transform.scale.x")
+        let animation2 = CABasicAnimation(keyPath: "transform.scale.y")
+        let animation3 = CABasicAnimation(keyPath: "transform.translation.y")
+        animation.duration = 0.3
+        animation.fromValue = 1
+        animation.toValue = 1.2
+        animation.autoreverses = true
+        animation2.duration = 0.3
+        animation2.fromValue = 1
+        animation2.toValue = 1.2
+        animation2.autoreverses = true
+        animation3.duration = 0.4
+        animation3.fromValue = 0
+        animation3.toValue = -20
+        animation3.autoreverses = true
+
         if !isCardVisible {
             isCardVisible = !isCardVisible
+            let deadline = DispatchTime.now() + 1
+            DispatchQueue.main.asyncAfter(deadline: deadline) {
+                UIView.animate(withDuration: 0.5) {
+                    cell.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+
+                    self.view.layoutIfNeeded()
+
+
+                }
+
+                cell.layer.add(animation3, forKey: nil)
+            }
+            
             DispatchQueue.main.async {
                 UIView.animate(withDuration: 0.5) {
                     self.drawerBottomConstraint.constant -= self.cardDrawer.frame.height
+                    cell.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+
                     self.view.layoutIfNeeded()
-                }}} else {
+
+
+                }}}
+
+        else {
             self.isCardVisible = false
+
             DispatchQueue.main.async {
                 UIView.animate(withDuration: 0.5) {
 
@@ -500,6 +537,7 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
+
         if collectionView == playedCardCollectionView {
             let response = responses[indexPath.row]
 
@@ -542,6 +580,23 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
                         }
                     }
                 }
+            }
+        } else if collectionView == cardCollectionView {
+            let cell = collectionView.cellForItem(at: indexPath) as! CardCollectionViewCell2
+            let animation = CABasicAnimation(keyPath: "transform.scale.x")
+            let animation2 = CABasicAnimation(keyPath: "transform.scale.y")
+            let deadline = DispatchTime.now() + 1
+            DispatchQueue.main.asyncAfter(deadline: deadline) {
+                animation.duration = 0.5
+                animation.fromValue = 1
+                animation.toValue = 2
+                animation.autoreverses = true
+                animation2.duration = 0.5
+                animation2.fromValue = 1
+                animation2.toValue = 2
+                animation2.autoreverses = true
+                cell.layer.add(animation, forKey: nil)
+                cell.layer.add(animation2, forKey: nil)
             }
         }
     }

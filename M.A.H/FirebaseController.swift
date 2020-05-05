@@ -222,17 +222,23 @@ class FirebaseController {
 
     func observeSessionMembers(session:Session, completion:@escaping (([Member]) -> ())) {
         var returnedMebers:[Member] = []
+        var member:Member? = nil
         REF_SESSIONS.child(session.key).child("members").observe(.value, with: { (dataSnapshot) in
         if dataSnapshot.exists() {
             let snapshots = dataSnapshot.children.allObjects as! [DataSnapshot]
             returnedMebers = []
             for snap in snapshots {
-                let photoURL =  snap.childSnapshot(forPath: "photoURL").value as! String
+                let photoURL = snap.childSnapshot(forPath: "photoURL").value as? String
                 let moderatorStatus = snap.childSnapshot(forPath: "isModerator").value as! Bool
                 let name = snap.childSnapshot(forPath: "name").value as! String
                 let score = snap.childSnapshot(forPath: "score").value as! Int
-                let member = Member(name:name, profileURL: photoURL, moderatorStatus: moderatorStatus, score: score)
-                returnedMebers.append(member)
+                if let photoURL = photoURL {
+                    member = Member(name:name, profileURL: photoURL, moderatorStatus: moderatorStatus, score: score)
+                } else {
+                    member = Member(name:name, profileURL: "", moderatorStatus: moderatorStatus, score: score)
+                }
+
+                returnedMebers.append(member!)
             }
             completion(returnedMebers)
             }

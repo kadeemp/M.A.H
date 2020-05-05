@@ -100,6 +100,9 @@ class RootViewController: UIViewController {
 
 
     }
+    func popVC() {
+        self.navigationController?.popViewController(animated: true)
+    }
     func switchToLogout() {
          let storyboard = UIStoryboard(name: "Main", bundle: nil)
          let login = storyboard.instantiateViewController(identifier: "Login")
