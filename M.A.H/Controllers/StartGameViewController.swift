@@ -112,7 +112,7 @@ class StartGameViewController: UIViewController {
         catch {
             print(error)
         }
-           AppDelegate.shared.rootViewController.showLoginScreen()
+        AppDelegate.shared.loadLoadLoginScreen()
     }
     
     /*

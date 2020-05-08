@@ -64,12 +64,14 @@ class RootViewController: UIViewController {
 
     @available(iOS 13.0, *)
     func showLoginScreen() {
-        print(self.view.subviews)
+        print(self.view.subviews,1)
+
          let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let login = storyboard.instantiateViewController(identifier: "Login")
 
           let new = UINavigationController(rootViewController: login)
         addChild(new)
+
           new.view.frame = view.bounds
           view.addSubview(new.view)
         new.didMove(toParent: self)
@@ -79,7 +81,7 @@ class RootViewController: UIViewController {
           current = new
         current.view.backgroundColor = .blue
 
-        print(self.view.subviews)
+        print(self.view.subviews,2)
        }
 
     func showMainScreen() {
@@ -108,7 +110,7 @@ class RootViewController: UIViewController {
          let login = storyboard.instantiateViewController(identifier: "Login")
 
        let logoutScreen = UINavigationController(rootViewController: login)
-       animateDismissTransition(to: logoutScreen)
+//       animateDismissTransition(to: logoutScreen)
     }
 
     func switchToMainScreen() {

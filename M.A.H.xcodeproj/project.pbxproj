@@ -47,6 +47,7 @@
 		F494AE4423E51660005F3BBA /* PlayedCardCollectionViewCell2.swift in Sources */ = {isa = PBXBuildFile; fileRef = F494AE4323E51660005F3BBA /* PlayedCardCollectionViewCell2.swift */; };
 		F494AE4823E51CDD005F3BBA /* WinningCardView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = F494AE4723E51CDD005F3BBA /* WinningCardView2.swift */; };
 		F4A19BF8232807A600C453AA /* ResponseCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A19BF7232807A600C453AA /* ResponseCard.swift */; };
+		F4ACF74C246369480087F0BE /* NavigationControllers.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4ACF74B246369480087F0BE /* NavigationControllers.swift */; };
 		F4B8459023B9AF4D0023EF55 /* EndGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B8458F23B9AF4D0023EF55 /* EndGameViewController.swift */; };
 		F4B8459223BA6AFA0023EF55 /* NotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B8459123BA6AFA0023EF55 /* NotificationCenter.swift */; };
 /* End PBXBuildFile section */
@@ -95,6 +96,7 @@
 		F494AE4323E51660005F3BBA /* PlayedCardCollectionViewCell2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayedCardCollectionViewCell2.swift; sourceTree = "<group>"; };
 		F494AE4723E51CDD005F3BBA /* WinningCardView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinningCardView2.swift; sourceTree = "<group>"; };
 		F4A19BF7232807A600C453AA /* ResponseCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseCard.swift; sourceTree = "<group>"; };
+		F4ACF74B246369480087F0BE /* NavigationControllers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationControllers.swift; sourceTree = "<group>"; };
 		F4B8458F23B9AF4D0023EF55 /* EndGameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndGameViewController.swift; sourceTree = "<group>"; };
 		F4B8459123BA6AFA0023EF55 /* NotificationCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCenter.swift; sourceTree = "<group>"; };
 		F8FB59231A99A12FDDD63F3A /* Pods-M.A.H.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-M.A.H.release.xcconfig"; path = "Target Support Files/Pods-M.A.H/Pods-M.A.H.release.xcconfig"; sourceTree = "<group>"; };
@@ -165,6 +167,7 @@
 				F45CEC0622FA26B000119E3E /* GameScreenViewController.swift */,
 				F4B8458F23B9AF4D0023EF55 /* EndGameViewController.swift */,
 				F465139723CE3CFE003D2DAA /* RootViewController.swift */,
+				F4ACF74B246369480087F0BE /* NavigationControllers.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -370,6 +373,7 @@
 				F438B3B322EB7675008314AE /* PropmtsCollectionViewController.swift in Sources */,
 				F465139823CE3CFE003D2DAA /* RootViewController.swift in Sources */,
 				F438B3AD22EB675A008314AE /* LobbyViewController.swift in Sources */,
+				F4ACF74C246369480087F0BE /* NavigationControllers.swift in Sources */,
 				F451CBBE23104F44008FDFE8 /* CardTable.swift in Sources */,
 				F40832AD23D25C6900CEFF81 /* Member.swift in Sources */,
 				F494AE4023E118CE005F3BBA /* Extenion + UILabel.swift in Sources */,
