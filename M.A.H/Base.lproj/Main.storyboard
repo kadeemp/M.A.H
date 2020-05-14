@@ -730,7 +730,7 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0F5-IL-99b" userLabel="CardDrawer">
+                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0F5-IL-99b" userLabel="CardDrawer">
                                 <rect key="frame" x="0.0" y="363.5" width="320" height="184.5"/>
                                 <subviews>
                                     <collectionView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" delaysContentTouches="NO" dataMode="prototypes" springLoaded="YES" translatesAutoresizingMaskIntoConstraints="NO" id="F97-Qh-jUy">
@@ -750,7 +750,7 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="101" height="126"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="meL-PU-CJ6">
+                                                        <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="meL-PU-CJ6">
                                                             <rect key="frame" x="0.0" y="0.0" width="101" height="126"/>
                                                             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         </view>
@@ -818,11 +818,6 @@
                             <constraint firstItem="xY7-aP-jIw" firstAttribute="leading" secondItem="lqk-WY-VNr" secondAttribute="leading" constant="20" id="gco-yn-b1P"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="lqk-WY-VNr"/>
-                        <variation key="default">
-                            <mask key="subviews">
-                                <exclude reference="0F5-IL-99b"/>
-                            </mask>
-                        </variation>
                     </view>
                     <navigationItem key="navigationItem" id="J9F-fQ-rj7"/>
                     <connections>

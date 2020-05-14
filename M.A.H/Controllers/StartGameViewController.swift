@@ -53,8 +53,6 @@ class StartGameViewController: UIViewController {
         if code.count == 4 && Auth.auth().currentUser != nil {
             userDefaults.set(code, forKey: "code")
             FirebaseController.instance.createSession(code: code, hostID: Auth.auth().currentUser!.uid, host: (Auth.auth().currentUser?.displayName)!)
-//            let lobby = storyboard?.instantiateViewController(identifier: "Lobby")
-//            self.navigationController?.pushViewController(lobby!, animated: true)
             
             performSegue(withIdentifier: "toLobby", sender: self)
         }
@@ -112,7 +110,7 @@ class StartGameViewController: UIViewController {
         catch {
             print(error)
         }
-        AppDelegate.shared.loadLoadLoginScreen()
+        AppDelegate.shared.loadLoadLoginScreen(window: AppDelegate.shared.window!)
     }
     
     /*

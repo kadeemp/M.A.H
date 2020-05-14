@@ -240,7 +240,8 @@ class GameScreenViewController: UIViewController {
             //Start game. Initial setup
         //waiting for moderator to pick prompt
         case -2 :
-            AppDelegate.shared.rootViewController.popVC()
+            //TODO:-  Test to make sure that this works.
+            self.navigationController?.popViewController(animated: true)
         case -1:
             self.responses = []
             self.promptLabel.text = ""
@@ -386,8 +387,9 @@ class GameScreenViewController: UIViewController {
                     print("this person is the host")
                     var alert = UIAlertController(title: "\(member.value["name"] as! String) won", message: "What would you like to do?", preferredStyle: .alert)
                     let returnAction = UIAlertAction(title: "Return to Lobby", style: .cancel) { (action) in
-                        //self.navigationController?.popViewController(animated: true)
-                        AppDelegate.shared.rootViewController.popVC()
+//                        TODO:- Make sure this works.
+                        self.navigationController?.popViewController(animated: true)
+//                        AppDelegate.shared.rootViewController.popVC()
                         //TODO:- Set GameIsActive to false, record game data,  destory game data
 
                     }

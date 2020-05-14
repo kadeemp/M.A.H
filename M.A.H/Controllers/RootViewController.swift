@@ -32,35 +32,35 @@ class RootViewController: UIViewController {
         current.didMove(toParent: self)
         // Do any additional setup after loading the view.
     }
+//
+//    private func animateFadeTransition(to new: UIViewController, completion: (() -> Void)? = nil) {
+//        current.willMove(toParent: nil)
+//        addChild(new)
+//
+//       transition(from: current, to: new, duration: 0.3, options: [.transitionCrossDissolve, .curveEaseOut], animations: {
+//       }) { completed in
+//        self.current.removeFromParent()
+//        new.didMove(toParent: self)
+//            self.current = new
+//            completion?()  //1
+//       }
+//    }
 
-    private func animateFadeTransition(to new: UIViewController, completion: (() -> Void)? = nil) {
-        current.willMove(toParent: nil)
-        addChild(new)
-
-       transition(from: current, to: new, duration: 0.3, options: [.transitionCrossDissolve, .curveEaseOut], animations: {
-       }) { completed in
-        self.current.removeFromParent()
-        new.didMove(toParent: self)
-            self.current = new
-            completion?()  //1
-       }
-    }
-
-    private func animateDismissTransition(to new: UIViewController, completion: (() -> Void)? = nil) {
-
-        current.willMove(toParent: nil)
-        addChild(new)
-        print(current.parent)
-        print(new.parent)
-       transition(from: current, to: new, duration: 0.3, options: [], animations: {
-          new.view.frame = self.view.bounds
-       }) { completed in
-        self.current.removeFromParent()
-        new.didMove(toParent: self)
-          self.current = new
-          completion?()
-       }
-    }
+//    private func animateDismissTransition(to new: UIViewController, completion: (() -> Void)? = nil) {
+//
+//        current.willMove(toParent: nil)
+//        addChild(new)
+//        print(current.parent)
+//        print(new.parent)
+//       transition(from: current, to: new, duration: 0.3, options: [], animations: {
+//          new.view.frame = self.view.bounds
+//       }) { completed in
+//        self.current.removeFromParent()
+//        new.didMove(toParent: self)
+//          self.current = new
+//          completion?()
+//       }
+//    }
 
     @available(iOS 13.0, *)
     func showLoginScreen() {
@@ -117,7 +117,7 @@ class RootViewController: UIViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
        let mainViewController = storyboard.instantiateViewController(identifier: "StartGame")
        let new = UINavigationController(rootViewController: mainViewController)
-       animateFadeTransition(to:new)
+//       animateFadeTransition(to:new)
     }
 
 

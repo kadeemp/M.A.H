@@ -106,7 +106,7 @@ class SignUpViewController: UIViewController {
                                             print("error commiting profile changes")
                                         }
                                     })
-                                    AppDelegate.shared.rootViewController.showMainScreen()
+                                    AppDelegate.shared.loadMainScreen(window: AppDelegate.shared.window!)
                                 }
                             }
                         }
@@ -130,7 +130,7 @@ class SignUpViewController: UIViewController {
                             userData["fullName"] = fullName
                             FirebaseController.instance.createDBUser(uid: Auth.auth().currentUser!.uid.stripID(), userData: userData)
                             print("user saved to database")
-                            AppDelegate.shared.rootViewController.showMainScreen()
+                            AppDelegate.shared.loadMainScreen(window: AppDelegate.shared.window!)
                            }
                        })
                            let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
