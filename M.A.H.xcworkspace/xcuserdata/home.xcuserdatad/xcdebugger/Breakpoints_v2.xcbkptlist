@@ -247,54 +247,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "287A6127-5FFF-4FB9-9F5C-DA52BB375039"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "M.A.H/Views/WinningCardView2.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "58"
-            endingLineNumber = "58"
-            landmarkName = "setupPlayer(urlString:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "287A6127-5FFF-4FB9-9F5C-DA52BB375039 - e889da43c0dccb59"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "M_A_H.WinningCardView2.setupPlayer(urlString: Swift.String) -&gt; ()"
-                  moduleName = "M.A.H"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/home/Desktop/Directory/Swift/M.A.H/M.A.H/Views/WinningCardView2.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "59"
-                  endingLineNumber = "59"
-                  offsetFromSymbolStart = "1358">
-               </Location>
-               <Location
-                  uuid = "287A6127-5FFF-4FB9-9F5C-DA52BB375039 - 4513685e0dd82674"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Foundation.Notification) -&gt; () in M_A_H.WinningCardView2.setupPlayer(urlString: Swift.String) -&gt; ()"
-                  moduleName = "M.A.H"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/home/Desktop/Directory/Swift/M.A.H/M.A.H/Views/WinningCardView2.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "60"
-                  endingLineNumber = "60"
-                  offsetFromSymbolStart = "32">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "F4717EA6-AF34-44F9-97CC-5044314833C8"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -353,22 +305,6 @@
             startingLineNumber = "113"
             endingLineNumber = "113"
             landmarkName = "signOutPressed(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "EF77CDC2-7235-4794-A51E-EDE1684F6497"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "M.A.H/Controllers/LobbyViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "133"
-            endingLineNumber = "133"
-            landmarkName = "prepare(for:sender:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
