@@ -76,7 +76,7 @@ class StartGameViewController: UIViewController {
                         self.userDefaults.set(session!.code, forKey: "code")
 
                         //Safely unwrap
-                        FirebaseController.instance.addUserToSession(code: session!.code, userID: Auth.auth().currentUser!.uid, displayName: (Auth.auth().currentUser?.displayName!)!)
+                        FirebaseController.instance.addUserToSession(code: session!.code, userID: Auth.auth().currentUser!.uid, displayName: (Auth.auth().currentUser?.displayName ?? "Player" )!)
                         self.performSegue(withIdentifier: "toLobby", sender: self)
 
                     })

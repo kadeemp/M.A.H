@@ -77,6 +77,7 @@ class GameScreenViewController: UIViewController {
                 let members = self.session.members
                 let memberIndex = members.index(forKey: Auth.auth().currentUser!.uid)
                 self.session.members.updateValue(["isModerator":moderatorStatus], forKey: Auth.auth().currentUser!.uid)
+                self.scoreboardCollectionView.reloadData()
                 self.updateState(self.game.state)
             }
             FirebaseController.instance.observeGameState(gameKey: game.key) { (newState) in
@@ -214,20 +215,21 @@ class GameScreenViewController: UIViewController {
         //MARK: STATE CHANGE TO 1
         FirebaseController.instance.revealPrompt(gameId: self.game.key)
         FirebaseController.instance.setStateTo(1, game: self.game)
+        print(game)
 
         self.hasCardBeenRevealed  = true
     }
     
-    func returnPrompt() -> PromptCard? {
-        var card:PromptCard = PromptCard(cardKey: "", prompt: "", playedBy: nil, isRevealed: false)
-        guard let table = game.table else {
-            return nil
-        }
-        guard let prompt = table["currentPrompt"] else {
-            return nil
-        }
-        return card
-    }
+//    func returnPrompt() -> PromptCard? {
+//        var card:PromptCard = PromptCard(cardKey: "", prompt: "", playedBy: nil, isRevealed: false)
+//        guard let table = game.table else {
+//            return nil
+//        }
+//        guard let prompt = table["currentPrompt"] else {
+//            return nil
+//        }
+//        return card
+//    }
 
     func updateState(_ state:Int) {
         //        print("the state in the fn is \(state) \n the state on the game is \(self.self.game.state)")
@@ -245,6 +247,8 @@ class GameScreenViewController: UIViewController {
         case -1:
             self.responses = []
             self.promptLabel.text = ""
+
+
             //todo:Check if person has 5 cards
         //todo:alert next moderator
         case 0:
@@ -253,6 +257,10 @@ class GameScreenViewController: UIViewController {
                 self.responses = []
                 self.playedCardCollectionView.reloadData()
                 print("TABLE NOT PROPERLY CLEARED")
+            }
+            if self.promptLabel.text != "" {
+                self.promptLabel.text = ""
+                print("PROMPT LABEL NOT PROPERLY CLEARED")
             }
             self.hasRoundEnded = false
             //amke deck border glow
@@ -389,6 +397,7 @@ class GameScreenViewController: UIViewController {
                     let returnAction = UIAlertAction(title: "Return to Lobby", style: .cancel) { (action) in
 //                        TODO:- Make sure this works.
                         self.navigationController?.popViewController(animated: true)
+                        FirebaseController.instance.setStateTo(-2, game: self.game)
 //                        AppDelegate.shared.rootViewController.popVC()
                         //TODO:- Set GameIsActive to false, record game data,  destory game data
 
@@ -506,6 +515,7 @@ class GameScreenViewController: UIViewController {
                 prompt.layer.opacity = 0
                 FirebaseController.instance.addPromptToTable(gameId: self.session.gameID!, card: card)
                 prompt.revealButton.addTarget(self, action: #selector(self.revealPrompt), for: .touchUpInside)
+                prompt.revealButton.isUserInteractionEnabled = true
                 self.view.addSubview(prompt)
                 DispatchQueue.main.async {
                     UIView.animate(withDuration: 0.5, animations: {
