@@ -79,7 +79,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="eiS-dZ-f52" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="116" id="0VH-kB-78f"/>
                             <constraint firstItem="3rb-bN-Kwo" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="CsM-WL-fvT"/>
@@ -215,7 +215,7 @@
                                 </constraints>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="Nqs-2c-kaM" firstAttribute="centerX" secondItem="KWZ-7k-RR2" secondAttribute="centerX" id="2CV-Rv-edI"/>
                             <constraint firstItem="KWZ-7k-RR2" firstAttribute="top" secondItem="Nqs-2c-kaM" secondAttribute="bottom" constant="10" id="Eh9-Xx-ygu"/>
@@ -1072,7 +1072,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="rOh-l5-m7Q"/>
+        <segue reference="FXI-5F-r9p"/>
         <segue reference="qR9-kU-4rx"/>
     </inferredMetricsTieBreakers>
     <resources>

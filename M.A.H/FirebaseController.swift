@@ -168,6 +168,19 @@ class FirebaseController {
             }
         }
     }
+//    func returnGameTableresponses(game:Game, completion:@escaping (( [String:[String:Any]]) -> ())) {
+//        REF_GAMES.child(game.key).child("table").observeSingleEvent(of: .value, with:  {  (datasnapshot) in
+//                   if datasnapshot.exists() {
+//                    print(datasnapshot.childSnapshot(forPath: "responses").value as! [String:[String:Any]],5000)
+//                    let responses = datasnapshot.childSnapshot(forPath: "responses").value as! [String:[String:Any]]
+//
+//
+//                   }
+//                   else {
+//                    //TODO:- Handle this error
+//            }
+//               })
+//    }
     func startNewRound(game:Game, session:Session) {
         var round = game.round
         round += 1
@@ -744,10 +757,12 @@ class FirebaseController {
             handler(found, nil)
         }
     }
+
     func swapModerator(session:Session) {
         var members = session.members
         var keys = Array(members.keys)
-        print(members.count)
+        print(members)
+        print(members.count, #function)
         for mem in members {
             let isModerator = mem.value["isModerator"] as! Bool
             let hasBeenModerator = mem.value["hasBeenModerator"] as? Bool
@@ -769,6 +784,7 @@ class FirebaseController {
             var newModerator = members.randomElement()
             newModerator!.value["isModerator"] = true
             updateMember(session: session, member: newModerator!)
+            print("MODERATOR HAS SWAPPED")
            // updateModerator(session: session, member: newModerator!)
         } else {
             for member in session.members {
@@ -781,6 +797,7 @@ class FirebaseController {
             newModerator!.value["isModerator"] = true
             newModerator!.value["hasBeenModerator"] = false
             updateMember(session: session, member: newModerator!)
+            print("MODERATOR HAS BEEN RESET")
             //increment score
         }
     }

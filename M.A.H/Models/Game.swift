@@ -10,8 +10,8 @@ import Foundation
 struct Game {
 
     let key:String
-    let round:Int
-    let table:[String:[String:Any]]?
+    var round:Int
+    var table:[String:[String:Any]]?
     var state:Int
 
     init(key:String, round:Int, table:[String:[String:Any]]?, state:Int) {
