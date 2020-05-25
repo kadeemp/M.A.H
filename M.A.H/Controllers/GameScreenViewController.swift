@@ -463,40 +463,40 @@ class GameScreenViewController: UIViewController {
     @IBAction func slideupIndicatorTriggered(_ sender: Any) {
         //        print("constant before is\(self.drawerBottomConstraint.constant) \n")
         
-        let cell = self.cardCollectionView.cellForItem(at: IndexPath(row: 0, section: 0)) as! CardCollectionViewCell2
-        
-        let animation = CABasicAnimation(keyPath: "transform.scale.x")
-        let animation2 = CABasicAnimation(keyPath: "transform.scale.y")
-        let animation3 = CABasicAnimation(keyPath: "transform.translation.y")
-        animation.duration = 0.3
-        animation.fromValue = 1
-        animation.toValue = 1.2
-        animation.autoreverses = true
-        animation2.duration = 0.3
-        animation2.fromValue = 1
-        animation2.toValue = 1.2
-        animation2.autoreverses = true
-        animation3.duration = 0.4
-        animation3.fromValue = 0
-        animation3.toValue = -20
-        animation3.autoreverses = true
-        
+//        let cell = self.cardCollectionView.cellForItem(at: IndexPath(row: 0, section: 0)) as! CardCollectionViewCell2
+//
+//        let animation = CABasicAnimation(keyPath: "transform.scale.x")
+//        let animation2 = CABasicAnimation(keyPath: "transform.scale.y")
+//        let animation3 = CABasicAnimation(keyPath: "transform.translation.y")
+//        animation.duration = 0.3
+//        animation.fromValue = 1
+//        animation.toValue = 1.2
+//        animation.autoreverses = true
+//        animation2.duration = 0.3
+//        animation2.fromValue = 1
+//        animation2.toValue = 1.2
+//        animation2.autoreverses = true
+//        animation3.duration = 0.4
+//        animation3.fromValue = 0
+//        animation3.toValue = -20
+//        animation3.autoreverses = true
+//
         if !isCardVisible {
             isCardVisible = !isCardVisible
             let deadline = DispatchTime.now() + 1
-            DispatchQueue.main.asyncAfter(deadline: deadline) {
-                UIView.animate(withDuration: 0.5) {
-                    cell.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
-                    
-                    self.view.layoutIfNeeded()
-                }
-                cell.layer.add(animation3, forKey: nil)
-            }
+//            DispatchQueue.main.asyncAfter(deadline: deadline) {
+//                UIView.animate(withDuration: 0.5) {
+//                    cell.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+//
+//                    self.view.layoutIfNeeded()
+//                }
+//                cell.layer.add(animation3, forKey: nil)
+//            }
             
             DispatchQueue.main.async {
                 UIView.animate(withDuration: 0.5) {
                     self.drawerBottomConstraint.constant -= self.cardDrawer.frame.height
-                    cell.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+//                    cell.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
                     
                     self.view.layoutIfNeeded()
                 }}}

@@ -22,15 +22,15 @@ class StartGameViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     override func viewWillAppear(_ animated: Bool) {
-        if let code = userDefaults.string(forKey: "code") {
-            FirebaseController.instance.searchSessionsByCode(code: code) { (found, newSession) in
-                if found {
-                    self.enterLobby.isHidden = false
-                } else {
-                    self.enterLobby.isHidden = true
-                }
-            }
-        }
+//        if let code = userDefaults.string(forKey: "code") {
+//            FirebaseController.instance.searchSessionsByCode(code: code) { (found, newSession) in
+//                if found {
+//                    self.enterLobby.isHidden = false
+//                } else {
+//                    self.enterLobby.isHidden = true
+//                }
+//            }
+//        }
     }
 
     @IBAction func enterLobbyPressed(_ sender: Any) {

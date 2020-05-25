@@ -35,7 +35,6 @@
 		F45DACDA22C5D25A004090C1 /* M_A_H.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F45DACD822C5D25A004090C1 /* M_A_H.xcdatamodeld */; };
 		F45DACDC22C5D25B004090C1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F45DACDB22C5D25B004090C1 /* Assets.xcassets */; };
 		F45DACDF22C5D25B004090C1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F45DACDD22C5D25B004090C1 /* LaunchScreen.storyboard */; };
-		F45DACE722C5D2C3004090C1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F45DACE622C5D2C3004090C1 /* GoogleService-Info.plist */; };
 		F465139823CE3CFE003D2DAA /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F465139723CE3CFE003D2DAA /* RootViewController.swift */; };
 		F478243B2378ECDD00E843E9 /* WinningCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F478243A2378ECDD00E843E9 /* WinningCardView.swift */; };
 		F47FA14A2374A36600A7F0E9 /* PlayedCardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47FA1492374A36600A7F0E9 /* PlayedCardCollectionViewCell.swift */; };
@@ -50,6 +49,7 @@
 		F4ACF74C246369480087F0BE /* NavigationControllers.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4ACF74B246369480087F0BE /* NavigationControllers.swift */; };
 		F4B8459023B9AF4D0023EF55 /* EndGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B8458F23B9AF4D0023EF55 /* EndGameViewController.swift */; };
 		F4B8459223BA6AFA0023EF55 /* NotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B8459123BA6AFA0023EF55 /* NotificationCenter.swift */; };
+		F4CD1A05247B600500337D69 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F4CD1A04247B600500337D69 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -84,7 +84,6 @@
 		F45DACDB22C5D25B004090C1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F45DACDE22C5D25B004090C1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F45DACE022C5D25B004090C1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F45DACE622C5D2C3004090C1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F465139723CE3CFE003D2DAA /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		F478243A2378ECDD00E843E9 /* WinningCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinningCardView.swift; sourceTree = "<group>"; };
 		F47FA1492374A36600A7F0E9 /* PlayedCardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayedCardCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -99,6 +98,8 @@
 		F4ACF74B246369480087F0BE /* NavigationControllers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationControllers.swift; sourceTree = "<group>"; };
 		F4B8458F23B9AF4D0023EF55 /* EndGameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndGameViewController.swift; sourceTree = "<group>"; };
 		F4B8459123BA6AFA0023EF55 /* NotificationCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCenter.swift; sourceTree = "<group>"; };
+		F4CD1949247B4B7000337D69 /* M.A.H.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = M.A.H.entitlements; sourceTree = "<group>"; };
+		F4CD1A04247B600500337D69 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F8FB59231A99A12FDDD63F3A /* Pods-M.A.H.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-M.A.H.release.xcconfig"; path = "Target Support Files/Pods-M.A.H/Pods-M.A.H.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -175,7 +176,7 @@
 		F45DACC522C5D25A004090C1 = {
 			isa = PBXGroup;
 			children = (
-				F45DACE622C5D2C3004090C1 /* GoogleService-Info.plist */,
+				F4CD1A04247B600500337D69 /* GoogleService-Info.plist */,
 				F45DACD022C5D25A004090C1 /* M.A.H */,
 				F45DACCF22C5D25A004090C1 /* Products */,
 				6553A0FD1ACFF5A6307A990D /* Pods */,
@@ -194,6 +195,7 @@
 		F45DACD022C5D25A004090C1 /* M.A.H */ = {
 			isa = PBXGroup;
 			children = (
+				F4CD1949247B4B7000337D69 /* M.A.H.entitlements */,
 				F48D8A7A23207C4A0043402E /* Extensions */,
 				F438B3A622EA1160008314AE /* Controllers */,
 				F438B3A522EA1158008314AE /* Views */,
@@ -293,7 +295,7 @@
 			files = (
 				F483A3D622E39E9900D099BE /* Podfile in Resources */,
 				F45DACDF22C5D25B004090C1 /* LaunchScreen.storyboard in Resources */,
-				F45DACE722C5D2C3004090C1 /* GoogleService-Info.plist in Resources */,
+				F4CD1A05247B600500337D69 /* GoogleService-Info.plist in Resources */,
 				F45DACDC22C5D25B004090C1 /* Assets.xcassets in Resources */,
 				F45DACD722C5D25A004090C1 /* Main.storyboard in Resources */,
 			);
@@ -531,6 +533,7 @@
 			baseConfigurationReference = D7F765A56BFF834DCC60BE0D /* Pods-M.A.H.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = M.A.H/M.A.H.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.0;
 				DEVELOPMENT_TEAM = 7G8EV52YPP;
@@ -541,7 +544,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.002;
-				PRODUCT_BUNDLE_IDENTIFIER = com.palacios.memesfordays;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.palacios.M-A-H";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -553,6 +556,7 @@
 			baseConfigurationReference = F8FB59231A99A12FDDD63F3A /* Pods-M.A.H.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = M.A.H/M.A.H.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.0;
 				DEVELOPMENT_TEAM = 7G8EV52YPP;
@@ -563,7 +567,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.002;
-				PRODUCT_BUNDLE_IDENTIFIER = com.palacios.memesfordays;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.palacios.M-A-H";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
