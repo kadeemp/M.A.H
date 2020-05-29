@@ -33,6 +33,12 @@ class StartGameViewController: UIViewController {
 //        }
     }
 
+    @IBAction func testBtn(_ sender: Any) {
+//                                FirebaseController.instance.createRequest(senderId: Auth.auth().currentUser!.uid, recieverId: session!.hostID, requestType: "join", session: session!) {
+        //TODO:- NOTiFIY USER THAT IT HAS BEEN CREATED.
+                                    print("Request has been created")
+//                                }
+    }
     @IBAction func enterLobbyPressed(_ sender: Any) {
         if (userDefaults.string(forKey: "code") != (nil ?? "")) {
             self.performSegue(withIdentifier: "toLobby", sender: self)
@@ -71,13 +77,18 @@ class StartGameViewController: UIViewController {
 
             FirebaseController.instance.searchSessionsByCode(code: alert.textFields![0].text!.uppercased(), handler: { (found, session ) in
                 if found {
-                    let gameConfirmationAlert = UIAlertController(title: "Game Found", message: "Host:\(session!.host)", preferredStyle: .alert)
-                    let joinAction = UIAlertAction(title: "join", style: .default, handler: { (action) in
+                    let gameConfirmationAlert = UIAlertController(title: "Game Found", message: "Host:\(session!.host). ", preferredStyle: .alert)
+                    let joinAction = UIAlertAction(title: "Request to join", style: .default, handler: { (action) in
                         self.userDefaults.set(session!.code, forKey: "code")
 
+                                                        FirebaseController.instance.createRequest(senderId: Auth.auth().currentUser!.uid, recieverId: session!.hostID, requestType: "join", session: session!) {
+//                                TODO:- NOTiFIY USER THAT IT HAS BEEN CREATED.
+                                                            print("Request has been created")
+                                                        }
+
                         //Safely unwrap
-                        FirebaseController.instance.addUserToSession(code: session!.code, userID: Auth.auth().currentUser!.uid, displayName: (Auth.auth().currentUser?.displayName ?? "Player" )!)
-                        self.performSegue(withIdentifier: "toLobby", sender: self)
+//                        FirebaseController.instance.addUserToSession(code: session!.code, userID: Auth.auth().currentUser!.uid, displayName: (Auth.auth().currentUser?.displayName ?? "Player" )!)
+//                        self.performSegue(withIdentifier: "toLobby", sender: self)
 
                     })
                     gameConfirmationAlert.addAction(cancelAction)

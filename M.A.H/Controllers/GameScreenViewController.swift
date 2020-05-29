@@ -168,26 +168,28 @@ class GameScreenViewController: UIViewController {
                     print("ERROR OBSERVING SESSION", #function)
                 }
             }
-            if self.responses == [] {
-                if game.table != nil {
-                    var resp = game.table!["responses"]!
-                    for i in resp {
-                        let a = i.value as! [String:Any]
-                        var newResponse = MemeCard(
-                            cardKey: a["cardKey"] as! String,
-                            fileName: a["fileName"] as! String,
-                            fileType: a["fileType"] as! String,
-                            playedBy: a["playedBy"] as! String,
-                            cardType: "gif",
-                            isRevealed: a["isRevealed"] as! Bool
-                        )
-                        self.responses.append(newResponse)
-                        //                TODO:- ADD INSERTION ANIMATION
-                        
-                    }
-                    self.playedCardCollectionView.reloadData()
-                }
-            }
+
+            //TODO- FIX  Crashes if game is just starting and table has not been created.
+//            if self.responses == [] {
+//                if game.table != nil {
+//                    var resp = game.table!["responses"]!
+//                    for i in resp {
+//                        let a = i.value as! [String:Any]
+//                        var newResponse = MemeCard(
+//                            cardKey: a["cardKey"] as! String,
+//                            fileName: a["fileName"] as! String,
+//                            fileType: a["fileType"] as! String,
+//                            playedBy: a["playedBy"] as! String,
+//                            cardType: "gif",
+//                            isRevealed: a["isRevealed"] as! Bool
+//                        )
+//                        self.responses.append(newResponse)
+//                        //                TODO:- ADD INSERTION ANIMATION
+//
+//                    }
+//                    self.playedCardCollectionView.reloadData()
+//                }
+//            }
             
             updateState(self.game.state)
         }

@@ -50,6 +50,7 @@
 		F4B8459023B9AF4D0023EF55 /* EndGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B8458F23B9AF4D0023EF55 /* EndGameViewController.swift */; };
 		F4B8459223BA6AFA0023EF55 /* NotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B8459123BA6AFA0023EF55 /* NotificationCenter.swift */; };
 		F4CD1A05247B600500337D69 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F4CD1A04247B600500337D69 /* GoogleService-Info.plist */; };
+		F4CD1A07247C89A000337D69 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CD1A06247C89A000337D69 /* Request.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -100,6 +101,7 @@
 		F4B8459123BA6AFA0023EF55 /* NotificationCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCenter.swift; sourceTree = "<group>"; };
 		F4CD1949247B4B7000337D69 /* M.A.H.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = M.A.H.entitlements; sourceTree = "<group>"; };
 		F4CD1A04247B600500337D69 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		F4CD1A06247C89A000337D69 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		F8FB59231A99A12FDDD63F3A /* Pods-M.A.H.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-M.A.H.release.xcconfig"; path = "Target Support Files/Pods-M.A.H/Pods-M.A.H.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -135,6 +137,7 @@
 				F44F468B231614C8009585EA /* Game.swift */,
 				F427EE1023260A1F0005F2A2 /* CollectionViewCard.swift */,
 				F40832AC23D25C6900CEFF81 /* Member.swift */,
+				F4CD1A06247C89A000337D69 /* Request.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -381,6 +384,7 @@
 				F494AE4023E118CE005F3BBA /* Extenion + UILabel.swift in Sources */,
 				F438B3A322EA1050008314AE /* Constants.swift in Sources */,
 				F494AE4423E51660005F3BBA /* PlayedCardCollectionViewCell2.swift in Sources */,
+				F4CD1A07247C89A000337D69 /* Request.swift in Sources */,
 				F4A19BF8232807A600C453AA /* ResponseCard.swift in Sources */,
 				F427EE1123260A1F0005F2A2 /* CollectionViewCard.swift in Sources */,
 				F41AC31E23BAC21B00F2B8C9 /* Extension + UIView.swift in Sources */,
@@ -544,7 +548,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.002;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.palacios.M-A-H";
+				PRODUCT_BUNDLE_IDENTIFIER = com.palacios.memesfordays;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -567,7 +571,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.002;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.palacios.M-A-H";
+				PRODUCT_BUNDLE_IDENTIFIER = com.palacios.memesfordays;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

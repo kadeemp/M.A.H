@@ -26,6 +26,7 @@ class FirebaseController {
     private var _REF_IMAGES = DB_BASE.child("images")
     private var _REF_PROMPTS = DB_BASE.child("prompts")
     private var _REF_RESPONSES = DB_BASE.child("responses")
+    private var _REF_REQUESTS = DB_BASE.child("requests")
 
     //MARK:- Database Refrences
     var REF_BASE: DatabaseReference {
@@ -54,6 +55,9 @@ class FirebaseController {
     }
     var REF_RESPONSES:DatabaseReference {
         return  _REF_RESPONSES
+    }
+    var REF_REQUESTS: DatabaseReference {
+        return _REF_REQUESTS
     }
 
     //MARK:- Game
@@ -104,6 +108,10 @@ class FirebaseController {
                                     }
             })
         }
+    }
+
+    func updateThisUserToken(_ token:String ) {
+        REF_USERS.child(Auth.auth().currentUser!.uid).updateChildValues(["token":token])
     }
 
     func observeGame(session:Session, completion:@escaping ((Game?) -> ())) {
@@ -167,6 +175,57 @@ class FirebaseController {
                 completion(round)
             }
         }
+    }
+    func createRequest(senderId:String, recieverId:String,requestType:String,session:Session,  onComplete: @escaping () -> ()) {
+        var valuesSent = [String:Any]()
+        if requestType == "join" {
+            valuesSent = ["request-status":"sent","request-type":requestType, "request-sender-id":senderId]
+            REF_REQUESTS.child(senderId).child(session.key).updateChildValues(valuesSent)
+            valuesSent = ["request-status":"received","request-type":requestType,"request-sender-id":senderId]
+            REF_REQUESTS.child(recieverId).child(session.key).updateChildValues(valuesSent)
+            onComplete()
+        } else if requestType == "invite" {
+            valuesSent = ["request-status":"sent","request-type":requestType]
+            REF_REQUESTS.child(senderId).child(recieverId).updateChildValues(valuesSent)
+            valuesSent = ["request-status":"received","request-type":requestType]
+            REF_REQUESTS.child(recieverId).child(senderId).updateChildValues(valuesSent)
+            onComplete()
+        }
+    }
+
+    func acceptRequest(request:Request, receiverId:String) {
+        REF_REQUESTS.child(request.senderId).child((Auth.auth().currentUser?.uid)!).removeValue()
+        REF_REQUESTS.child((Auth.auth().currentUser?.uid)!).child(request.senderId).removeValue()
+        if request.requestType == "join" {
+            //add memeber to group,
+//            return session details
+//            getListID(uid: (request.senderId)) { (myId) in
+//                self.removeMemberFromGroup(uid: request.senderId)
+//                self.removeEmptyMemberList(listID: myId)
+//                self.getListID(uid: receiverId) { (id) in
+//                    self.REF_USERS.child(request.senderId).child("listID").setValue(id)
+//                    self.getMembers(listID: id, completion: { (members) in
+//                        self.addToMembers(members: members, user: request.senderId)
+//                    })
+//                }
+//            }
+       }
+        else if request.requestType == "invite" {
+//            getListID(uid: receiverId, completion: {(uid) in
+//                self.removeMemberFromGroup(uid: receiverId)
+//                self.removeEmptyMemberList(listID: uid )
+//                self.getListID(uid: request.senderId) { (id) in
+//                    self.REF_USERS.child(receiverId).child("listID").setValue(id)
+//                    self.getMembers(listID: id, completion: { (members) in
+//                        self.addToMembers(members: members, user: request.senderId)
+//                    })
+//                }
+//            })
+        }
+    }
+    func denyRequest(request:Request) {
+        REF_REQUESTS.child(request.senderId).child((Auth.auth().currentUser?.uid)!).removeValue()
+        REF_REQUESTS.child((Auth.auth().currentUser?.uid)!).child(request.senderId).removeValue()
     }
 //    func returnGameTableresponses(game:Game, completion:@escaping (( [String:[String:Any]]) -> ())) {
 //        REF_GAMES.child(game.key).child("table").observeSingleEvent(of: .value, with:  {  (datasnapshot) in
