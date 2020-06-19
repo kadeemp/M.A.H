@@ -116,6 +116,7 @@ extension AppDelegate : UIApplicationDelegate {
     }
     func loadMainScreen(window:UIWindow) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
         let navigationController:UINavigationController = storyboard.instantiateInitialViewController() as? UINavigationController ?? UINavigationController()
         let mainVC = storyboard.instantiateViewController(withIdentifier: "StartGame")
         navigationController.viewControllers = [mainVC]

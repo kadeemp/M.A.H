@@ -1,5 +1,5 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 5.1.2 (swiftlang-1100.0.278 clang-1100.0.33.9)
+// swift-compiler-version: Apple Swift version 5.1 (swiftlang-1100.0.270.13 clang-1100.0.33.7)
 // swift-module-flags: -target arm64-apple-ios9.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name GiphyCoreSDK
 import AdSupport
 import CommonCrypto
@@ -241,9 +241,10 @@ extension GPHMedia {
   @objc optional func impressionOccurred(media: GiphyCoreSDK.GPHMedia)
 }
 @objc public class GPHTrackingManager : ObjectiveC.NSObject {
+  public var placementContext: Swift.String?
   public var userID: Swift.String?
-  public init(collectionView: UIKit.UICollectionView?)
   weak public var delegate: GiphyCoreSDK.GPHTrackingDelegate?
+  public init(collectionView: UIKit.UICollectionView?)
   @objc public func updateTracking()
   @discardableResult
   @objc public class func track(media: GiphyCoreSDK.GPHMedia, userID: Swift.String = "", actionType: GiphyCoreSDK.GPHActionType) -> Swift.Bool
@@ -308,6 +309,9 @@ extension GPHTermSuggestion : GiphyCoreSDK.GPHMappable {
   public typealias GPHMappableObject = GiphyCoreSDK.GPHTermSuggestion
 }
 @objc public class GiphyCore : ObjectiveC.NSObject {
+  public class var isAppExtension: Swift.Bool {
+    get
+  }
   @objc public static let shared: GiphyCoreSDK.GPHClient
   @objc public class func configure(apiKey: Swift.String, verificationMode: Swift.Bool = false)
   @objc public class func setCustomHeaders(parameters: [Swift.String : Swift.String])
@@ -365,6 +369,7 @@ public struct GPHPingbackHTTPError : Foundation.CustomNSError {
   case emoji
   case textSearch
   case textTrending
+  case recentlyPicked
   public init?(rawValue: GiphyCoreSDK.GPHEventType.RawValue)
   public var rawValue: GiphyCoreSDK.GPHEventType.RawValue {
     get
@@ -379,6 +384,7 @@ public struct GPHPingbackHTTPError : Foundation.CustomNSError {
   case hover
   case click
   case sent
+  case favorite
   public init?(rawValue: GiphyCoreSDK.GPHActionType.RawValue)
   public var rawValue: GiphyCoreSDK.GPHActionType.RawValue {
     get
@@ -394,15 +400,6 @@ public class GPHPingbackUser : Swift.Codable {
   @objc deinit
 }
 @objc @objcMembers public class GPHOMData : GiphyCoreSDK.GPHFilterable {
-  @objc public var javascriptResourceUrl: Swift.String? {
-    get
-    }
-  @objc public var vendorKey: Swift.String? {
-    get
-    }
-  @objc public var verificationParameters: Swift.String? {
-    get
-    }
   @objc override dynamic public init()
   @objc deinit
 }
@@ -853,15 +850,11 @@ public typealias GPHJSONCompletionHandler = (GiphyCoreSDK.GPHJSONObject?, Founda
   @objc public var customHeaders: [Swift.String : Swift.String]?
   @objc public init(apiKey: Swift.String)
   @discardableResult
-  @objc public func search(_ query: Swift.String, media: GiphyCoreSDK.GPHMediaType = .gif, offset: Swift.Int = 0, limit: Swift.Int = 25, rating: GiphyCoreSDK.GPHRatingType = .ratedR, lang: GiphyCoreSDK.GPHLanguageType = .english, completionHandler: @escaping (GiphyCoreSDK.GPHListMediaResponse?, Swift.Error?) -> Swift.Void) -> Foundation.Operation
-  @discardableResult
-  @objc public func trending(_ media: GiphyCoreSDK.GPHMediaType = .gif, offset: Swift.Int = 0, limit: Swift.Int = 25, rating: GiphyCoreSDK.GPHRatingType = .ratedR, completionHandler: @escaping (GiphyCoreSDK.GPHListMediaResponse?, Swift.Error?) -> Swift.Void) -> Foundation.Operation
-  @discardableResult
   @objc public func random(_ query: Swift.String, media: GiphyCoreSDK.GPHMediaType = .gif, rating: GiphyCoreSDK.GPHRatingType = .ratedR, completionHandler: @escaping (GiphyCoreSDK.GPHMediaResponse?, Swift.Error?) -> Swift.Void) -> Foundation.Operation
   @discardableResult
   @objc public func gifByID(_ id: Swift.String, completionHandler: @escaping (GiphyCoreSDK.GPHMediaResponse?, Swift.Error?) -> Swift.Void) -> Foundation.Operation
   @discardableResult
-  @objc public func gifsByIDs(_ ids: [Swift.String], completionHandler: @escaping (GiphyCoreSDK.GPHListMediaResponse?, Swift.Error?) -> Swift.Void) -> Foundation.Operation
+  @objc public func gifsByIDs(_ ids: [Swift.String], context: Swift.String? = nil, completionHandler: @escaping (GiphyCoreSDK.GPHListMediaResponse?, Swift.Error?) -> Swift.Void) -> Foundation.Operation
   @discardableResult
   @objc public func emoji(offset: Swift.Int = 0, limit: Swift.Int = 25, completionHandler: @escaping (GiphyCoreSDK.GPHListMediaResponse?, Swift.Error?) -> Swift.Void) -> Foundation.Operation
   @discardableResult

@@ -39,7 +39,7 @@ const results = await Promise.all([userPromise])
 
       console.log("\n RESULTS:", results)
       console.log("Message IS SENDING ____________________________");
-    const response = await admin.messaging().sendToDevice("APA91bFvstvtKzNB_uZIxrIYyVS1ebliw1MlmsYsAj6y3lBGKSG1QQu44AXsJPPYX1bb3COjG4H_N72VFM_UGgkG9qDJFwHImHpTzLrnk3IOyAQ7k8_E9V6IboPg8WPjSBkG6cdB5QtT", payload);
+    const response = await admin.messaging().sendToDevice("cHj8JMtPGEs8jbMMIyNjDR:APA91bEVP7jA9oi6YehW27-3bPiud8NMcP1rewrHeZN3hq_rftvwNOOBY56cqhliltbc_3FjRa0t-EEOt1Hky82UZnDrTYlVtq6NceoGhCmxPe7Z5trrJpkNDj3vl3aFdQGWVqkaCwec", payload);
     console.log("RESPONSE:",response.results)
 
   //   const response = await admin.messaging().sendToDevice(userPromise, payload);

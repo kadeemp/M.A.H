@@ -264,7 +264,10 @@ class GameScreenViewController: UIViewController {
         case -1:
             self.responses = []
             self.promptLabel.text = ""
-            
+            self.hasRoundEnded = false
+            self.promptDeckImageView.isUserInteractionEnabled = false
+
+            self.updateState(0)
             
             //todo:Check if person has 5 cards
         //todo:alert next moderator
@@ -287,6 +290,7 @@ class GameScreenViewController: UIViewController {
             if isModerator() == true {
                 
                 //  print("\(Auth.auth().currentUser!.displayName) has access to promots")
+                
                 self.promptDeckImageView.isUserInteractionEnabled = true
                 
                 //add card animation

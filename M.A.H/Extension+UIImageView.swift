@@ -13,6 +13,10 @@ let imageCache = NSCache<AnyObject, AnyObject>()
 extension UIImageView {
 
     func loadImageUsingCacheWithUrlString(urlString:String) {
+        if urlString == "" {
+            print("url string is nil! /n",#function)
+            return
+        }
         let stringClass = NSString(string: urlString)
 
         if let cachedImage = imageCache.object(forKey: stringClass) as? UIImage {

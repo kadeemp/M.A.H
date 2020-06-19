@@ -41,6 +41,7 @@
 		F483A3D422E39AC000D099BE /* FirebaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F483A3D322E39AC000D099BE /* FirebaseController.swift */; };
 		F483A3D622E39E9900D099BE /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = F483A3D522E39E9900D099BE /* Podfile */; };
 		F48D8A7C23207C630043402E /* Extention + String.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48D8A7B23207C630043402E /* Extention + String.swift */; };
+		F48F487E249C44E300EF80C8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F48F487D249C44E300EF80C8 /* GoogleService-Info.plist */; };
 		F494AE4023E118CE005F3BBA /* Extenion + UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F494AE3F23E118CE005F3BBA /* Extenion + UILabel.swift */; };
 		F494AE4223E50503005F3BBA /* CardCollectionViewCell2.swift in Sources */ = {isa = PBXBuildFile; fileRef = F494AE4123E50503005F3BBA /* CardCollectionViewCell2.swift */; };
 		F494AE4423E51660005F3BBA /* PlayedCardCollectionViewCell2.swift in Sources */ = {isa = PBXBuildFile; fileRef = F494AE4323E51660005F3BBA /* PlayedCardCollectionViewCell2.swift */; };
@@ -49,7 +50,6 @@
 		F4ACF74C246369480087F0BE /* NavigationControllers.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4ACF74B246369480087F0BE /* NavigationControllers.swift */; };
 		F4B8459023B9AF4D0023EF55 /* EndGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B8458F23B9AF4D0023EF55 /* EndGameViewController.swift */; };
 		F4B8459223BA6AFA0023EF55 /* NotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B8459123BA6AFA0023EF55 /* NotificationCenter.swift */; };
-		F4CD1A05247B600500337D69 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F4CD1A04247B600500337D69 /* GoogleService-Info.plist */; };
 		F4CD1A07247C89A000337D69 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CD1A06247C89A000337D69 /* Request.swift */; };
 /* End PBXBuildFile section */
 
@@ -91,6 +91,7 @@
 		F483A3D322E39AC000D099BE /* FirebaseController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseController.swift; sourceTree = "<group>"; };
 		F483A3D522E39E9900D099BE /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		F48D8A7B23207C630043402E /* Extention + String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extention + String.swift"; sourceTree = "<group>"; };
+		F48F487D249C44E300EF80C8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F494AE3F23E118CE005F3BBA /* Extenion + UILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extenion + UILabel.swift"; sourceTree = "<group>"; };
 		F494AE4123E50503005F3BBA /* CardCollectionViewCell2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardCollectionViewCell2.swift; sourceTree = "<group>"; };
 		F494AE4323E51660005F3BBA /* PlayedCardCollectionViewCell2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayedCardCollectionViewCell2.swift; sourceTree = "<group>"; };
@@ -100,7 +101,6 @@
 		F4B8458F23B9AF4D0023EF55 /* EndGameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndGameViewController.swift; sourceTree = "<group>"; };
 		F4B8459123BA6AFA0023EF55 /* NotificationCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCenter.swift; sourceTree = "<group>"; };
 		F4CD1949247B4B7000337D69 /* M.A.H.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = M.A.H.entitlements; sourceTree = "<group>"; };
-		F4CD1A04247B600500337D69 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F4CD1A06247C89A000337D69 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		F8FB59231A99A12FDDD63F3A /* Pods-M.A.H.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-M.A.H.release.xcconfig"; path = "Target Support Files/Pods-M.A.H/Pods-M.A.H.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -179,7 +179,7 @@
 		F45DACC522C5D25A004090C1 = {
 			isa = PBXGroup;
 			children = (
-				F4CD1A04247B600500337D69 /* GoogleService-Info.plist */,
+				F48F487D249C44E300EF80C8 /* GoogleService-Info.plist */,
 				F45DACD022C5D25A004090C1 /* M.A.H */,
 				F45DACCF22C5D25A004090C1 /* Products */,
 				6553A0FD1ACFF5A6307A990D /* Pods */,
@@ -298,7 +298,7 @@
 			files = (
 				F483A3D622E39E9900D099BE /* Podfile in Resources */,
 				F45DACDF22C5D25B004090C1 /* LaunchScreen.storyboard in Resources */,
-				F4CD1A05247B600500337D69 /* GoogleService-Info.plist in Resources */,
+				F48F487E249C44E300EF80C8 /* GoogleService-Info.plist in Resources */,
 				F45DACDC22C5D25B004090C1 /* Assets.xcassets in Resources */,
 				F45DACD722C5D25A004090C1 /* Main.storyboard in Resources */,
 			);
@@ -539,7 +539,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = M.A.H/M.A.H.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0;
+				CURRENT_PROJECT_VERSION = 1.1;
 				DEVELOPMENT_TEAM = 7G8EV52YPP;
 				INFOPLIST_FILE = M.A.H/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -547,8 +547,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.002;
-				PRODUCT_BUNDLE_IDENTIFIER = com.palacios.memesfordays;
+				MARKETING_VERSION = 1.0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.palacios.M-A-H";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -562,7 +562,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = M.A.H/M.A.H.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0;
+				CURRENT_PROJECT_VERSION = 1.1;
 				DEVELOPMENT_TEAM = 7G8EV52YPP;
 				INFOPLIST_FILE = M.A.H/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -570,8 +570,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.002;
-				PRODUCT_BUNDLE_IDENTIFIER = com.palacios.memesfordays;
+				MARKETING_VERSION = 1.0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.palacios.M-A-H";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

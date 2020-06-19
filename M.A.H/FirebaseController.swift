@@ -111,7 +111,10 @@ class FirebaseController {
     }
 
     func updateThisUserToken(_ token:String ) {
-        REF_USERS.child(Auth.auth().currentUser!.uid).updateChildValues(["token":token])
+        guard let user = Auth.auth().currentUser else {
+            print("user not signed in")
+            return }
+        REF_USERS.child(user.uid).updateChildValues(["token":token])
     }
 
     func observeGame(session:Session, completion:@escaping ((Game?) -> ())) {
@@ -240,13 +243,23 @@ class FirebaseController {
 //            }
 //               })
 //    }
+    func returnFirstName(completion: @escaping (String) -> ()) {
+        guard let user = Auth.auth().currentUser else { return }
+        REF_USERS.child(user.uid).child("firstName").observeSingleEvent(of: .value) { (dataSnapshot) in
+
+             if dataSnapshot.exists() {
+                let name = dataSnapshot.value as! String
+                completion(name)
+        }
+    }
+    }
     func startNewRound(game:Game, session:Session) {
         var round = game.round
         round += 1
         REF_GAMES.child(game.key).child("winning result").removeValue()
         REF_GAMES.child(game.key).child("table").child("revealedResponses").removeValue()
         clearResponses(game: game)
-       REF_GAMES.child(game.key).updateChildValues(["round":round, "state":0])
+       REF_GAMES.child(game.key).updateChildValues(["round":round, "state":-1])
     }
 
     func observeGameTable(gameKey:String, completion:@escaping (([String:[String:Any]]) -> ())) {
@@ -882,7 +895,11 @@ class FirebaseController {
         var key = REF_SESSIONS.childByAutoId().key!.stripID()
         guard let currentUser = Auth.auth().currentUser else {return}
 
-        REF_SESSIONS.child(key).updateChildValues(["code":code, "hostID":hostID, "host":host, "members":["\(Auth.auth().currentUser!.uid)":["name":Auth.auth().currentUser?.displayName!,"score":0,"isModerator":true,"hasBeenModerator":false, "photoURL":currentUser.photoURL?.absoluteString]], "key":key, "isGameActive":false, "gameID":""])
+        //TODO:- update to reply on user defults
+        returnFirstName { (name) in
+            self.REF_SESSIONS.child(key).updateChildValues(["code":code, "hostID":hostID, "host":host, "members":["\(Auth.auth().currentUser!.uid)":["name":name,"score":0,"isModerator":true,"hasBeenModerator":false, "photoURL":currentUser.photoURL?.absoluteString]], "key":key, "isGameActive":false, "gameID":""])
+        }
+
     }
 
     func updateSessionMembers(session:Session, members:[String], completion: @escaping (() -> ())) {

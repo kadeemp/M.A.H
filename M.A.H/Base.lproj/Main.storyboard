@@ -308,15 +308,23 @@
                                     <action selector="testBtn:" destination="o2g-CT-6nV" eventType="touchUpInside" id="ICN-Wd-ycg"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9AM-2y-nlQ">
+                                <rect key="frame" x="156.5" y="104.5" width="7.5" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="yvr-D5-bdg" firstAttribute="top" secondItem="9AM-2y-nlQ" secondAttribute="bottom" constant="42.5" id="1Dd-Bh-BRg"/>
                             <constraint firstItem="zNh-Uq-wqp" firstAttribute="width" secondItem="sbh-Zw-Uu4" secondAttribute="width" multiplier="0.28125" id="Es0-xd-QAk"/>
                             <constraint firstItem="2da-2X-IRN" firstAttribute="leading" secondItem="2bj-Ud-Vwf" secondAttribute="leading" constant="102" id="HZD-yo-UZv"/>
                             <constraint firstItem="zNh-Uq-wqp" firstAttribute="centerY" secondItem="sbh-Zw-Uu4" secondAttribute="centerY" id="OZg-u3-OUM"/>
                             <constraint firstItem="2da-2X-IRN" firstAttribute="centerX" secondItem="zNh-Uq-wqp" secondAttribute="centerX" id="VuW-oP-Z5h"/>
                             <constraint firstItem="zNh-Uq-wqp" firstAttribute="centerX" secondItem="sbh-Zw-Uu4" secondAttribute="centerX" id="fdD-f1-iyq"/>
                             <constraint firstItem="2bj-Ud-Vwf" firstAttribute="bottom" secondItem="2da-2X-IRN" secondAttribute="bottom" constant="57" id="hlR-Z6-Km4"/>
+                            <constraint firstItem="9AM-2y-nlQ" firstAttribute="centerX" secondItem="sbh-Zw-Uu4" secondAttribute="centerX" id="p2w-Z8-7Bh"/>
                             <constraint firstItem="2da-2X-IRN" firstAttribute="top" secondItem="zNh-Uq-wqp" secondAttribute="bottom" constant="48.5" id="qOj-If-vhq"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="2bj-Ud-Vwf"/>
@@ -324,6 +332,7 @@
                     <navigationItem key="navigationItem" id="IpG-iz-iIA"/>
                     <connections>
                         <outlet property="enterLobby" destination="GvT-Xh-6kU" id="Ffs-hw-N7b"/>
+                        <outlet property="greetingLabel" destination="9AM-2y-nlQ" id="Jb9-Q8-2rA"/>
                         <segue destination="KLH-sZ-n4F" kind="show" id="LLj-pe-Mxd"/>
                         <segue destination="tXE-OG-O71" kind="show" identifier="toLobby" id="qR9-kU-4rx"/>
                     </connections>

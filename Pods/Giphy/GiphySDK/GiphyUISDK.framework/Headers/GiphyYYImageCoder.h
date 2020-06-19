@@ -315,27 +315,14 @@ typedef NS_ENUM(NSUInteger, GiphyYYImageBlendOperation) {
  @return an image decoded, or just return itself if no needed.
  @see yy_isDecodedForDisplay
  */
-- (instancetype)yy_imageByDecoded;
+- (instancetype) giphy_yy_imageByDecoded;
 
 /**
  Wherher the image can be display on screen without additional decoding.
  @warning It just a hint for your code, change it has no other effect.
  */
-@property (nonatomic) BOOL yy_isDecodedForDisplay;
-
-/**
- Saves this image to iOS Photos Album. 
+@property (nonatomic) BOOL giphy_yy_isDecodedForDisplay;
  
- @discussion  This method attempts to save the original data to album if the
- image is created from an animated GIF/APNG, otherwise, it will save the image 
- as JPEG or PNG (based on the alpha information).
- 
- @param completionBlock The block invoked (in main thread) after the save operation completes.
-    assetURL: An URL that identifies the saved image file. If the image is not saved, assetURL is nil.
-    error: If the image is not saved, an error object that describes the reason for failure, otherwise nil.
- */
-- (void)yy_saveToAlbumWithCompletionBlock:(nullable void(^)(NSURL * _Nullable assetURL, NSError * _Nullable error))completionBlock;
-
 /**
  Return a 'best' data representation for this image.
  
@@ -345,7 +332,7 @@ typedef NS_ENUM(NSUInteger, GiphyYYImageBlendOperation) {
  
  @return Image data, or nil if an error occurs.
  */
-- (nullable NSData *)yy_imageDataRepresentation;
+- (nullable NSData *) giphy_yy_imageDataRepresentation;
 
 @end
 
@@ -368,10 +355,10 @@ CG_EXTERN NSString *_Nullable GiphyYYImageTypeGetExtension(GiphyYYImageType type
 
 
 /// Returns the shared DeviceRGB color space.
-CG_EXTERN CGColorSpaceRef GiphyYYCGColorSpaceGetDeviceRGB();
+CG_EXTERN CGColorSpaceRef GiphyYYCGColorSpaceGetDeviceRGB(void);
 
 /// Returns the shared DeviceGray color space.
-CG_EXTERN CGColorSpaceRef GiphyYYCGColorSpaceGetDeviceGray();
+CG_EXTERN CGColorSpaceRef GiphyYYCGColorSpaceGetDeviceGray(void);
 
 /// Returns whether a color space is DeviceRGB.
 CG_EXTERN BOOL GiphyYYCGColorSpaceIsDeviceRGB(CGColorSpaceRef space);
@@ -446,7 +433,7 @@ CG_EXTERN CFDataRef _Nullable GiphyYYCGImageCreateEncodedData(CGImageRef imageRe
 /**
  Whether WebP is available in GiphyYYImage.
  */
-CG_EXTERN BOOL GiphyYYImageWebPAvailable();
+CG_EXTERN BOOL GiphyYYImageWebPAvailable(void);
 
 /**
  Get a webp image frame count;

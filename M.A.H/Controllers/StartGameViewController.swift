@@ -14,11 +14,17 @@ class StartGameViewController: UIViewController {
     let userDefaults = UserDefaults.standard
     var session:Session?
 
+    @IBOutlet var greetingLabel: UILabel!
     @IBOutlet var enterLobby: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
         enterLobby.isHidden = true
-        
+        //TODO- update this to use user defaults based on uid
+        FirebaseController.instance.returnFirstName { (name) in
+self.greetingLabel.text = "Hello \(name)"
+        }
+
+
         // Do any additional setup after loading the view.
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -55,10 +61,13 @@ class StartGameViewController: UIViewController {
             code += String(codeCharacters[counter])
             counter += 1
         }
-
+//TODO:- Fix this so that it replies either on user defaults or core data
         if code.count == 4 && Auth.auth().currentUser != nil {
             userDefaults.set(code, forKey: "code")
-            FirebaseController.instance.createSession(code: code, hostID: Auth.auth().currentUser!.uid, host: (Auth.auth().currentUser?.displayName)!)
+            FirebaseController.instance.returnFirstName { (name) in
+            FirebaseController.instance.createSession(code: code, hostID: Auth.auth().currentUser!.uid, host: (name))
+            }
+
             
             performSegue(withIdentifier: "toLobby", sender: self)
         }
@@ -87,8 +96,8 @@ class StartGameViewController: UIViewController {
                                                         }
 
                         //Safely unwrap
-//                        FirebaseController.instance.addUserToSession(code: session!.code, userID: Auth.auth().currentUser!.uid, displayName: (Auth.auth().currentUser?.displayName ?? "Player" )!)
-//                        self.performSegue(withIdentifier: "toLobby", sender: self)
+                        FirebaseController.instance.addUserToSession(code: session!.code, userID: Auth.auth().currentUser!.uid, displayName: (Auth.auth().currentUser?.displayName ?? "Player" )!)
+                        self.performSegue(withIdentifier: "toLobby", sender: self)
 
                     })
                     gameConfirmationAlert.addAction(cancelAction)
