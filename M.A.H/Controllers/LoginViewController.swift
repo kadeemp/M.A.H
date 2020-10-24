@@ -17,6 +17,7 @@ class LoginViewController: UIViewController {
     @IBOutlet var passwordTxtField: UITextField!
     override func viewDidLoad() {
         super.viewDidLoad()
+        
     }
 
     @IBAction func loginBtnPressed(_ sender: Any) {

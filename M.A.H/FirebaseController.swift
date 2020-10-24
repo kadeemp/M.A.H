@@ -250,7 +250,10 @@ class FirebaseController {
              if dataSnapshot.exists() {
                 let name = dataSnapshot.value as! String
                 completion(name)
-        }
+                print("name is \(name)")
+             } else {
+fatalError()
+            }
     }
     }
     func startNewRound(game:Game, session:Session) {
@@ -952,10 +955,14 @@ class FirebaseController {
                 return
             }
             guard let currentUser = Auth.auth().currentUser else {return}
+            guard let fetchedDisplayName =  currentUser.displayName else { print("no diplay name found",#function)
+                return}
+            guard let profilePhotoURL = currentUser.photoURL else { print("no photo url found",#function)
+                return}
             for session in sessionSnapshot {
                 if session.childSnapshot(forPath: "code").value as! String == code {
                     var members = session.childSnapshot(forPath: "members").value as! [String:[String:Any]]
-                    members[userID] = ["name":Auth.auth().currentUser?.displayName!,"score":0,"isModerator":false, "hasBeenModerator":false, "photoURL":currentUser.photoURL?.absoluteString]
+                    members[userID] = ["name":fetchedDisplayName,"score":0,"isModerator":false, "hasBeenModerator":false, "photoURL":profilePhotoURL.absoluteString]
                     self.REF_SESSIONS.child(session.key).updateChildValues(["members":members])
                 }
             }

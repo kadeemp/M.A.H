@@ -22,15 +22,14 @@ exports.requestReceived = functions.database.ref('/requests/')
 
           // Notification details.
       const payload = {
+        data: {
+          ToLobby:"true"
+        },
         notification: {
           title: 'You have a new request!',
           body: `____ wants to join your lobby.`
         }
       };
-
-
-    //get token and replace tokens
-    console.log();
 
      // Listing all tokens as an array.
     const userPromise = admin.auth().getUser(Object.keys(original)[0]);

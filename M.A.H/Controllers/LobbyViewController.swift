@@ -67,15 +67,15 @@ class LobbyViewController: UIViewController, UITableViewDataSource, UITableViewD
 
             }
             self.lobbyTableView.reloadData()
-//            for member in session.members {
-//                FirebaseController.instance.returnDisplayName(userID:member , completion: { (fullName) in
-//                    // && fullName != session.host
-//                    if !self.users.contains(fullName)  {
-//                        self.users.append(fullName)
-//                        self.lobbyTableView.reloadData()
-//                    }
-//                })
-//            }
+            //            for member in session.members {
+            //                FirebaseController.instance.returnDisplayName(userID:member , completion: { (fullName) in
+            //                    // && fullName != session.host
+            //                    if !self.users.contains(fullName)  {
+            //                        self.users.append(fullName)
+            //                        self.lobbyTableView.reloadData()
+            //                    }
+            //                })
+            //            }
         }
         // Do any additional setup after loading the view.
     }
@@ -116,14 +116,16 @@ class LobbyViewController: UIViewController, UITableViewDataSource, UITableViewD
         if let session = session {
             //Change back to 2
 
-            FirebaseController.instance.createGame(session: session) { returnedGame in
-                self.game = returnedGame
-//                 self.performSegue(withIdentifier: "toGameScreen", sender: self)
-//                print("it would have perfomred segue here")
-            }
-            if session.members.count > 0 {
+
+            if session.members.count >= 3 {
                 //create game
                 //performSegue
+                FirebaseController.instance.createGame(session: session) { returnedGame in
+                    self.game = returnedGame
+
+                }
+            } else {
+                //TODO:- Create an alert to let user know they can't start a game without
             }
         }
     }
@@ -149,11 +151,11 @@ class LobbyViewController: UIViewController, UITableViewDataSource, UITableViewD
         cell?.textLabel?.text   = users[indexPath.row]
         if let session = session {
             if let user = Auth.auth().currentUser?.uid {
-//                if session.hostID == session.members[indexPath.row] {
-//                    cell?.textLabel?.textColor = UIColor.orange
-//                } else {
-//                    cell?.textLabel?.textColor = UIColor.black
-//                }
+                //                if session.hostID == session.members[indexPath.row] {
+                //                    cell?.textLabel?.textColor = UIColor.orange
+                //                } else {
+                //                    cell?.textLabel?.textColor = UIColor.black
+                //                }
             }
         }
         return cell!
@@ -162,12 +164,12 @@ class LobbyViewController: UIViewController, UITableViewDataSource, UITableViewD
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         if let session = session {
             if let userID = Auth.auth().currentUser?.uid {
-//                if (session.hostID == userID) && session.members[indexPath.row] != userID  {
-//                    return .delete
-//                }
-//                else {
-//                    return .none
-//                }
+                //                if (session.hostID == userID) && session.members[indexPath.row] != userID  {
+                //                    return .delete
+                //                }
+                //                else {
+                //                    return .none
+                //                }
             }
 
         }
@@ -178,12 +180,12 @@ class LobbyViewController: UIViewController, UITableViewDataSource, UITableViewD
         if editingStyle == .delete {
             users.remove(at: indexPath.row)
             lobbyTableView.deleteRows(at: [indexPath], with: .fade)
-//            if let session = session {
-//                var members = session.members
-//                FirebaseController.instance.removeMemberFrom(session: session, memberID: session.members[indexPath.row]) {(mems) in
-//                    self.lobbyTableView.reloadData()
-//                }
-//            }
+            //            if let session = session {
+            //                var members = session.members
+            //                FirebaseController.instance.removeMemberFrom(session: session, memberID: session.members[indexPath.row]) {(mems) in
+            //                    self.lobbyTableView.reloadData()
+            //                }
+            //            }
         }
     }
 

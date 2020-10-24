@@ -45,6 +45,7 @@ class GameScreenViewController: UIViewController {
     @IBOutlet var promptLabel: UILabel!
     
     @IBOutlet var stateLabel: UILabel!
+    
     func addConstraintsToCardDrawer() {
         drawerBottomConstraint = cardDrawer.topAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0)
         drawerBottomConstraint.isActive = true
@@ -54,7 +55,13 @@ class GameScreenViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(startNewGame), name: Notification.Name("startNewGame"), object: nil)
-        
+
+        guard let currentUser = Auth.auth().currentUser else {return}
+        guard let fetchedDisplayName =  currentUser.displayName else { print("no diplay name found",#function)
+            return }
+        guard let profilePhotoURL = currentUser.photoURL else { print("no photo url found",#function)
+            return }
+
         addConstraintsToCardDrawer()
         promptLabel.resetLabel()
         
@@ -74,7 +81,7 @@ class GameScreenViewController: UIViewController {
                 let members = self.session.members
                 let memberIndex = members.index(forKey: Auth.auth().currentUser!.uid)
                 self.session.members.updateValue(["isModerator":moderatorStatus], forKey: Auth.auth().currentUser!.uid)
-                self.scoreboardCollectionView.reloadData()
+//                self.scoreboardCollectionView.reloadData()
                 self.updateState(self.game.state)
             }
             FirebaseController.instance.observeGameState(gameKey: game.key) { (newState) in
@@ -95,9 +102,9 @@ class GameScreenViewController: UIViewController {
                 }
             }
             FirebaseController.instance.observeSessionMembers(session: session) { (returnedMembers) in
-                print("members list:\(returnedMembers) \n",Auth.auth().currentUser?.displayName!)
+                print("members list:\(returnedMembers) \n",fetchedDisplayName)
                 self.members = returnedMembers
-                self.scoreboardCollectionView.reloadData()
+//                self.scoreboardCollectionView.reloadData()
             }
             FirebaseController.instance.observeGameWinningResult(gameKey: game.key) { (result) in
                 //                if let result = result {
@@ -588,7 +595,7 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
                         FirebaseController.instance.addWinningResult(card: response, gameKey: game.key)
                         FirebaseController.instance.setStateTo(4, game: self.game)
                     }
-                    
+                      
                 }
             } else  {
                 if  isModerator() {
@@ -635,8 +642,8 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
             count = cards.count
         case playedCardCollectionView:
             count = responses.count
-        case scoreboardCollectionView:
-            count = members.count
+//        case scoreboardCollectionView:
+//            count = members.count
         default:
             return 0
         }
@@ -661,12 +668,12 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
                 2)
             size = CGSize(width: width, height: height)
             return size
-        case scoreboardCollectionView:
-            columns = CGFloat(Int(members.count))
-            width = Int(collectionView.frame.width / columns)
-            height = Int(collectionView.frame.height)
-            size = CGSize(width: width, height: height)
-            return size
+//        case scoreboardCollectionView:
+//            columns = CGFloat(Int(members.count))
+//            width = Int(collectionView.frame.width / columns)
+//            height = Int(collectionView.frame.height)
+//            size = CGSize(width: width, height: height)
+//            return size
         default:
             print()
         }
@@ -679,9 +686,9 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
             
         case playedCardCollectionView:
             return UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
-        case scoreboardCollectionView:
-            
-            return UIEdgeInsets(top: 5, left: 20 ,bottom: 5, right: 5)
+//        case scoreboardCollectionView:
+//
+//            return UIEdgeInsets(top: 5, left: 20 ,bottom: 5, right: 5)
         default:
             print()
         }
@@ -694,8 +701,8 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
             return spacing
         case playedCardCollectionView:
             return spacing
-        case scoreboardCollectionView:
-            return 0
+//        case scoreboardCollectionView:
+//            return 0
         default:
             print()
         }
@@ -707,8 +714,8 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
             return spacing
         case playedCardCollectionView:
             return spacing
-        case scoreboardCollectionView:
-            return 0
+//        case scoreboardCollectionView:
+//            return 0
         default:
             print()
         }
@@ -747,22 +754,22 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
                     }
                 }
             }
-        case scoreboardCollectionView:
-            
-            let cell3 = scoreboardCollectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ScoreboardCollectionViewCell
-            let member = members[indexPath.row]
-            
-            cell3.profilePhoto.loadImageUsingCacheWithUrlString(urlString: member.profileURL)
-            if member.moderatorStatus {
-                cell3.profilePhoto.layer.borderColor = UIColor.yellow.cgColor
-            } else {
-                cell3.profilePhoto.layer.borderColor = UIColor.purple.cgColor
-            }
-            cell3.profilePhoto.contentMode = .scaleAspectFill
-            cell3.nameLabel.text = member.name
-            cell3.scoreLabel.text = "\(member.score)"
-            
-            return cell3
+//        case scoreboardCollectionView:
+//
+//            let cell3 = scoreboardCollectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ScoreboardCollectionViewCell
+//            let member = members[indexPath.row]
+//
+//            cell3.profilePhoto.loadImageUsingCacheWithUrlString(urlString: member.profileURL)
+//            if member.moderatorStatus {
+//                cell3.profilePhoto.layer.borderColor = UIColor.yellow.cgColor
+//            } else {
+//                cell3.profilePhoto.layer.borderColor = UIColor.purple.cgColor
+//            }
+//            cell3.profilePhoto.contentMode = .scaleAspectFill
+//            cell3.nameLabel.text = member.name
+//            cell3.scoreLabel.text = "\(member.score)"
+//
+//            return cell3
             
         default:
             print()

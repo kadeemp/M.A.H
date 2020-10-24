@@ -185,22 +185,32 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
 
 
 
-    // Print full message.
-    print(userInfo)
+//    // Print full message.
+//    print(userInfo, #function)
 
     // Change this to your preferred presentation option
-    completionHandler([[.alert, .sound]])
+    completionHandler([[.alert, .sound, .badge]])
   }
 
   func userNotificationCenter(_ center: UNUserNotificationCenter,
                               didReceive response: UNNotificationResponse,
                               withCompletionHandler completionHandler: @escaping () -> Void) {
+defer { completionHandler() }
+    guard response.actionIdentifier == UNNotificationDefaultActionIdentifier else { return }
+    let payload = response.notification.request.content
+    if let _ = payload.userInfo["ToLobby"] {
+           let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewController(identifier: "Lobby")
+        vc.modalPresentationStyle = .fullScreen
+        window?.rootViewController?.present(vc, animated: true) 
+    }
+
     let userInfo = response.notification.request.content.userInfo
     // Print message ID.
 
     // Print full message.
-    print(userInfo)
+    print(userInfo, #function)
 
-    completionHandler()
+
   }
 }
