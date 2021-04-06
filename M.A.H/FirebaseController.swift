@@ -951,32 +951,36 @@ class FirebaseController {
     }
     func addUserToSession(code:String ,userID:String, displayName:String)  {
         REF_SESSIONS.observeSingleEvent(of: .value) { (sessionSnapshot ) in
+            
+            var profilePhotoURL:URL? = nil
+            
             guard let sessionSnapshot = sessionSnapshot.children.allObjects as? [DataSnapshot] else {
                 return
             }
             guard let currentUser = Auth.auth().currentUser else { print("could not find current user",#function)
                 return}
-            guard let fetchedDisplayName =  currentUser.displayName else { print("no diplay name found",#function)
-                return}
-            if let profilePhotoURL = currentUser.photoURL  {
+
+            
+           profilePhotoURL = currentUser.photoURL
+            //                //TODO:- Update this to use a default profile photo
                 for session in sessionSnapshot {
                     if session.childSnapshot(forPath: "code").value as! String == code {
                         var members = session.childSnapshot(forPath: "members").value as! [String:[String:Any]]
-                        members[userID] = ["name":fetchedDisplayName,"score":0,"isModerator":false, "hasBeenModerator":false, "photoURL":profilePhotoURL.absoluteString]
+                        members[userID] = ["name":displayName ?? "MissingDisplayName","score":0,"isModerator":false, "hasBeenModerator":false, "photoURL":profilePhotoURL ?? ""]
                         self.REF_SESSIONS.child(session.key).updateChildValues(["members":members])
                     }
                 }
-            }
             
-            else {
-                //TODO:- Update this to use a default profile photo
-                for session in sessionSnapshot {
-                if session.childSnapshot(forPath: "code").value as! String == code {
-                    var members = session.childSnapshot(forPath: "members").value as! [String:[String:Any]]
-                    members[userID] = ["name":fetchedDisplayName,"score":0,"isModerator":false, "hasBeenModerator":false, "photoURL":""]
-                    self.REF_SESSIONS.child(session.key).updateChildValues(["members":members])
-                }
-            }}
+            
+//            else {
+//                //TODO:- Update this to use a default profile photo
+//                for session in sessionSnapshot {
+//                if session.childSnapshot(forPath: "code").value as! String == code {
+//                    var members = session.childSnapshot(forPath: "members").value as! [String:[String:Any]]
+//                    members[userID] = ["name":fetchedDisplayName,"score":0,"isModerator":false, "hasBeenModerator":false, "photoURL":""]
+//                    self.REF_SESSIONS.child(session.key).updateChildValues(["members":members])
+//                }
+//            }}
             
         }
     }

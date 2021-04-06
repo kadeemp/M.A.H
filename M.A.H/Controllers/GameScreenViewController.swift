@@ -54,13 +54,16 @@ class GameScreenViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.view.bringSubviewToFront(slideUpIndicatorButton)
+        
         NotificationCenter.default.addObserver(self, selector: #selector(startNewGame), name: Notification.Name("startNewGame"), object: nil)
 
         guard let currentUser = Auth.auth().currentUser else {return}
-        guard let fetchedDisplayName =  currentUser.displayName else { print("no diplay name found",#function)
-            return }
-        guard let profilePhotoURL = currentUser.photoURL else { print("no photo url found",#function)
-            return }
+//        guard let fetchedDisplayName =  currentUser.displayName else { print("no diplay name found",#function)
+//            return }
+//        guard let profilePhotoURL = currentUser.photoURL else { print("no photo url found",#function)
+//            return }
 
         addConstraintsToCardDrawer()
         promptLabel.resetLabel()
@@ -102,7 +105,7 @@ class GameScreenViewController: UIViewController {
                 }
             }
             FirebaseController.instance.observeSessionMembers(session: session) { (returnedMembers) in
-                print("members list:\(returnedMembers) \n",fetchedDisplayName)
+                print("members list:\(returnedMembers)")
                 self.members = returnedMembers
 //                self.scoreboardCollectionView.reloadData()
             }
@@ -746,6 +749,7 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
                         if response.isRevealed == true {
                             cell2.cardImageView.isHidden = true
                         } else {
+                            cell2.revealedCardImageView.isHidden = true
                             cell2.cardImageView.isHidden = false
                         }
                         cell2.setupPlayer(urlString: response.fileName)

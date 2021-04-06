@@ -22,6 +22,22 @@ class StartGameViewController: UIViewController {
         //TODO- update this to use user defaults based on uid
         FirebaseController.instance.returnFirstName { (name) in
 self.greetingLabel.text = "Hello \(name)"
+            
+//            //TODO:- REMOVE THIS
+//            if let displayName = Auth.auth().currentUser?.displayName {
+//             print("displayname already created")
+//            } else {
+//                print("displayname adding")
+//                let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
+//                changeRequest?.displayName = name
+//                changeRequest?.commitChanges(completion: { (error) in
+//                    if error != nil {
+//                        print(error)
+//                        print("error commiting profile changes")
+//                    }
+//                    print("done")
+//                })
+//            }
         }
 
 
