@@ -30,6 +30,7 @@ class GameScreenViewController: UIViewController {
     var hasRoundEnded = false
     var hasGameEnded = false
     var imageCache = NSCache<NSString, NSData>()
+    
     @IBOutlet var scoreboardCollectionView: UICollectionView!
     
     @IBOutlet var tableHolderView: UIView!
@@ -328,7 +329,6 @@ class GameScreenViewController: UIViewController {
                     
                 }
             }
-            
             
             //table is full
         //moderator reveals cards

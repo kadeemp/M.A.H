@@ -10,8 +10,6 @@ import UIKit
 import UserNotifications
 import Firebase
 
-
-
 @UIApplicationMain
 class AppDelegate: UIResponder, MessagingDelegate {
 
@@ -182,9 +180,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
 
     // With swizzling disabled you must let Messaging know about the message, for Analytics
     // Messaging.messaging().appDidReceiveMessage(userInfo)
-
-
-
+ 
 //    // Print full message.
 //    print(userInfo, #function)
 
@@ -204,13 +200,10 @@ defer { completionHandler() }
         vc.modalPresentationStyle = .fullScreen
         window?.rootViewController?.present(vc, animated: true) 
     }
-
     let userInfo = response.notification.request.content.userInfo
     // Print message ID.
 
     // Print full message.
     print(userInfo, #function)
-
-
   }
 }
