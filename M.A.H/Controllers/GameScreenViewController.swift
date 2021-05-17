@@ -273,16 +273,20 @@ class GameScreenViewController: UIViewController {
             //TODO:-  Test to make sure that this works.
             self.navigationController?.popViewController(animated: true)
         case -1:
+            
+            //MARK: RESET TABLE, PROPMPT, AND DISABLE PROMPT DECK FOR EVERYONE
             self.responses = []
             self.promptLabel.text = ""
             self.hasRoundEnded = false
             self.promptDeckImageView.isUserInteractionEnabled = false
 
             self.updateState(0)
-            
-            //todo:Check if person has 5 cards
-        //todo:alert next moderator
+
+        
         case 0:
+            //MARK: DISABLE MEME DECK | ENABLE PROMPT DECK FOR MODERATOR
+            
+            //TODO: MOVE ERROR HANDLING TO FUNCTION
             if self.responses.count != 0 {
                 //TODO FIX THIS BUG
                 self.responses = []
@@ -303,6 +307,7 @@ class GameScreenViewController: UIViewController {
                 //  print("\(Auth.auth().currentUser!.displayName) has access to promots")
                 
                 self.promptDeckImageView.isUserInteractionEnabled = true
+                //TODO:ANIMATE CARD SHOWING THEM THEY ARE THE MODERATOR
                 
                 //add card animation
             } else {
@@ -315,6 +320,7 @@ class GameScreenViewController: UIViewController {
             //promot has just been revealed
         //players pick their responses
         case 1:
+            //MARK:
             // print("case 1 running \n")
             if !isModerator() {
                 self.cardCollectionView.isUserInteractionEnabled = true
@@ -333,7 +339,7 @@ class GameScreenViewController: UIViewController {
             //table is full
         //moderator reveals cards
         case 2:
-            
+            //MARK:
             //  print("case 2 running \n")
             if isModerator() {
                 self.playedCardCollectionView.isUserInteractionEnabled = true
@@ -347,10 +353,12 @@ class GameScreenViewController: UIViewController {
             memeDeckimageview.isUserInteractionEnabled = true
         //moderator chooses a winning card
         case 3:
+            //MARK:
             playedCardCollectionView.isUserInteractionEnabled = true
             cardCollectionView.dragInteractionEnabled = false
         //show winning card to all non-moderators
         case 4:
+            //MARK:
             FirebaseController.instance.returnWinningResult(gameKey: game.key) { (winningCard) in
                 if let winningCard = winningCard {
                     let resultCard = WinningCardView2()
@@ -366,6 +374,7 @@ class GameScreenViewController: UIViewController {
             memeDeckimageview.isUserInteractionEnabled = true
         //add animation
         case 5:
+            //MARK:
             if hasRoundEnded == false {
                 let deadlineTime = DispatchTime.now() + .seconds(5)
                 DispatchQueue.main.asyncAfter(deadline: deadlineTime) {
@@ -386,6 +395,7 @@ class GameScreenViewController: UIViewController {
             
         //TODO: Present Game Over. Restart game or send everyone back to lobby
         case 6:
+            //MARK:
             if hasGameEnded == false {
                 checkScoreboard(session: self.session)
             }
