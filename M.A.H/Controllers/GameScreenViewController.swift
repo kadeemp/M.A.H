@@ -344,6 +344,9 @@ class GameScreenViewController: UIViewController {
                 //     print("\(Auth.auth().currentUser!.displayName) doeesn't have access to promots")
                 
             }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                self.promptLabel.hideLabelWithAnimation()
+            }
             memeDeckimageview.isUserInteractionEnabled = false
             cardCollectionView.dragInteractionEnabled = false
             //promot has just been revealed
@@ -351,20 +354,24 @@ class GameScreenViewController: UIViewController {
         case 1:
             //MARK: ALLOW NON-MODERATORS TO PLAY CARDS | SHOW PROMPT
             // print("case 1 running \n")
-            promptLabel.hideLabelWithAnimation()
             if !isModerator() {
                 self.cardCollectionView.isUserInteractionEnabled = true
                 self.cardCollectionView.dragInteractionEnabled = true
             }
-            
-            if let currentPrompt = currentPrompt {
-                if currentPrompt.isRevealed == true  {
-                    if promptLabel.text == "" {
+            if promptLabel.text != currentPrompt.prompt {
+                promptLabel.clearPrompt()
+
+                
+                if let currentPrompt = currentPrompt {
+                    if currentPrompt.isRevealed == true  {
+                        if promptLabel.text == "" {
+                            
+                            promptLabel.updatePromptLabel(prompt: currentPrompt.prompt)      }
                         
-                        promptLabel.updatePromptLabel(prompt: currentPrompt.prompt)      }
-                    
+                    }
                 }
             }
+            
             
             //table is full
         //moderator reveals cards
@@ -395,6 +402,8 @@ class GameScreenViewController: UIViewController {
 //            for item in 0...(cards.count - 1 ){
 //                cardCollectionView.deleteItems(at:[IndexPath(row:0, section:0)])
 //            }
+            responses = []
+            playedCardCollectionView.reloadData()
  
             DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
                 FirebaseController.instance.returnWinningResult(gameKey: self.game.key) { (winningCard) in

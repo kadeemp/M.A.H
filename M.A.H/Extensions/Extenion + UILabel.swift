@@ -21,6 +21,9 @@ extension UILabel {
             }
         }
     }
+    func clearPrompt() {
+        self.text = ""
+    }
 
     func showLabelWithanimation() {
         DispatchQueue.main.async {
@@ -30,9 +33,8 @@ extension UILabel {
         }
     }
 
-
     func updatePromptLabel(prompt:String) {
-        UIView.animateKeyframes(withDuration: 0.5, delay: 0, animations: {
+        UIView.animate(withDuration: 0.5, delay: 0, animations: {
             self.layer.opacity = 0
 
         }) { (completed) in
