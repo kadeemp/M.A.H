@@ -30,7 +30,7 @@ class CardCollectionViewCell2: UICollectionViewCell {
             videoDisplayView.layer.replaceSublayer(videoDisplayView.layer.sublayers![0], with: avPlayerLayer )
         }
 
-        print("current layer count after is\(videoDisplayView.layer.sublayers!.count)")
+        //print("current layer count after is\(videoDisplayView.layer.sublayers!.count)")
         player.play()
 
         NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: player.currentItem, queue: .main) { (notification) in

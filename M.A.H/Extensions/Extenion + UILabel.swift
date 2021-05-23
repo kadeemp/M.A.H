@@ -13,12 +13,12 @@ extension UILabel {
 
     func hideLabelWithAnimation(){
         DispatchQueue.main.async {
-            UIView.animate(withDuration: 1) {
+
+            UIView.animate(withDuration: 0.5, delay: 0, animations: {
                 self.layer.opacity = 0
+            }) { (completed) in
+                self.text = ""
             }
-        }
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
-            self.text = ""
         }
     }
 
@@ -30,12 +30,19 @@ extension UILabel {
         }
     }
 
-    func resetLabel() {
-        DispatchQueue.main.async {
-            UIView.animate(withDuration: 1) {
-                self.layer.opacity = 0
-            }
+
+    func updatePromptLabel(prompt:String) {
+        UIView.animateKeyframes(withDuration: 0.5, delay: 0, animations: {
+            self.layer.opacity = 0
+
+        }) { (completed) in
+            self.text = prompt
+            UIView.animate(withDuration: 1, delay: 0, animations: {
+                self.layer.opacity = 1
+
+            }, completion: nil)
+            
         }
-        self.text = ""
     }
+    
 }

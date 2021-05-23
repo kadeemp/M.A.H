@@ -72,7 +72,6 @@ class PromptCardView: UIView {
 
         //TODO:- ADD BUTTON SWAP ANIMATION
 
-
     }
     lazy var dismissButton:UIButton = {
         //TODO:- CHANGE TO PROGRAMMATIC CONSTRAINTS

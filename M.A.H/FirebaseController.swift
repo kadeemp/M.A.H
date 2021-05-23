@@ -103,7 +103,6 @@ class FirebaseController {
                                     newSession.gameID = gameKey
                                     let game = Game(key: gameKey, round: 1, table:  ["currentPrompt":["cardKey":"","isRevealed":false,"playedBy":"","prompt":""]], state: 0)
                                     self.loadHand(session: newSession) {
-                                        print("hand complete")
                                         completion(game)
                                     }
                                   })
@@ -250,7 +249,7 @@ class FirebaseController {
             if dataSnapshot.exists() {
                 let name = dataSnapshot.value as! String
                 completion(name)
-                print("name is \(name)")
+               // print("name is \(name)")
             } else {
                 fatalError()
             }
@@ -349,7 +348,6 @@ class FirebaseController {
             guard let data = dataSnapshot.children.allObjects as? [DataSnapshot] else {
                 return
             }
-            print("dataCount = \(data.count)")
             
             for cardData in data {
                 let fileName = cardData.childSnapshot(forPath: "fileName").value as? String
@@ -364,7 +362,7 @@ class FirebaseController {
                 responses.append(card)
             }
             if responses.count == 0 {
-                print("NO RESPONSeS FOUND")
+               // print("NO RESPONSeS FOUND")
                 completion(responses)
             } else {
                 completion(responses)
@@ -437,7 +435,7 @@ class FirebaseController {
                 guard let cardPrompt = dataSnapshot.childSnapshot(forPath: "prompt").value as? String else {return}
                 guard let cardKey = dataSnapshot.childSnapshot(forPath: "cardKey").value as? String else {return}
                 let card = PromptCard(cardKey: cardKey, prompt: cardPrompt, playedBy: playedBy, isRevealed: isRevealed)
-                print(#function,card)
+//                print(#function,card)
                 completion(card)
             }
         }
@@ -471,7 +469,7 @@ class FirebaseController {
                 completion(responses)
                 //print(#function,card)
             } else {
-                print("NO RESPONSES FOUND", #function)
+               // print("NO RESPONSES FOUND", #function)
             }
         }
     }
@@ -526,12 +524,12 @@ class FirebaseController {
     //MARK:- Hand
     func returnHand(user:String,comletion:@escaping (([MemeCard]) -> ())) {
         var cards:[MemeCard] = []
-        print(user, "user test", #function)
+        //print(user, "user test", #function)
         REF_USERS.child(user).child("hand").observeSingleEvent(of: .value) { (snapshot) in
             guard let data = snapshot.children.allObjects as? [DataSnapshot] else {
                 return
             }
-            print("dataCount = \(data.count)")
+           // print("dataCount = \(data.count)")
             
             for cardData in data {
                 let fileName = cardData.childSnapshot(forPath: "fileName").value as? String
@@ -585,7 +583,7 @@ class FirebaseController {
                     self.REF_USERS.child(member.key).child("hand").updateChildValues(cardDictionary)
                     
                     if cardDictionary.count > 0{
-                        print("hand loaded on first attempt")
+                       
                         completion()
                     } else {
                         print("HAND COULD NOT BE LOADED")
@@ -723,7 +721,7 @@ class FirebaseController {
                     strings.append(urlString)
                 }
                 completion(strings)
-                print("Strings arrray contents:\(strings)")
+              //  print("Strings arrray contents:\(strings)")
             }
         }
     }
@@ -761,7 +759,7 @@ class FirebaseController {
                 
                 result[key] = ["cardKey":key, "fileName":url, "fileType":"gif","playedby":""]
             }
-            print("contents of result \(result)", #function)
+            //print("contents of result \(result)", #function)
             completion(result)
         }
         //        loadGifsStringsWithCompletion(competion: { gifs in

@@ -29,10 +29,10 @@ class PlayedCardCollectionViewCell2: UICollectionViewCell {
             if revealedCardImageView.layer.sublayers == nil {
             revealedCardImageView.layer.addSublayer(avPlayerLayer)
             } else if  revealedCardImageView.layer.sublayers!.count == 1 {
-                revealedCardImageView.layer.replaceSublayer(revealedCardImageView.layer.sublayers![0], with: avPlayerLayer )
+                revealedCardImageView.layer.replaceSublayer(revealedCardImageView.layer.sublayers![0], with: avPlayerLayer)
             }
 
-            print("current layer count after is\(revealedCardImageView.layer.sublayers!.count)")
+           // print("current layer count after is\(revealedCardImageView.layer.sublayers!.count)")
             player.play()
 
             NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: player.currentItem, queue: .main) { (notification) in

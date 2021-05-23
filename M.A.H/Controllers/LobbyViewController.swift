@@ -35,7 +35,7 @@ class LobbyViewController: UIViewController, UITableViewDataSource, UITableViewD
             }
 
             if let user = Auth.auth().currentUser?.uid {
-                print(session.hostID,user)
+               
                 if session.hostID == user {
 
                 } else {

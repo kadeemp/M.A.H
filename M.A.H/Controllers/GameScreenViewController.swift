@@ -67,7 +67,7 @@ class GameScreenViewController: UIViewController {
 //            return }
 
         addConstraintsToCardDrawer()
-        promptLabel.resetLabel()
+        promptLabel.hideLabelWithAnimation()
         
         cardCollectionView.delegate = self
         cardCollectionView.dataSource = self
@@ -81,12 +81,12 @@ class GameScreenViewController: UIViewController {
         if let game = game {
 
             FirebaseController.instance.observeIsModerator(sessionKey: session.key, userKey: Auth.auth().currentUser!.uid) { (moderatorStatus) in
-                print("\(Auth.auth().currentUser?.displayName)'s moderator status is \(moderatorStatus) \n the game state is \(self.game.state)")
+//                print("\(Auth.auth().currentUser?.displayName)'s moderator status is \(moderatorStatus) \n the game state is \(self.game.state)")
                 let members = self.session.members
                 let memberIndex = members.index(forKey: Auth.auth().currentUser!.uid)
                 self.session.members.updateValue(["isModerator":moderatorStatus], forKey: Auth.auth().currentUser!.uid)
 //                self.scoreboardCollectionView.reloadData()
-                self.updateState(self.game.state)
+           //     self.updateState(self.game.state)
             }
             FirebaseController.instance.observeGameState(gameKey: game.key) { (newState) in
                 //                print("The new state is \(newState) \n \(Auth.auth().currentUser?.displayName)'s moderator status is \(self.isModerator())")
@@ -106,7 +106,7 @@ class GameScreenViewController: UIViewController {
                 }
             }
             FirebaseController.instance.observeSessionMembers(session: session) { (returnedMembers) in
-                print("members list:\(returnedMembers)")
+
                 self.members = returnedMembers
 //                self.scoreboardCollectionView.reloadData()
             }
@@ -232,6 +232,31 @@ class GameScreenViewController: UIViewController {
         
     }
     
+    func pingModerator(){
+        var label = UILabel()
+        label.frame = CGRect(x: 0, y: (self.view.bounds.height / 2) - (self.view.bounds.height / 4) , width: 300, height: 20)
+        label.textColor = .white
+        label.text = "Youre the moderator!"
+        label.layer.opacity = 0
+        label.center.x = view.bounds.width / 2
+        label.center.x -= view.bounds.width / 2
+        view.addSubview(label)
+        UIView.animate(withDuration: 0.5, delay: 0.4, animations: {
+            label.layer.opacity = 1
+        })
+        
+        UIView.animate(withDuration: 0.5, delay: 0, animations: {
+            label.center.x = self.view.bounds.width / 2
+        }) { (_) in
+            UIView.animate(withDuration: 0.5, delay: 5, animations: {
+                label.layer.opacity = 0
+            }) { (_) in
+                label.removeFromSuperview()
+            }
+        }
+    }
+    
+
     func toKeyArray(memes:[MemeCard]) -> [String]{
         var result:[String] = []
         for meme in memes {
@@ -262,6 +287,7 @@ class GameScreenViewController: UIViewController {
     func updateState(_ state:Int) {
         //        print("the state in the fn is \(state) \n the state on the game is \(self.self.game.state)")
         // print("the responses are \(self.responses)")
+        print("current state: \(state)")
         
         guard let user = Auth.auth().currentUser else {
             return
@@ -293,16 +319,17 @@ class GameScreenViewController: UIViewController {
                 self.playedCardCollectionView.reloadData()
                 print("TABLE NOT PROPERLY CLEARED")
             }
-            if self.promptLabel.text != "" {
-                self.promptLabel.text = ""
-                print("PROMPT LABEL NOT PROPERLY CLEARED")
-            }
+
             self.hasRoundEnded = false
             //amke deck border glow
             // print("case 0 running \n")
             self.memeDeckimageview.isUserInteractionEnabled = false
-            
+            print(session.members)
             if isModerator() == true {
+                
+                //TODO: CREATE ANIMATED CARD THAT SAYS YOURE THE MODERATOR
+                print("moderator label placed")
+                promptLabel.updatePromptLabel(prompt: "You're the moderator! Pick a prompt below.")
                 
                 //  print("\(Auth.auth().currentUser!.displayName) has access to promots")
                 
@@ -312,6 +339,8 @@ class GameScreenViewController: UIViewController {
                 //add card animation
             } else {
                 self.promptDeckImageView.isUserInteractionEnabled = false
+                print("player label placed")
+                promptLabel.updatePromptLabel(prompt: "Waiting for the moderator to reveal the prompt.")
                 //     print("\(Auth.auth().currentUser!.displayName) doeesn't have access to promots")
                 
             }
@@ -320,18 +349,19 @@ class GameScreenViewController: UIViewController {
             //promot has just been revealed
         //players pick their responses
         case 1:
-            //MARK:
+            //MARK: ALLOW NON-MODERATORS TO PLAY CARDS | SHOW PROMPT
             // print("case 1 running \n")
+            promptLabel.hideLabelWithAnimation()
             if !isModerator() {
                 self.cardCollectionView.isUserInteractionEnabled = true
                 self.cardCollectionView.dragInteractionEnabled = true
             }
+            
             if let currentPrompt = currentPrompt {
                 if currentPrompt.isRevealed == true  {
                     if promptLabel.text == "" {
                         
-                        promptLabel.text = currentPrompt.prompt
-                        promptLabel.showLabelWithanimation()                    }
+                        promptLabel.updatePromptLabel(prompt: currentPrompt.prompt)      }
                     
                 }
             }
@@ -339,7 +369,7 @@ class GameScreenViewController: UIViewController {
             //table is full
         //moderator reveals cards
         case 2:
-            //MARK:
+            //MARK: ALLOW MODERATOR TO CHOOSE CARDS | STOP MORE CARDS FROM BEING PLAYED
             //  print("case 2 running \n")
             if isModerator() {
                 self.playedCardCollectionView.isUserInteractionEnabled = true
@@ -348,7 +378,7 @@ class GameScreenViewController: UIViewController {
             } else {
                 self.playedCardCollectionView.isUserInteractionEnabled = false
             }
-            //MARK:  STATE CHANGED TO 3
+
             cardCollectionView.dragInteractionEnabled = false
             memeDeckimageview.isUserInteractionEnabled = true
         //moderator chooses a winning card
@@ -358,23 +388,33 @@ class GameScreenViewController: UIViewController {
             cardCollectionView.dragInteractionEnabled = false
         //show winning card to all non-moderators
         case 4:
-            //MARK:
-            FirebaseController.instance.returnWinningResult(gameKey: game.key) { (winningCard) in
-                if let winningCard = winningCard {
-                    let resultCard = WinningCardView2()
-                    resultCard.frame = CGRect(x: 100, y: 130, width: 200, height: 290)
-                    resultCard.promptLabel.text = "\(self.session.members[winningCard.playedBy!]!["name"]!) wins!"
-                    resultCard.setupPlayer(urlString: winningCard.fileName)
-                    self.view.addSubview(resultCard)
-                    FirebaseController.instance.setStateTo(5, game: self.game)
-                    
+            //MARK: REMOVE ALL PLAYED CARDS | RETURN THE WINNING RESULT
+  //TODO:REWRITE COLLECTIONVIEW ANIMATION
+//            print("\(cardCollectionView.dataSource?.collectionView(cardCollectionView, numberOfItemsInSection: 0)) is the number of cell in the collectionview" )
+//
+//            for item in 0...(cards.count - 1 ){
+//                cardCollectionView.deleteItems(at:[IndexPath(row:0, section:0)])
+//            }
+ 
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
+                FirebaseController.instance.returnWinningResult(gameKey: self.game.key) { (winningCard) in
+                    if let winningCard = winningCard {
+                        let resultCard = WinningCardView2()
+                        resultCard.frame = CGRect(x: 100, y: 130, width: 200, height: 290)
+                        resultCard.promptLabel.text = "\(self.session.members[winningCard.playedBy!]!["name"]!) wins!"
+                        resultCard.setupPlayer(urlString: winningCard.fileName)
+                        self.view.addSubview(resultCard)
+                        FirebaseController.instance.setStateTo(5, game: self.game)
+                        
+                    }
                 }
-            }
+            })
+
             cardCollectionView.dragInteractionEnabled = true
             memeDeckimageview.isUserInteractionEnabled = true
         //add animation
         case 5:
-            //MARK:
+            //MARK: AFTER 5 SECONDS, CLEAR TABLE AND PROMPT | SWAP MODERATOR
             if hasRoundEnded == false {
                 let deadlineTime = DispatchTime.now() + .seconds(5)
                 DispatchQueue.main.asyncAfter(deadline: deadlineTime) {
@@ -433,7 +473,7 @@ class GameScreenViewController: UIViewController {
                 //var label = UILabel(frame: CGRect(x: self.view.frame.midX, y: self.view.frame.midY, width: 150, height: 30))
                 
                 if session.hostID == Auth.auth().currentUser?.uid {
-                    print("this person is the host")
+                   
                     var alert = UIAlertController(title: "\(member.value["name"] as! String) won", message: "What would you like to do?", preferredStyle: .alert)
                     let returnAction = UIAlertAction(title: "Return to Lobby", style: .cancel) { (action) in
                         //                        TODO:- Make sure this works.
@@ -566,9 +606,15 @@ class GameScreenViewController: UIViewController {
             //            print(returnPrompt())
         }
     }
-    
+    var switched = false
     @IBAction func memeDeckPressed(_ sender: Any) {
-        FirebaseController.instance.swapModerator(session: self.session)
+        if switched == false {
+            promptLabel.updatePromptLabel(prompt: "this is a test. please work")
+            switched = !switched
+        } else {
+            promptLabel.updatePromptLabel(prompt: "Prompt 2")
+            switched = !switched
+        }
     }
 }
 

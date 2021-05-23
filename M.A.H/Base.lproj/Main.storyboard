@@ -629,12 +629,12 @@
                                 </constraints>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="87" translatesAutoresizingMaskIntoConstraints="NO" id="wFd-fJ-N7L">
-                                <rect key="frame" x="231.5" y="328" width="77" height="106"/>
+                                <rect key="frame" x="221.5" y="328" width="77" height="106"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6AG-qV-Qf9" userLabel="Meme  Deck">
-                                        <rect key="frame" x="0.0" y="0.0" width="60" height="108"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="77" height="106"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" image="CardStack"/>
+                                        <state key="normal" image="Purple deck"/>
                                         <connections>
                                             <action selector="memeDeckPressed:" destination="H6H-um-jyN" eventType="touchUpInside" id="lOo-7F-a2c"/>
                                         </connections>
@@ -739,7 +739,7 @@
                             <constraint firstItem="lqk-WY-VNr" firstAttribute="trailing" secondItem="xY7-aP-jIw" secondAttribute="trailing" constant="20" id="OSb-Md-3lQ"/>
                             <constraint firstItem="0F5-IL-99b" firstAttribute="height" secondItem="lqk-WY-VNr" secondAttribute="height" multiplier="3/8" id="QRl-dq-aa4"/>
                             <constraint firstItem="0F5-IL-99b" firstAttribute="trailing" secondItem="lqk-WY-VNr" secondAttribute="trailing" id="RM3-3T-Ifx"/>
-                            <constraint firstItem="wFd-fJ-N7L" firstAttribute="centerX" secondItem="zxt-da-5U8" secondAttribute="centerX" constant="110" id="Ssh-xK-6DJ"/>
+                            <constraint firstItem="wFd-fJ-N7L" firstAttribute="centerX" secondItem="zxt-da-5U8" secondAttribute="centerX" constant="100" id="Ssh-xK-6DJ"/>
                             <constraint firstItem="xY7-aP-jIw" firstAttribute="height" secondItem="lqk-WY-VNr" secondAttribute="height" multiplier="0.470389" id="T88-T9-Jmc"/>
                             <constraint firstItem="0F5-IL-99b" firstAttribute="leading" secondItem="lqk-WY-VNr" secondAttribute="leading" id="Vqm-sg-auN"/>
                             <constraint firstItem="xY7-aP-jIw" firstAttribute="top" secondItem="nV3-gx-zob" secondAttribute="bottom" constant="5" id="YPa-3b-I4c"/>
@@ -1005,7 +1005,6 @@
         <segue reference="VlF-Bd-2fI"/>
     </inferredMetricsTieBreakers>
     <resources>
-        <image name="CardStack" width="60" height="108"/>
         <image name="CircledUpArrow" width="47" height="47"/>
         <image name="PoweredBy_200px-Black_HorizLogo" width="200" height="26"/>
         <image name="Purple deck" width="77" height="106"/>
