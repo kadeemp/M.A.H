@@ -45,6 +45,7 @@ class GameScreenViewController: UIViewController {
     @IBOutlet var playedCardCollectionView: UICollectionView!
     @IBOutlet var promptLabel: UILabel!
     
+    @IBOutlet weak var scoreLabel: UILabel!
     @IBOutlet var stateLabel: UILabel!
     
     func addConstraintsToCardDrawer() {
@@ -177,6 +178,13 @@ class GameScreenViewController: UIViewController {
                     self.session = returnedSession!
                 } else {
                     print("ERROR OBSERVING SESSION", #function)
+                }
+                var currentScore = Int(self.scoreLabel.text!)
+                
+                var returnedScore = returnedSession?.members[Auth.auth().currentUser!.uid]!["score"] as! Int
+                
+                if currentScore != returnedScore as! Int {
+                    self.scoreLabel.text = String(returnedScore)
                 }
             }
             
@@ -596,7 +604,7 @@ class GameScreenViewController: UIViewController {
         if !hasCardBeenRevealed {
             FirebaseController.instance.returnPromptFromDeck(gameID: session.gameID!) { (card) in
                 //print(card)
-                let prompt = PromptCardView(frame:CGRect(x: 100, y: 130, width: 200, height: 290))
+                let prompt = PromptCardView(frame:CGRect(x: 100, y: self.view.bounds.height, width: 200, height: 290))
                 // prompt.center = CGPoint(x: self.view.frame.midX - prompt.frame.width - 15, y: self.view.frame.midY - prompt.frame.height)
                 
                 prompt.layer.opacity = 0
@@ -607,6 +615,7 @@ class GameScreenViewController: UIViewController {
                 DispatchQueue.main.async {
                     UIView.animate(withDuration: 0.5, animations: {
                         prompt.layer.opacity = 1
+                        prompt.center.y = self.view.center.y - 100
                         prompt.promptLabel.text = "\(card.prompt)"
                         
                         self.promptDeckImageView.isUserInteractionEnabled = false
@@ -617,15 +626,9 @@ class GameScreenViewController: UIViewController {
             //            print(returnPrompt())
         }
     }
-    var switched = false
+
     @IBAction func memeDeckPressed(_ sender: Any) {
-        if switched == false {
-            promptLabel.updatePromptLabel(prompt: "this is a test. please work")
-            switched = !switched
-        } else {
-            promptLabel.updatePromptLabel(prompt: "Prompt 2")
-            switched = !switched
-        }
+
     }
 }
 

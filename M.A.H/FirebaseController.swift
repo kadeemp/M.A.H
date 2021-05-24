@@ -831,24 +831,25 @@ class FirebaseController {
         }
     }
     
+
     func swapModerator(session:Session) {
         var members = session.members
         var keys = Array(members.keys)
         print(members)
         print(members.count, #function)
-        for mem in members {
-            let isModerator = mem.value["isModerator"] as! Bool
-            let hasBeenModerator = mem.value["hasBeenModerator"] as? Bool
+        for member in members {
+            let isModerator = member.value["isModerator"] as! Bool
+            let hasBeenModerator = member.value["hasBeenModerator"] as? Bool
             if isModerator == true {
-                var newMember = mem
+                var newMember = member
                 newMember.value["isModerator"] = false
                 newMember.value["hasBeenModerator"] = true
                 updateMember(session: session, member: newMember)
-                members.removeValue(forKey: mem.key)
+                members.removeValue(forKey: member.key)
             }
             if hasBeenModerator != nil {
                 if hasBeenModerator! == true {
-                    members.removeValue(forKey: mem.key)
+                    members.removeValue(forKey: member.key)
                 }
             }
         }
