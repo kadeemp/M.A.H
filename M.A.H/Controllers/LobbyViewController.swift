@@ -20,9 +20,12 @@ class LobbyViewController: UIViewController, UITableViewDataSource, UITableViewD
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        
         lobbyTableView.dataSource = self
         lobbyTableView.delegate = self
-        let gameScreen = storyboard?.instantiateViewController(identifier: "Game")
+
 
 
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Leave Lobby", style: .plain, target: self, action: #selector(leaveLobby(_:)))
