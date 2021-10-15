@@ -39,35 +39,36 @@ extension AppDelegate : UIApplicationDelegate {
             loadLoadLoginScreen(window: window!)
         }
         Messaging.messaging().delegate = self
+        
 
-        InstanceID.instanceID().instanceID { (result, error) in
-          if let error = error {
-            print("Error fetching remote instance ID: \(error)")
-          } else if let result = result {
-            print("Remote instance ID token: \(result.token)")
-//            self.instanceIDTokenMessage.text  = "Remote InstanceID token: \(result.token)"
-
-          }
-        }
+//        InstanceID.instanceID().instanceID { (result, error) in
+//          if let error = error {
+//            print("Error fetching remote instance ID: \(error)")
+//          } else if let result = result {
+//            print("Remote instance ID token: \(result.token)")
+////            self.instanceIDTokenMessage.text  = "Remote InstanceID token: \(result.token)"
+//
+//          }
+//        }
 
         return true
     }
-    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
+     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
       print("Firebase registration token: \(fcmToken)")
 
-      let dataDict:[String: String] = ["token": fcmToken]
+      let dataDict:[String: String] = ["token": fcmToken ?? ""]
       NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: dataDict)
       // TODO: If necessary send token to application server.
       // Note: This callback is fired at each app startup and whenever a new token is generated.
         let userDefaults = UserDefaults.standard
 
 
-        if let savedToken = userDefaults.string(forKey: fcmToken) {
+        if let savedToken = userDefaults.string(forKey: fcmToken!) {
             print("Token has not changed. it is \(fcmToken)")
         } else {
             //update token in database
             userDefaults.set(fcmToken, forKey: "\(fcmToken)")
-            FirebaseController.instance.updateThisUserToken(fcmToken)
+            FirebaseController.instance.updateThisUserToken(fcmToken!)
             print("Token has changed. it is \(fcmToken)")
         }
     }

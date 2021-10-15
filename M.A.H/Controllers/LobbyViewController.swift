@@ -20,13 +20,9 @@ class LobbyViewController: UIViewController, UITableViewDataSource, UITableViewD
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        
+
         lobbyTableView.dataSource = self
         lobbyTableView.delegate = self
-
-
 
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Leave Lobby", style: .plain, target: self, action: #selector(leaveLobby(_:)))
         lobbyCodeLabel.text = defaults.string(forKey: "code") ?? "Code not set"
