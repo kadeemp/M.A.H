@@ -56,7 +56,6 @@ class WinningCardView: UIView {
     @objc func swapButtons() {
 
         revealButton.isUserInteractionEnabled = false
-
         //TODO:- ADD BUTTON SWAP ANIMATION
         revealButton.removeFromSuperview()
 //ADD FIREBASE FUNC
