@@ -161,6 +161,7 @@ class GameScreenViewController: UIViewController {
                                     let indexPathOfResponse = IndexPath(item: index, section: 0)
                                     let indexes = [indexPathOfResponse]
                                     self.playedCardCollectionView.insertItems(at: indexes)
+                                    self.playedCardCollectionView.cellForItem(at: IndexPath(item: index, section: 0))?.contentView.alpha = 1
                                 }
                             }
                         }
@@ -412,8 +413,23 @@ class GameScreenViewController: UIViewController {
             //            for item in 0...(cards.count - 1 ){
             //                cardCollectionView.deleteItems(at:[IndexPath(row:0, section:0)])
             //            }
-            responses = []
-            playedCardCollectionView.reloadData()
+            let playedCardCells = playedCardCollectionView.visibleCells
+            DispatchQueue.main.async {
+                UIView.animate(withDuration: 2, delay: 0, options: .curveEaseInOut) {
+                    for cell in playedCardCells {
+                        cell.contentView.alpha = 0
+                    }
+                } completion: { didComplete in
+                    self.responses = []
+                    self.playedCardCollectionView.reloadData()
+                    for cell in self.playedCardCollectionView.subviews {
+                        cell.alpha = 1
+                    }
+                }
+
+            }
+            
+
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
                 FirebaseController.instance.returnWinningResult(gameKey: self.game.key) { (winningCard) in

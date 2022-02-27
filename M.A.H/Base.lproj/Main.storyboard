@@ -127,11 +127,6 @@
                                     <action selector="submitTxtField:" destination="bbZ-co-JxZ" eventType="touchUpInside" id="yeT-Ks-1un"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xxd-pr-VN7">
-                                <rect key="frame" x="123" y="579" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                            </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="KWZ-7k-RR2">
                                 <rect key="frame" x="20" y="144" width="280" height="286"/>
                                 <subviews>
