@@ -113,10 +113,10 @@ class LobbyViewController: UIViewController, UITableViewDataSource, UITableViewD
     @IBAction func createGame(_ sender: Any) {
 
         if let session = session {
-            //Change back to 2
+            print("DONT FORGET TO ADD LOBBY MINIMUM", #function)
+//TODO:- CHANGE TO 3
 
-
-            if session.members.count >= 3 {
+            if session.members.count >= 1 {
                 //create game
                 //performSegue
                 FirebaseController.instance.createGame(session: session) { returnedGame in

@@ -18,7 +18,6 @@ class StartGameViewController: UIViewController {
     @IBOutlet var enterLobby: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
-        enterLobby.isHidden = true
         //TODO- update this to use user defaults based on uid
         FirebaseController.instance.returnFirstName { (name) in
 self.greetingLabel.text = "Hello \(name)"

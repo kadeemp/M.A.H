@@ -229,11 +229,12 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="31" translatesAutoresizingMaskIntoConstraints="NO" id="zNh-Uq-wqp">
-                                <rect key="frame" x="115" y="198" width="90" height="152"/>
+                                <rect key="frame" x="104" y="228.5" width="112" height="91"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yvr-D5-bdg">
-                                        <rect key="frame" x="0.0" y="0.0" width="90" height="30"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="112" height="30"/>
                                         <color key="backgroundColor" red="0.31845900420000001" green="0.61050242190000004" blue="0.84319502120000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <inset key="titleEdgeInsets" minX="5" minY="0.0" maxX="5" maxY="0.0"/>
                                         <state key="normal" title="Create Game">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
@@ -247,7 +248,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4zW-hl-HqP">
-                                        <rect key="frame" x="0.0" y="61" width="90" height="30"/>
+                                        <rect key="frame" x="0.0" y="61" width="112" height="30"/>
                                         <color key="backgroundColor" red="0.31845900420000001" green="0.61050242190000004" blue="0.84319502120000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <state key="normal" title="Find Game">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -259,16 +260,6 @@
                                         </userDefinedRuntimeAttributes>
                                         <connections>
                                             <action selector="findGamePressed:" destination="o2g-CT-6nV" eventType="touchUpInside" id="z1U-1J-Y6d"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GvT-Xh-6kU">
-                                        <rect key="frame" x="0.0" y="122" width="90" height="30"/>
-                                        <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <state key="normal" title="Enter Lobby">
-                                            <color key="titleColor" red="0.92156231399999999" green="0.92156249280000002" blue="0.92156094310000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="enterLobbyPressed:" destination="o2g-CT-6nV" eventType="touchUpInside" id="ssk-QZ-ixm"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -290,7 +281,7 @@
                         <viewLayoutGuide key="safeArea" id="2bj-Ud-Vwf"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="zNh-Uq-wqp" firstAttribute="width" secondItem="sbh-Zw-Uu4" secondAttribute="width" multiplier="0.28125" id="Es0-xd-QAk"/>
+                            <constraint firstItem="zNh-Uq-wqp" firstAttribute="width" secondItem="sbh-Zw-Uu4" secondAttribute="width" multiplier="0.35" id="Es0-xd-QAk"/>
                             <constraint firstItem="2da-2X-IRN" firstAttribute="leading" secondItem="2bj-Ud-Vwf" secondAttribute="leading" constant="102" id="HZD-yo-UZv"/>
                             <constraint firstItem="zNh-Uq-wqp" firstAttribute="centerY" secondItem="sbh-Zw-Uu4" secondAttribute="centerY" id="OZg-u3-OUM"/>
                             <constraint firstItem="2da-2X-IRN" firstAttribute="centerX" secondItem="zNh-Uq-wqp" secondAttribute="centerX" id="VuW-oP-Z5h"/>
@@ -327,7 +318,6 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="enterLobby" destination="GvT-Xh-6kU" id="Ffs-hw-N7b"/>
                         <outlet property="greetingLabel" destination="9AM-2y-nlQ" id="Jb9-Q8-2rA"/>
                         <segue destination="KLH-sZ-n4F" kind="show" id="LLj-pe-Mxd"/>
                         <segue destination="tXE-OG-O71" kind="show" identifier="toLobby" id="qR9-kU-4rx"/>
@@ -531,7 +521,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Tgn-Jn-aCG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4082.6086956521744" y="887.94642857142856"/>
+            <point key="canvasLocation" x="3077" y="882"/>
         </scene>
         <!--Game Screen View Controller-->
         <scene sceneID="4iD-lF-upn">
@@ -556,7 +546,7 @@
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="TempTable" translatesAutoresizingMaskIntoConstraints="NO" id="2Fg-ad-Fqk">
                                         <rect key="frame" x="0.0" y="0.0" width="280" height="231.5"/>
                                     </imageView>
-                                    <collectionView clipsSubviews="YES" contentMode="scaleToFill" delaysContentTouches="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="zxt-da-5U8">
+                                    <collectionView clipsSubviews="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" delaysContentTouches="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="zxt-da-5U8">
                                         <rect key="frame" x="0.0" y="0.0" width="280" height="231.5"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="LyB-Ra-g1h">
@@ -634,7 +624,7 @@
                                 </constraints>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="87" translatesAutoresizingMaskIntoConstraints="NO" id="wFd-fJ-N7L">
-                                <rect key="frame" x="221.5" y="357.5" width="77" height="106"/>
+                                <rect key="frame" x="243" y="357.5" width="77" height="106"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6AG-qV-Qf9" userLabel="Meme  Deck">
                                         <rect key="frame" x="0.0" y="0.0" width="77" height="106"/>
@@ -764,13 +754,13 @@
                             <constraint firstItem="lqk-WY-VNr" firstAttribute="trailing" secondItem="xY7-aP-jIw" secondAttribute="trailing" constant="20" id="OSb-Md-3lQ"/>
                             <constraint firstItem="0F5-IL-99b" firstAttribute="height" secondItem="lqk-WY-VNr" secondAttribute="height" multiplier="3/8" id="QRl-dq-aa4"/>
                             <constraint firstItem="0F5-IL-99b" firstAttribute="trailing" secondItem="lqk-WY-VNr" secondAttribute="trailing" id="RM3-3T-Ifx"/>
-                            <constraint firstItem="wFd-fJ-N7L" firstAttribute="centerX" secondItem="zxt-da-5U8" secondAttribute="centerX" constant="100" id="Ssh-xK-6DJ"/>
                             <constraint firstItem="xY7-aP-jIw" firstAttribute="height" secondItem="lqk-WY-VNr" secondAttribute="height" multiplier="0.470389" id="T88-T9-Jmc"/>
                             <constraint firstItem="0F5-IL-99b" firstAttribute="leading" secondItem="lqk-WY-VNr" secondAttribute="leading" id="Vqm-sg-auN"/>
                             <constraint firstItem="xY7-aP-jIw" firstAttribute="top" secondItem="nV3-gx-zob" secondAttribute="bottom" constant="5" id="YPa-3b-I4c"/>
                             <constraint firstItem="wFd-fJ-N7L" firstAttribute="top" secondItem="xY7-aP-jIw" secondAttribute="bottom" constant="20" id="Zdj-ON-uzk"/>
                             <constraint firstItem="nV3-gx-zob" firstAttribute="top" secondItem="lqk-WY-VNr" secondAttribute="top" constant="15" id="a0X-6K-ErH"/>
                             <constraint firstItem="nV3-gx-zob" firstAttribute="centerX" secondItem="xY7-aP-jIw" secondAttribute="centerX" id="dQn-HO-GXo"/>
+                            <constraint firstItem="lqk-WY-VNr" firstAttribute="trailing" secondItem="wFd-fJ-N7L" secondAttribute="trailing" id="fPd-ZV-1nr"/>
                             <constraint firstItem="xY7-aP-jIw" firstAttribute="leading" secondItem="lqk-WY-VNr" secondAttribute="leading" constant="20" id="gco-yn-b1P"/>
                         </constraints>
                     </view>
@@ -780,6 +770,7 @@
                         <outlet property="cardDrawer" destination="0F5-IL-99b" id="fMe-fN-B0s"/>
                         <outlet property="memeDeckimageview" destination="6AG-qV-Qf9" id="E7A-FN-zsf"/>
                         <outlet property="playedCardCollectionView" destination="zxt-da-5U8" id="vMr-IS-Fgy"/>
+                        <outlet property="promptButtonConstraint_trailingToSafeArea" destination="fPd-ZV-1nr" id="uhf-sZ-Odg"/>
                         <outlet property="promptDeckImageView" destination="Zi5-zY-w6L" id="d7i-DB-8U5"/>
                         <outlet property="promptLabel" destination="nV3-gx-zob" id="Cqx-ZJ-8Qz"/>
                         <outlet property="scoreLabel" destination="bsd-sv-mA3" id="MKK-e1-Evn"/>
@@ -791,7 +782,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jPa-sv-uhl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5443.125" y="907.3943661971831"/>
+            <point key="canvasLocation" x="3983" y="881"/>
         </scene>
         <!--End Game View Controller-->
         <scene sceneID="cFE-dr-8Bp">
@@ -855,7 +846,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ywo-qL-94c" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6216" y="1026"/>
+            <point key="canvasLocation" x="4830" y="882"/>
         </scene>
         <!--Memes Collection View Controller-->
         <scene sceneID="N1e-LM-2kS">
@@ -901,7 +892,7 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qap-qK-SnR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3596" y="2333"/>
+            <point key="canvasLocation" x="3109" y="2331"/>
         </scene>
         <!--Propmts Collection View Controller-->
         <scene sceneID="Act-MZ-iNe">
@@ -936,7 +927,7 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vU3-7z-c9O" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5316" y="2353"/>
+            <point key="canvasLocation" x="3932" y="2330"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="lYk-YD-gRm">
@@ -1005,7 +996,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dQH-Fb-Thw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3613.04347826087" y="1651.3392857142856"/>
+            <point key="canvasLocation" x="3109" y="1651"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="ZdT-ZY-HDv">
@@ -1023,7 +1014,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xN3-PB-Goh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5315.9420289855079" y="1651.3392857142856"/>
+            <point key="canvasLocation" x="3932" y="1650"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>

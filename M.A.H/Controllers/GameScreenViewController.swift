@@ -44,6 +44,7 @@ class GameScreenViewController: UIViewController {
     @IBOutlet var slideUpIndicatorButton: UIButton!
     @IBOutlet var playedCardCollectionView: UICollectionView!
     @IBOutlet var promptLabel: UILabel!
+    @IBOutlet weak var promptButtonConstraint_trailingToSafeArea: NSLayoutConstraint!
     
     @IBOutlet weak var scoreLabel: UILabel!
     @IBOutlet var stateLabel: UILabel!
@@ -56,16 +57,13 @@ class GameScreenViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        hidePromptCard()
         self.view.bringSubviewToFront(slideUpIndicatorButton)
         
         NotificationCenter.default.addObserver(self, selector: #selector(startNewGame), name: Notification.Name("startNewGame"), object: nil)
         
         guard let currentUser = Auth.auth().currentUser else {return}
-        //        guard let fetchedDisplayName =  currentUser.displayName else { print("no diplay name found",#function)
-        //            return }
-        //        guard let profilePhotoURL = currentUser.photoURL else { print("no photo url found",#function)
-        //            return }
+
         
         addConstraintsToCardDrawer()
         promptLabel.hideLabelWithAnimation()
@@ -78,6 +76,11 @@ class GameScreenViewController: UIViewController {
         playedCardCollectionView.delegate = self
         playedCardCollectionView.dataSource = self
         playedCardCollectionView.dropDelegate = self
+        
+        let tableDropInteraction = UIDropInteraction(delegate: self)
+        self.tableHolderView.addInteraction(tableDropInteraction)
+        self.playedCardCollectionView.addInteraction(tableDropInteraction)
+        self.memeDeckimageview.isUserInteractionEnabled = true
         
         if let game = game {
             
@@ -232,13 +235,6 @@ class GameScreenViewController: UIViewController {
                 self.cardCollectionView.reloadData()
             }
         }
-        
-        let tableDropInteraction = UIDropInteraction(delegate: self)
-        self.tableHolderView.addInteraction(tableDropInteraction)
-        self.playedCardCollectionView.addInteraction(tableDropInteraction)
-        self.memeDeckimageview.isUserInteractionEnabled = true
-        //        print(" constant is\(self.drawerBottomConstraint.constant)")
-        
     }
     
     func pingModerator(){
@@ -265,7 +261,6 @@ class GameScreenViewController: UIViewController {
         }
     }
     
-    
     func toKeyArray(memes:[MemeCard]) -> [String]{
         var result:[String] = []
         for meme in memes {
@@ -282,17 +277,6 @@ class GameScreenViewController: UIViewController {
         self.hasCardBeenRevealed  = true
     }
     
-    //    func returnPrompt() -> PromptCard? {
-    //        var card:PromptCard = PromptCard(cardKey: "", prompt: "", playedBy: nil, isRevealed: false)
-    //        guard let table = game.table else {
-    //            return nil
-    //        }
-    //        guard let prompt = table["currentPrompt"] else {
-    //            return nil
-    //        }
-    //        return card
-    //    }
-    
     func updateState(_ state:Int) {
         //        print("the state in the fn is \(state) \n the state on the game is \(self.self.game.state)")
         // print("the responses are \(self.responses)")
@@ -302,8 +286,8 @@ class GameScreenViewController: UIViewController {
             return
         }
         switch state {
-        //Start game. Initial setup
-        //waiting for moderator to pick prompt
+            //Start game. Initial setup
+            //waiting for moderator to pick prompt
         case -2 :
             //TODO:-  Test to make sure that this works.
             self.navigationController?.popViewController(animated: true)
@@ -335,7 +319,7 @@ class GameScreenViewController: UIViewController {
             self.memeDeckimageview.isUserInteractionEnabled = false
             print(session.members)
             if isModerator() == true {
-                
+                animateShowPromptCard()
                 //TODO: CREATE ANIMATED CARD THAT SAYS YOURE THE MODERATOR
                 print("moderator label placed")
                 promptLabel.updatePromptLabel(prompt: "You're the moderator! Pick a prompt below.")
@@ -358,8 +342,8 @@ class GameScreenViewController: UIViewController {
             }
             memeDeckimageview.isUserInteractionEnabled = false
             cardCollectionView.dragInteractionEnabled = false
-        //promot has just been revealed
-        //players pick their responses
+            //promot has just been revealed
+            //players pick their responses
         case 1:
             //MARK: ALLOW NON-MODERATORS TO PLAY CARDS | SHOW PROMPT
             // print("case 1 running \n")
@@ -382,10 +366,8 @@ class GameScreenViewController: UIViewController {
                     }
                 }
             }
-            
-            
-        //table is full
-        //moderator reveals cards
+            //table is full
+            //moderator reveals cards
         case 2:
             //MARK: ALLOW MODERATOR TO CHOOSE CARDS | STOP MORE CARDS FROM BEING PLAYED
             //  print("case 2 running \n")
@@ -399,12 +381,12 @@ class GameScreenViewController: UIViewController {
             
             cardCollectionView.dragInteractionEnabled = false
             memeDeckimageview.isUserInteractionEnabled = true
-        //moderator chooses a winning card
+            //moderator chooses a winning card
         case 3:
             //MARK:
             playedCardCollectionView.isUserInteractionEnabled = true
             cardCollectionView.dragInteractionEnabled = false
-        //show winning card to all non-moderators
+            //show winning card to all non-moderators
         case 4:
             //MARK: REMOVE ALL PLAYED CARDS | RETURN THE WINNING RESULT
             //TODO:REWRITE COLLECTIONVIEW ANIMATION
@@ -422,32 +404,31 @@ class GameScreenViewController: UIViewController {
                 } completion: { didComplete in
                     self.responses = []
                     self.playedCardCollectionView.reloadData()
+                    
+                    //TODO:CHECK IF THE CODE BELOW IS NEEDED
                     for cell in self.playedCardCollectionView.subviews {
                         cell.alpha = 1
                     }
                 }
-
             }
-            
 
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 4.5, execute: {
                 FirebaseController.instance.returnWinningResult(gameKey: self.game.key) { (winningCard) in
                     if let winningCard = winningCard {
                         let resultCard = WinningCardView2()
-                        resultCard.frame = CGRect(x: 100, y: 130, width: 200, height: 290)
+                        resultCard.frame = CGRect(x: 0, y: 0, width: 200, height: 290)
+                        resultCard.center = CGPoint(x: self.view.frame.maxX / 2, y: self.view.frame.maxY / 3)
                         resultCard.promptLabel.text = "\(self.session.members[winningCard.playedBy!]!["name"]!) wins!"
                         resultCard.setupPlayer(urlString: winningCard.fileName)
                         self.view.addSubview(resultCard)
                         FirebaseController.instance.setStateTo(5, game: self.game)
-                        
                     }
                 }
             })
             
             cardCollectionView.dragInteractionEnabled = true
             memeDeckimageview.isUserInteractionEnabled = true
-        //add animation
+            //add animation
         case 5:
             //MARK: AFTER 5 SECONDS, CLEAR TABLE AND PROMPT | SWAP MODERATOR
             if hasRoundEnded == false {
@@ -468,7 +449,7 @@ class GameScreenViewController: UIViewController {
                 }
             }
             
-        //TODO: Present Game Over. Restart game or send everyone back to lobby
+            //TODO: Present Game Over. Restart game or send everyone back to lobby
         case 6:
             //MARK:
             if hasGameEnded == false {
@@ -562,66 +543,70 @@ class GameScreenViewController: UIViewController {
     }
     
     @IBAction func slideupIndicatorTriggered(_ sender: Any) {
-        //        print("constant before is\(self.drawerBottomConstraint.constant) \n")
-        
-        //        let cell = self.cardCollectionView.cellForItem(at: IndexPath(row: 0, section: 0)) as! CardCollectionViewCell2
-        //
-        //        let animation = CABasicAnimation(keyPath: "transform.scale.x")
-        //        let animation2 = CABasicAnimation(keyPath: "transform.scale.y")
-        //        let animation3 = CABasicAnimation(keyPath: "transform.translation.y")
-        //        animation.duration = 0.3
-        //        animation.fromValue = 1
-        //        animation.toValue = 1.2
-        //        animation.autoreverses = true
-        //        animation2.duration = 0.3
-        //        animation2.fromValue = 1
-        //        animation2.toValue = 1.2
-        //        animation2.autoreverses = true
-        //        animation3.duration = 0.4
-        //        animation3.fromValue = 0
-        //        animation3.toValue = -20
-        //        animation3.autoreverses = true
-        //
+
         if !isCardVisible {
             isCardVisible = !isCardVisible
-            let deadline = DispatchTime.now() + 1
-            //            DispatchQueue.main.asyncAfter(deadline: deadline) {
-            //                UIView.animate(withDuration: 0.5) {
-            //                    cell.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
-            //
-            //                    self.view.layoutIfNeeded()
-            //                }
-            //                cell.layer.add(animation3, forKey: nil)
-            //            }
-            
-            DispatchQueue.main.async {
-                UIView.animate(withDuration: 0.5) {
-                    self.drawerBottomConstraint.constant -= self.cardDrawer.frame.height
-                    //                    cell.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
-                    
-                    self.view.layoutIfNeeded()
-                }}}
+            animateCardDrawerOpening()
+        }
         
         else {
             self.isCardVisible = false
+            animateCardDrawerClosing()
             
-            DispatchQueue.main.async {
-                UIView.animate(withDuration: 0.5) {
-                    
-                    self.drawerBottomConstraint.constant += self.cardDrawer.frame.height
-                    self.view.layoutIfNeeded()
-                }
-            }
         }
         //        print("constant after is\(self.drawerBottomConstraint.constant) \n")
     }
     
+    func animateCardDrawerClosing() {
+        DispatchQueue.main.async {
+            UIView.animate(withDuration: 0.5) {
+                self.drawerBottomConstraint.constant += self.cardDrawer.frame.height
+                self.view.layoutIfNeeded()
+            }
+        }
+        
+    }
+    
+    func animateCardDrawerOpening() {
+        DispatchQueue.main.async {
+            UIView.animate(withDuration: 0.5) { [self] in
+                self.drawerBottomConstraint.constant -= self.cardDrawer.frame.height
+                //                    cell.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+                self.view.layoutIfNeeded()
+            }}
+        
+    }
+    func animateShowPromptCard() {
+        ///40 makes it about 10 unites from safe area
+        ///50 makes it closer to safe area
+        ///
+        /////20 makes it closer?
+        /// /150 -> -280
+        DispatchQueue.main.async {
+            UIView.animate(withDuration: 0.5) {
+                self.promptButtonConstraint_trailingToSafeArea.constant = self.promptLabel.frame.width / 100
+            }}
+        print(self.promptButtonConstraint_trailingToSafeArea.constant)
+        
+    }
+    func hidePromptCard() {
+        self.promptButtonConstraint_trailingToSafeArea.constant = -self.promptLabel.frame.width
+    }
+    
+    func animateHidePromptCard() {
+        DispatchQueue.main.async {
+            UIView.animate(withDuration: 0.5) {
+                self.promptButtonConstraint_trailingToSafeArea.constant = -self.promptLabel.frame.width
+            }}
+    }
+    
     @IBAction func promptDeckPressed(_ sender: Any) {
         if !hasCardBeenRevealed {
+            animateHidePromptCard()
             FirebaseController.instance.returnPromptFromDeck(gameID: session.gameID!) { (card) in
                 //print(card)
-                let prompt = PromptCardView(frame:CGRect(x: 100, y: self.view.bounds.height, width: 200, height: 290))
-                // prompt.center = CGPoint(x: self.view.frame.midX - prompt.frame.width - 15, y: self.view.frame.midY - prompt.frame.height)
+                let prompt = PromptCardView(frame:CGRect(x: self.view.bounds.midX - (self.view.frame.width * 0.75), y: self.view.bounds.height, width: self.view.frame.width * 0.75, height: self.view.frame.height * 0.4))
+                prompt.center = CGPoint(x: self.view.frame.midX, y: self.view.frame.midY  + self.view.frame.height * 2)
                 
                 prompt.layer.opacity = 0
                 FirebaseController.instance.addPromptToTable(gameId: self.session.gameID!, card: card)
@@ -642,9 +627,9 @@ class GameScreenViewController: UIViewController {
             //            print(returnPrompt())
         }
     }
-
+    
     @IBAction func memeDeckPressed(_ sender: Any) {
-
+        
     }
 }
 
@@ -731,8 +716,8 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
             count = cards.count
         case playedCardCollectionView:
             count = responses.count
-        //        case scoreboardCollectionView:
-        //            count = members.count
+            //        case scoreboardCollectionView:
+            //            count = members.count
         default:
             return 0
         }
@@ -754,15 +739,15 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
             
             width = Int(collectionView.frame.width / 3)
             height = Int(collectionView.frame.height /
-                            2)
+                         2)
             size = CGSize(width: width, height: height)
             return size
-        //        case scoreboardCollectionView:
-        //            columns = CGFloat(Int(members.count))
-        //            width = Int(collectionView.frame.width / columns)
-        //            height = Int(collectionView.frame.height)
-        //            size = CGSize(width: width, height: height)
-        //            return size
+            //        case scoreboardCollectionView:
+            //            columns = CGFloat(Int(members.count))
+            //            width = Int(collectionView.frame.width / columns)
+            //            height = Int(collectionView.frame.height)
+            //            size = CGSize(width: width, height: height)
+            //            return size
         default:
             print()
         }
@@ -775,9 +760,9 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
             
         case playedCardCollectionView:
             return UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
-        //        case scoreboardCollectionView:
-        //
-        //            return UIEdgeInsets(top: 5, left: 20 ,bottom: 5, right: 5)
+            //        case scoreboardCollectionView:
+            //
+            //            return UIEdgeInsets(top: 5, left: 20 ,bottom: 5, right: 5)
         default:
             print()
         }
@@ -790,8 +775,8 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
             return spacing
         case playedCardCollectionView:
             return spacing
-        //        case scoreboardCollectionView:
-        //            return 0
+            //        case scoreboardCollectionView:
+            //            return 0
         default:
             print()
         }
@@ -803,8 +788,8 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
             return spacing
         case playedCardCollectionView:
             return spacing
-        //        case scoreboardCollectionView:
-        //            return 0
+            //        case scoreboardCollectionView:
+            //            return 0
         default:
             print()
         }
@@ -844,23 +829,23 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
                     }
                 }
             }
-        //        case scoreboardCollectionView:
-        //
-        //            let cell3 = scoreboardCollectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ScoreboardCollectionViewCell
-        //            let member = members[indexPath.row]
-        //
-        //            cell3.profilePhoto.loadImageUsingCacheWithUrlString(urlString: member.profileURL)
-        //            if member.moderatorStatus {
-        //                cell3.profilePhoto.layer.borderColor = UIColor.yellow.cgColor
-        //            } else {
-        //                cell3.profilePhoto.layer.borderColor = UIColor.purple.cgColor
-        //            }
-        //            cell3.profilePhoto.contentMode = .scaleAspectFill
-        //            cell3.nameLabel.text = member.name
-        //            cell3.scoreLabel.text = "\(member.score)"
-        //
-        //            return cell3
-        
+            //        case scoreboardCollectionView:
+            //
+            //            let cell3 = scoreboardCollectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ScoreboardCollectionViewCell
+            //            let member = members[indexPath.row]
+            //
+            //            cell3.profilePhoto.loadImageUsingCacheWithUrlString(urlString: member.profileURL)
+            //            if member.moderatorStatus {
+            //                cell3.profilePhoto.layer.borderColor = UIColor.yellow.cgColor
+            //            } else {
+            //                cell3.profilePhoto.layer.borderColor = UIColor.purple.cgColor
+            //            }
+            //            cell3.profilePhoto.contentMode = .scaleAspectFill
+            //            cell3.nameLabel.text = member.name
+            //            cell3.scoreLabel.text = "\(member.score)"
+            //
+            //            return cell3
+            
         default:
             print()
         }
@@ -906,3 +891,20 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
     }
 }
 
+
+
+//    func returnPrompt() -> PromptCard? {
+//        var card:PromptCard = PromptCard(cardKey: "", prompt: "", playedBy: nil, isRevealed: false)
+//        guard let table = game.table else {
+//            return nil
+//        }
+//        guard let prompt = table["currentPrompt"] else {
+//            return nil
+//        }
+//        return card
+//    }
+
+//        guard let fetchedDisplayName =  currentUser.displayName else { print("no diplay name found",#function)
+//            return }
+//        guard let profilePhotoURL = currentUser.photoURL else { print("no photo url found",#function)
+//            return }

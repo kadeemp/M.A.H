@@ -24,7 +24,7 @@ class PromptCardView: UIView {
     }
     
     lazy var promptLabel:UILabel = {
-        var label = UILabel(frame: CGRect(x: 20, y: 0, width: 160, height: 200))
+        var label = UILabel(frame: CGRect(x: 20, y: 0, width: self.bounds.width - 30, height: 90))
 
         //label.backgroundColor = UIColor.green
         label.text = "Prompt:  Sample prompt text here"
@@ -41,7 +41,8 @@ class PromptCardView: UIView {
 
     lazy var revealButton:UIButton = {
         //TODO:- CHANGE TO PROGRAMMATIC CONSTRAINTS
-        var btn = UIButton(frame: CGRect(x: 50, y: 240, width: 100, height: 40))
+        var btn = UIButton(frame: CGRect(x: self.frame.midX - self.frame.width / 2 , y:  self.bounds.maxY - 50, width: 100, height: 40))
+        btn.center = (CGPoint(x:self.bounds.midX , y: self.bounds.maxY - 50))
         btn.setTitle("Reveal", for: .normal)
         btn.layer.backgroundColor = UIColor(red: 21/255, green: 209/255, blue: 200/255, alpha: 1).cgColor
         btn.layer.cornerRadius = 10
