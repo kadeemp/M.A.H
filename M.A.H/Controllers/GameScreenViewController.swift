@@ -67,7 +67,7 @@ class GameScreenViewController: UIViewController {
 
         
         addConstraintsToCardDrawer()
-        promptLabel.hideLabelWithAnimation()
+        promptLabel.hideLabelWithAnimation(true)
         
         cardCollectionView.delegate = self
         cardCollectionView.dataSource = self
@@ -339,7 +339,7 @@ class GameScreenViewController: UIViewController {
                 
             }
             DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-                self.moderatorUpdateLabel.hideLabelWithAnimation()
+                self.moderatorUpdateLabel.hideLabelWithAnimation(true)
             }
             memeDeckimageview.isUserInteractionEnabled = false
             cardCollectionView.dragInteractionEnabled = false
@@ -359,7 +359,7 @@ class GameScreenViewController: UIViewController {
             if let currentPrompt = currentPrompt {
                 if promptLabel.text != currentPrompt.prompt {
                     if currentPrompt.isRevealed == true  {
-                        moderatorUpdateLabel.hideLabelWithAnimation()
+                        moderatorUpdateLabel.hideLabelWithAnimation(true)
                         promptLabel.clearPrompt()
                         
                         promptLabel.updatePromptLabel(prompt: currentPrompt.prompt)
@@ -390,12 +390,7 @@ class GameScreenViewController: UIViewController {
             //show winning card to all non-moderators
         case 4:
             //MARK: REMOVE ALL PLAYED CARDS | RETURN THE WINNING RESULT
-            //TODO:REWRITE COLLECTIONVIEW ANIMATION
-            //            print("\(cardCollectionView.dataSource?.collectionView(cardCollectionView, numberOfItemsInSection: 0)) is the number of cell in the collectionview" )
-            //
-            //            for item in 0...(cards.count - 1 ){
-            //                cardCollectionView.deleteItems(at:[IndexPath(row:0, section:0)])
-            //            }
+
             let playedCardCells = playedCardCollectionView.visibleCells
             DispatchQueue.main.async {
                 UIView.animate(withDuration: 2, delay: 0, options: .curveEaseInOut) {
@@ -405,7 +400,9 @@ class GameScreenViewController: UIViewController {
                 } completion: { didComplete in
                     self.responses = []
                     self.playedCardCollectionView.reloadData()
-                    
+                    self.promptLabel.hideLabelWithAnimation(false)
+
+
                     //TODO:CHECK IF THE CODE BELOW IS NEEDED
                     for cell in self.playedCardCollectionView.subviews {
                         cell.alpha = 1
@@ -419,10 +416,15 @@ class GameScreenViewController: UIViewController {
                         let resultCard = WinningCardView2()
                         resultCard.frame = CGRect(x: 0, y: 0, width: 200, height: 290)
                         resultCard.center = CGPoint(x: self.view.frame.maxX / 2, y: self.view.frame.maxY / 3)
-                        resultCard.promptLabel.text = "\(self.session.members[winningCard.playedBy!]!["name"]!) wins!"
+                        resultCard.promptLabel.text = self.promptLabel.text
                         resultCard.setupPlayer(urlString: winningCard.fileName)
+                        resultCard.alpha = 0
                         self.view.addSubview(resultCard)
-                        FirebaseController.instance.setStateTo(5, game: self.game)
+                        UIView.animate(withDuration: 1, delay: 0, options: .curveEaseInOut) {
+                            resultCard.alpha = 1
+                        } completion: { didComplete in
+                            FirebaseController.instance.setStateTo(5, game: self.game)
+                        }
                     }
                 }
             })
@@ -438,7 +440,7 @@ class GameScreenViewController: UIViewController {
                     self.responses = []
                     self.playedCardCollectionView.reloadData()
                     self.hasCardBeenRevealed = false
-                    self.promptLabel.hideLabelWithAnimation()
+                    self.promptLabel.hideLabelWithAnimation(true)
                     self.hasRoundEnded = true
                     if self.isModerator() {
                         FirebaseController.instance.swapModerator(session: self.session)
@@ -511,7 +513,7 @@ class GameScreenViewController: UIViewController {
                 } else {
                     var endGameCard = EndGameCardView()
                     endGameCard.center = CGPoint(x: self.view.frame.midX - 100, y: self.view.frame.midY - self.view.frame.height/3)
-                    endGameCard.promptLabel.text = "\(member.value["name"] as! String) won the game!"
+                    endGameCard.promptLabel.text = promptLabel.text
                     endGameCard.newGameButton.isHidden = true
                     endGameCard.returntoLobby.isHidden = true
                     self.view.addSubview(endGameCard)

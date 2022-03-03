@@ -46,7 +46,7 @@ class WinningCardView: UIView {
     }()
     lazy var gifImage:UIImageView = {
         //TODO:- CHANGE TO PROGRAMMATIC CONSTRAINTS
-        let imageView = UIImageView(frame: CGRect(x:20, y: 80 , width: 160, height: 100))
+        let imageView = UIImageView(frame: CGRect(x:20, y: 120 , width: 160, height: 100))
         //imageView.frame.center = CGPoint(x: self.frame.width/2, y: self.frame.height/2)
 
         return imageView
@@ -85,7 +85,14 @@ class WinningCardView: UIView {
         self.addSubview(promptLabel)
         self.addSubview(dismissButton)
         self.addSubview(gifImage)
-        let deadline = DispatchTime.now() + 5
+        
+        promptLabel.translatesAutoresizingMaskIntoConstraints = false
+        gifImage.translatesAutoresizingMaskIntoConstraints = true
+        
+        let topConstraint = gifImage.topAnchor.constraint(equalTo: promptLabel.bottomAnchor)
+        let bottomConstraint = gifImage.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+        NSLayoutConstraint.activate([topConstraint, bottomConstraint])
+        let deadline = DispatchTime.now() + 15
         DispatchQueue.main.asyncAfter(deadline: deadline) {
             self.removeFromSuperview()
         }
