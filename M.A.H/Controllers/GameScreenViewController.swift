@@ -584,9 +584,9 @@ class GameScreenViewController: UIViewController {
         /// /150 -> -280
         DispatchQueue.main.async {
             UIView.animate(withDuration: 0.5) {
-                self.promptButtonConstraint_trailingToSafeArea.constant = self.promptLabel.frame.width / 100
+                self.promptButtonConstraint_trailingToSafeArea.constant = self.promptLabel.frame.width / 50
             }}
-        print(self.promptButtonConstraint_trailingToSafeArea.constant)
+        
         
     }
     func hidePromptCard() {
