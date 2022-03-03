@@ -44,6 +44,7 @@ class GameScreenViewController: UIViewController {
     @IBOutlet var slideUpIndicatorButton: UIButton!
     @IBOutlet var playedCardCollectionView: UICollectionView!
     @IBOutlet var promptLabel: UILabel!
+    @IBOutlet weak var moderatorUpdateLabel: UILabel!
     @IBOutlet weak var promptButtonConstraint_trailingToSafeArea: NSLayoutConstraint!
     
     @IBOutlet weak var scoreLabel: UILabel!
@@ -322,7 +323,7 @@ class GameScreenViewController: UIViewController {
                 animateShowPromptCard()
                 //TODO: CREATE ANIMATED CARD THAT SAYS YOURE THE MODERATOR
                 print("moderator label placed")
-                promptLabel.updatePromptLabel(prompt: "You're the moderator! Pick a prompt below.")
+            moderatorUpdateLabel.updatePromptLabel(prompt: "You're the moderator! Pick a prompt below.")
                 
                 //  print("\(Auth.auth().currentUser!.displayName) has access to promots")
                 
@@ -333,12 +334,12 @@ class GameScreenViewController: UIViewController {
             } else {
                 self.promptDeckImageView.isUserInteractionEnabled = false
                 print("player label placed")
-                promptLabel.updatePromptLabel(prompt: "Waiting for the moderator to reveal the prompt.")
+               moderatorUpdateLabel.updatePromptLabel(prompt: "Waiting for the moderator to reveal the prompt.")
                 //     print("\(Auth.auth().currentUser!.displayName) doeesn't have access to promots")
                 
             }
             DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-                self.promptLabel.hideLabelWithAnimation()
+                self.moderatorUpdateLabel.hideLabelWithAnimation()
             }
             memeDeckimageview.isUserInteractionEnabled = false
             cardCollectionView.dragInteractionEnabled = false
@@ -358,7 +359,7 @@ class GameScreenViewController: UIViewController {
             if let currentPrompt = currentPrompt {
                 if promptLabel.text != currentPrompt.prompt {
                     if currentPrompt.isRevealed == true  {
-                        
+                        moderatorUpdateLabel.hideLabelWithAnimation()
                         promptLabel.clearPrompt()
                         
                         promptLabel.updatePromptLabel(prompt: currentPrompt.prompt)
