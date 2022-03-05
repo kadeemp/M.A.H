@@ -15,6 +15,7 @@ pod 'Firebase/Messaging'
 pod 'SwiftyGif'
 pod 'Giphy'
 pod 'SwiftyJSON', '~> 4.0'
+pod 'SideMenu', '~> 6.0'
   # Pods for M.A.H
 
 post_install do |installer|
