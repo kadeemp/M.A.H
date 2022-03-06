@@ -10,7 +10,6 @@
 		376819AECA3A5D60329F6E2F /* Pods_M_A_H.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03ECB90DC98F63EC987F9453 /* Pods_M_A_H.framework */; };
 		F40832AD23D25C6900CEFF81 /* Member.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40832AC23D25C6900CEFF81 /* Member.swift */; };
 		F40832AF23D2693600CEFF81 /* ScoreboardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40832AE23D2693600CEFF81 /* ScoreboardCollectionViewCell.swift */; };
-		F40A778F27D3F20A009431DB /* SideMenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40A778E27D3F20A009431DB /* SideMenuTableViewController.swift */; };
 		F41AC31E23BAC21B00F2B8C9 /* Extension + UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41AC31D23BAC21B00F2B8C9 /* Extension + UIView.swift */; };
 		F41DCC0B230259C70018C3D9 /* PromptCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41DCC0A230259C70018C3D9 /* PromptCard.swift */; };
 		F41DCC0D23033D1D0018C3D9 /* PromptCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41DCC0C23033D1D0018C3D9 /* PromptCardView.swift */; };
@@ -59,7 +58,6 @@
 		D7F765A56BFF834DCC60BE0D /* Pods-M.A.H.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-M.A.H.debug.xcconfig"; path = "Target Support Files/Pods-M.A.H/Pods-M.A.H.debug.xcconfig"; sourceTree = "<group>"; };
 		F40832AC23D25C6900CEFF81 /* Member.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Member.swift; sourceTree = "<group>"; };
 		F40832AE23D2693600CEFF81 /* ScoreboardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreboardCollectionViewCell.swift; sourceTree = "<group>"; };
-		F40A778E27D3F20A009431DB /* SideMenuTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuTableViewController.swift; sourceTree = "<group>"; };
 		F41AC31D23BAC21B00F2B8C9 /* Extension + UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + UIView.swift"; sourceTree = "<group>"; };
 		F41DCC0A230259C70018C3D9 /* PromptCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptCard.swift; sourceTree = "<group>"; };
 		F41DCC0C23033D1D0018C3D9 /* PromptCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptCardView.swift; sourceTree = "<group>"; };
@@ -174,7 +172,6 @@
 				F4B8458F23B9AF4D0023EF55 /* EndGameViewController.swift */,
 				F465139723CE3CFE003D2DAA /* RootViewController.swift */,
 				F4ACF74B246369480087F0BE /* NavigationControllers.swift */,
-				F40A778E27D3F20A009431DB /* SideMenuTableViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -357,7 +354,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F483A3D422E39AC000D099BE /* FirebaseController.swift in Sources */,
-				F40A778F27D3F20A009431DB /* SideMenuTableViewController.swift in Sources */,
 				F438B3B122EB765D008314AE /* MemesCollectionViewController.swift in Sources */,
 				F438B3A922EA19BB008314AE /* SignUpViewController.swift in Sources */,
 				F438B3AF22EB6782008314AE /* InvitePlayersViewController.swift in Sources */,
