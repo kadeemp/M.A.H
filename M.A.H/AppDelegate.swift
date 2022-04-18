@@ -22,13 +22,13 @@ extension AppDelegate : UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
          UNUserNotificationCenter.current().delegate = self
-        UNUserNotificationCenter.current().requestAuthorization(options: [.badge, .sound, .alert]){
-            granted, _ in
-            guard granted else {return}
-            DispatchQueue.main.async {
-                application.registerForRemoteNotifications()
-            }
-        }
+//        UNUserNotificationCenter.current().requestAuthorization(options: [.badge, .sound, .alert]){
+//            granted, _ in
+//            guard granted else {return}
+//            DispatchQueue.main.async {
+//                application.registerForRemoteNotifications()
+//            }
+//        }
         FirebaseApp.configure()
 
         if Auth.auth().currentUser != nil {

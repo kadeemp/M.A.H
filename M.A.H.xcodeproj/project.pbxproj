@@ -51,6 +51,7 @@
 		F4B8459023B9AF4D0023EF55 /* EndGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B8458F23B9AF4D0023EF55 /* EndGameViewController.swift */; };
 		F4B8459223BA6AFA0023EF55 /* NotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B8459123BA6AFA0023EF55 /* NotificationCenter.swift */; };
 		F4CD1A07247C89A000337D69 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CD1A06247C89A000337D69 /* Request.swift */; };
+		F4F32B96280DECE7009DB7B4 /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F32B95280DECE7009DB7B4 /* MenuController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -102,6 +103,7 @@
 		F4B8459123BA6AFA0023EF55 /* NotificationCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCenter.swift; sourceTree = "<group>"; };
 		F4CD1949247B4B7000337D69 /* M.A.H.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = M.A.H.entitlements; sourceTree = "<group>"; };
 		F4CD1A06247C89A000337D69 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
+		F4F32B95280DECE7009DB7B4 /* MenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
 		F8FB59231A99A12FDDD63F3A /* Pods-M.A.H.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-M.A.H.release.xcconfig"; path = "Target Support Files/Pods-M.A.H/Pods-M.A.H.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -161,17 +163,17 @@
 		F438B3A622EA1160008314AE /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				F4F32B94280DEC3E009DB7B4 /* CollectionView */,
+				F465139723CE3CFE003D2DAA /* RootViewController.swift */,
 				F45DACD322C5D25A004090C1 /* LoginViewController.swift */,
 				F438B3A822EA19BB008314AE /* SignUpViewController.swift */,
-				F438B3AA22EA4E45008314AE /* StartGameViewController.swift */,
 				F438B3AC22EB675A008314AE /* LobbyViewController.swift */,
-				F438B3AE22EB6782008314AE /* InvitePlayersViewController.swift */,
-				F438B3B022EB765D008314AE /* MemesCollectionViewController.swift */,
-				F438B3B222EB7675008314AE /* PropmtsCollectionViewController.swift */,
+				F438B3AA22EA4E45008314AE /* StartGameViewController.swift */,
 				F45CEC0622FA26B000119E3E /* GameScreenViewController.swift */,
 				F4B8458F23B9AF4D0023EF55 /* EndGameViewController.swift */,
-				F465139723CE3CFE003D2DAA /* RootViewController.swift */,
 				F4ACF74B246369480087F0BE /* NavigationControllers.swift */,
+				F438B3AE22EB6782008314AE /* InvitePlayersViewController.swift */,
+				F4F32B95280DECE7009DB7B4 /* MenuController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -205,7 +207,6 @@
 				F438B3A422EA114E008314AE /* Models */,
 				F45DACD122C5D25A004090C1 /* AppDelegate.swift */,
 				F483A3D322E39AC000D099BE /* FirebaseController.swift */,
-				F438B39C22E933C9008314AE /* Extension+UIImageView.swift */,
 				F438B3A222EA1050008314AE /* Constants.swift */,
 				F45DACD522C5D25A004090C1 /* Main.storyboard */,
 				F45DACDB22C5D25B004090C1 /* Assets.xcassets */,
@@ -220,12 +221,22 @@
 		F48D8A7A23207C4A0043402E /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				F438B39C22E933C9008314AE /* Extension+UIImageView.swift */,
 				F4B8459123BA6AFA0023EF55 /* NotificationCenter.swift */,
 				F48D8A7B23207C630043402E /* Extention + String.swift */,
 				F41AC31D23BAC21B00F2B8C9 /* Extension + UIView.swift */,
 				F494AE3F23E118CE005F3BBA /* Extenion + UILabel.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		F4F32B94280DEC3E009DB7B4 /* CollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				F438B3B222EB7675008314AE /* PropmtsCollectionViewController.swift */,
+				F438B3B022EB765D008314AE /* MemesCollectionViewController.swift */,
+			);
+			path = CollectionView;
 			sourceTree = "<group>";
 		};
 		FF953A71AA1D197F5457F33D /* Frameworks */ = {
@@ -390,6 +401,7 @@
 				F41AC31E23BAC21B00F2B8C9 /* Extension + UIView.swift in Sources */,
 				F478243B2378ECDD00E843E9 /* WinningCardView.swift in Sources */,
 				F4B8459023B9AF4D0023EF55 /* EndGameViewController.swift in Sources */,
+				F4F32B96280DECE7009DB7B4 /* MenuController.swift in Sources */,
 				F438B3AB22EA4E45008314AE /* StartGameViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

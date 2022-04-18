@@ -130,6 +130,11 @@
 			<key>orderHint</key>
 			<integer>20</integer>
 		</dict>
+		<key>SideMenu.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>21</integer>
+		</dict>
 		<key>SwiftyGif.xcscheme</key>
 		<dict>
 			<key>isShown</key>
