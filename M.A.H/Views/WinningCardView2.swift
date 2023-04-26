@@ -40,7 +40,7 @@ class WinningCardView2: UIView {
 var avPlayerLayer: AVPlayerLayer!
     lazy var gifImage:UIView = {
         //TODO:- CHANGE TO PROGRAMMATIC CONSTRAINTS
-        let View = UIView(frame: CGRect(x:20, y: 80 , width: 160, height: 100))
+        let View = UIView(frame: CGRect(x:20, y: 110 , width: 160, height: 100))
         //imageView.frame.center = CGPoint(x: self.frame.width/2, y: self.frame.height/2)
         return View
     }()

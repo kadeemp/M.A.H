@@ -11,21 +11,47 @@ import Firebase
 
 @available(iOS 13.0, *)
 class LobbyViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    
+    
 
     let defaults = UserDefaults.standard
     var users:[String] = []
     var session:Session?
     var game:Game!
     var gamehasLoaded = false
+    @IBOutlet var startGame: UIButton!
+    @IBOutlet var lobbyCodeLabel: UILabel!
+    
+    @IBOutlet weak var questionButton: UIButton!
+    @IBOutlet weak var hostLabel: UILabel!
+    @IBOutlet weak var tableViewHeaderView: UIView!
+    @IBOutlet var lobbyTableView: UITableView!
+    
+    override func viewWillAppear(_ animated: Bool) {
+        questionButton.setTitle("", for: .normal)
+        questionButton.setTitle("", for: .selected)
+        questionButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 100, bottom: 0, right: 0) // Move the text label to the right
+        lobbyTableView.layer.cornerRadius = lobbyTableView.frame.height/9
+        lobbyTableView.layer.borderWidth = 1
+        lobbyTableView.layer.borderColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.7).cgColor
+        
+        lobbyTableView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        tableViewHeaderView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        startGame.layer.cornerRadius = startGame.frame.height/8
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         lobbyTableView.dataSource = self
         lobbyTableView.delegate = self
+        
+        if let code = defaults.string(forKey: "code") {
+            lobbyCodeLabel.text = "Lobby ID: \(code)"
+        } else {
+            lobbyCodeLabel.text = "Code not set"
+        }
 
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Leave Lobby", style: .plain, target: self, action: #selector(leaveLobby(_:)))
-        lobbyCodeLabel.text = defaults.string(forKey: "code") ?? "Code not set"
         
         FirebaseController.instance.loadLobby(by: defaults.string(forKey: "code") ?? "") { (session) in
             if session.members.count > 1 {
@@ -43,7 +69,6 @@ class LobbyViewController: UIViewController, UITableViewDataSource, UITableViewD
             }
 
 
-            self.hostLabel.text = "\(session.members.count)/6"
             self.session = session
             if session.isActive {
                 if self.gamehasLoaded == false {
@@ -80,28 +105,33 @@ class LobbyViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     @objc func leaveLobby() {
 
-        if let session = session {
-
-            if let user = Auth.auth().currentUser?.uid {
-
-                if user == session.hostID {
-                    //  TODO:- Create an alert that lets them know this will kill the room. or reassign the host
-                } else if session.members.count == 1 {
-                    //TODO:- Delete the session
-                }
-                FirebaseController.instance.removeMemberFrom(session: session, memberID: user) { (mems) in
-
-                    self.navigationController?.popViewController(animated: true)
-                    self.defaults.set("", forKey: "code")
-                }
-            }
-        }
+        print(1)
+        //
+//        if let session = session {
+//
+//            if let user = Auth.auth().currentUser?.uid {
+//
+//                if user == session.hostID {
+//                    //  TODO:- Create an alert that lets them know this will kill the room. or reassign the host
+//                } else if session.members.count == 1 {
+//                    //TODO:- Delete the session
+//                }
+//                FirebaseController.instance.removeMemberFrom(session: session, memberID: user) { (mems) in
+//
+//                    self.navigationController?.popViewController(animated: true)
+//                    self.defaults.set("", forKey: "code")
+//                }
+//            }
+//        }
     }
     
-    @IBOutlet var startGame: UIButton!
-    @IBOutlet var lobbyCodeLabel: UILabel!
-    @IBOutlet var hostLabel: UILabel!
-    @IBOutlet var lobbyTableView: UITableView!
+    @IBAction func questionButtonPressed(_ sender: Any) {
+        let alertController = UIAlertController(title: "How to start a game", message: "To start a game, you must have at least two other players. Steps to start: \n 1. Have friends download the game, \n 2. Sign up, \n 3. (Friend) Click 'Find Game', \n 4. Give them your lobby ID ", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(okAction)
+        present(alertController, animated: true, completion: nil)
+    }
+    
 
     @IBAction func showMemes(_ sender: Any) {
         performSegue(withIdentifier: "showMemes", sender: self)
@@ -116,7 +146,7 @@ class LobbyViewController: UIViewController, UITableViewDataSource, UITableViewD
             print("DONT FORGET TO ADD LOBBY MINIMUM", #function)
 //TODO:- CHANGE TO 3
 
-            if session.members.count >= 1 {
+            if session.members.count >= 3 {
                 //create game
                 //performSegue
                 FirebaseController.instance.createGame(session: session) { returnedGame in
@@ -125,6 +155,13 @@ class LobbyViewController: UIViewController, UITableViewDataSource, UITableViewD
                 }
             } else {
                 //TODO:- Create an alert to let user know they can't start a game without
+                let alertController = UIAlertController(title: "Lobby Minimum Not Met", message: "You must have at least 2 other players in your lobby to start a game", preferredStyle: .alert)
+
+                let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
+                alertController.addAction(okAction)
+
+                present(alertController, animated: true, completion: nil)
+
             }
         }
     }

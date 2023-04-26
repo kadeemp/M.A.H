@@ -86,12 +86,12 @@ class WinningCardView: UIView {
         self.addSubview(dismissButton)
         self.addSubview(gifImage)
         
-        promptLabel.translatesAutoresizingMaskIntoConstraints = false
+        promptLabel.translatesAutoresizingMaskIntoConstraints = true
         gifImage.translatesAutoresizingMaskIntoConstraints = true
         
         let topConstraint = gifImage.topAnchor.constraint(equalTo: promptLabel.bottomAnchor)
-        let bottomConstraint = gifImage.bottomAnchor.constraint(equalTo: self.bottomAnchor)
-        NSLayoutConstraint.activate([topConstraint, bottomConstraint])
+//        let bottomConstraint = gifImage.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+        NSLayoutConstraint.activate([topConstraint])
         let deadline = DispatchTime.now() + 15
         DispatchQueue.main.asyncAfter(deadline: deadline) {
             self.removeFromSuperview()

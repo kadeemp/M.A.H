@@ -36,6 +36,7 @@
 		F45DACDC22C5D25B004090C1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F45DACDB22C5D25B004090C1 /* Assets.xcassets */; };
 		F45DACDF22C5D25B004090C1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F45DACDD22C5D25B004090C1 /* LaunchScreen.storyboard */; };
 		F465139823CE3CFE003D2DAA /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F465139723CE3CFE003D2DAA /* RootViewController.swift */; };
+		F467514529E73FC0001B8AC5 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F467514429E73FC0001B8AC5 /* TestViewController.swift */; };
 		F478243B2378ECDD00E843E9 /* WinningCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F478243A2378ECDD00E843E9 /* WinningCardView.swift */; };
 		F47FA14A2374A36600A7F0E9 /* PlayedCardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47FA1492374A36600A7F0E9 /* PlayedCardCollectionViewCell.swift */; };
 		F483A3D422E39AC000D099BE /* FirebaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F483A3D322E39AC000D099BE /* FirebaseController.swift */; };
@@ -87,6 +88,7 @@
 		F45DACDE22C5D25B004090C1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F45DACE022C5D25B004090C1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F465139723CE3CFE003D2DAA /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
+		F467514429E73FC0001B8AC5 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		F478243A2378ECDD00E843E9 /* WinningCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinningCardView.swift; sourceTree = "<group>"; };
 		F47FA1492374A36600A7F0E9 /* PlayedCardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayedCardCollectionViewCell.swift; sourceTree = "<group>"; };
 		F483A3D322E39AC000D099BE /* FirebaseController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseController.swift; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 				F4ACF74B246369480087F0BE /* NavigationControllers.swift */,
 				F438B3AE22EB6782008314AE /* InvitePlayersViewController.swift */,
 				F4F32B95280DECE7009DB7B4 /* MenuController.swift */,
+				F467514429E73FC0001B8AC5 /* TestViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -374,6 +377,7 @@
 				F494AE4223E50503005F3BBA /* CardCollectionViewCell2.swift in Sources */,
 				F41DCC0B230259C70018C3D9 /* PromptCard.swift in Sources */,
 				F40832AF23D2693600CEFF81 /* ScoreboardCollectionViewCell.swift in Sources */,
+				F467514529E73FC0001B8AC5 /* TestViewController.swift in Sources */,
 				F45DACDA22C5D25A004090C1 /* M_A_H.xcdatamodeld in Sources */,
 				F47FA14A2374A36600A7F0E9 /* PlayedCardCollectionViewCell.swift in Sources */,
 				F45CEC0C22FE206200119E3E /* MemeCard.swift in Sources */,
@@ -554,15 +558,17 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = M.A.H/M.A.H.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.1;
+				CURRENT_PROJECT_VERSION = 1.0;
 				DEVELOPMENT_TEAM = 7G8EV52YPP;
 				INFOPLIST_FILE = M.A.H/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Gif Game";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.card-games";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.palacios.M-A-H";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -578,15 +584,17 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = M.A.H/M.A.H.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.1;
+				CURRENT_PROJECT_VERSION = 1.0;
 				DEVELOPMENT_TEAM = 7G8EV52YPP;
 				INFOPLIST_FILE = M.A.H/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Gif Game";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.card-games";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.palacios.M-A-H";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

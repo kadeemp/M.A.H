@@ -35,6 +35,7 @@ class GameScreenViewController: UIViewController {
     
     @IBOutlet var tableHolderView: UIView!
     
+    @IBOutlet weak var playerRoleLabel: UILabel!
     var drawerBottomConstraint: NSLayoutConstraint!
     @IBOutlet var tableImageView: UIImageView!
     @IBOutlet var promptDeckImageView: UIButton!
@@ -56,6 +57,7 @@ class GameScreenViewController: UIViewController {
         self.view.layoutIfNeeded()
         
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         hidePromptCard()
@@ -320,10 +322,11 @@ class GameScreenViewController: UIViewController {
             self.memeDeckimageview.isUserInteractionEnabled = false
             print(session.members)
             if isModerator() == true {
+                playerRoleLabel.text = "Moderator"
                 animateShowPromptCard()
                 //TODO: CREATE ANIMATED CARD THAT SAYS YOURE THE MODERATOR
                 print("moderator label placed")
-            moderatorUpdateLabel.updatePromptLabel(prompt: "You're the moderator! Pick a prompt below.")
+            moderatorUpdateLabel.updatePromptLabel(prompt: "You're the moderator! Pick a prompt below. First to 4 points wins!")
                 
                 //  print("\(Auth.auth().currentUser!.displayName) has access to promots")
                 
@@ -332,9 +335,10 @@ class GameScreenViewController: UIViewController {
                 
                 //add card animation
             } else {
+                playerRoleLabel.text = "Player"
                 self.promptDeckImageView.isUserInteractionEnabled = false
                 print("player label placed")
-               moderatorUpdateLabel.updatePromptLabel(prompt: "Waiting for the moderator to reveal the prompt.")
+               moderatorUpdateLabel.updatePromptLabel(prompt: "Waiting for the moderator to reveal the prompt. First to 4 points wins!")
                 //     print("\(Auth.auth().currentUser!.displayName) doeesn't have access to promots")
                 
             }
@@ -353,17 +357,12 @@ class GameScreenViewController: UIViewController {
                 self.cardCollectionView.dragInteractionEnabled = true
             }
             
-            
-            
-            
             if let currentPrompt = currentPrompt {
                 if promptLabel.text != currentPrompt.prompt {
                     if currentPrompt.isRevealed == true  {
                         moderatorUpdateLabel.hideLabelWithAnimation(true)
                         promptLabel.clearPrompt()
-                        
                         promptLabel.updatePromptLabel(prompt: currentPrompt.prompt)
-                        
                     }
                 }
             }
@@ -478,6 +477,7 @@ class GameScreenViewController: UIViewController {
         }
         return result
     }
+    
     @objc func startNewGame() {
         FirebaseController.instance.startNewGame(session: self.session) {
             
@@ -488,7 +488,7 @@ class GameScreenViewController: UIViewController {
         let members = session.members
         var didWin = false
         for member in members {
-            if member.value["score"] as! Int >= 3 && self.hasGameEnded == false {
+            if member.value["score"] as! Int >= 4 && self.hasGameEnded == false {
                 //var label = UILabel(frame: CGRect(x: self.view.frame.midX, y: self.view.frame.midY, width: 150, height: 30))
                 
                 if session.hostID == Auth.auth().currentUser?.uid {
@@ -891,6 +891,26 @@ extension GameScreenViewController: UICollectionViewDelegate, UICollectionViewDa
     func dropInteraction(_ interaction: UIDropInteraction, sessionDidUpdate session: UIDropSession) -> UIDropProposal {
         
         return UIDropProposal(operation: .move)
+    }
+    func collectionView(_ collectionView: UICollectionView, dragSessionDidEnd session: UIDragSession) {
+        
+        
+        
+        UIView.animate(withDuration: 2) {
+            self.tableImageView.layer.backgroundColor = .init(red: 1, green: 0, blue: 0, alpha: 0)
+            self.tableImageView.layer.borderColor = CGColor(red: 1, green: 0, blue: 0, alpha: 0)
+            self.tableImageView.layer.borderWidth = 0
+        }
+    }
+    func collectionView(_ collectionView: UICollectionView, dragSessionWillBegin session: UIDragSession) {
+            self.tableImageView.layer.cornerRadius = self.tableImageView.frame.height/8
+        
+        UIView.animate(withDuration: 0.8) {
+            self.tableImageView.layer.borderColor = CGColor(red: 1, green: 1, blue: 1, alpha: 1)
+            self.tableImageView.layer.borderWidth = 1
+
+        }
+                    
     }
 }
 

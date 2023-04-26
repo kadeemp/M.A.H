@@ -282,6 +282,8 @@ class FirebaseController {
             }
         }
     }
+    
+    
     func addResponseIndex(gameKey:String,index:Int) {
         var result:[Int] = []
         REF_GAMES.child(gameKey).child("table").child("revealedResponses").observeSingleEvent(of: .value) { (dataSnapshot) in
@@ -341,6 +343,47 @@ class FirebaseController {
         }
         
     }
+    
+    func returnRandomMemeCard( completion: @escaping ((MemeCard) -> ())) {
+        var responses:[MemeCard] = []
+        
+        REF_GAMES.child("MaTxp6YIfDkhcRzVyJx").child("meme deck").observeSingleEvent(of: .value) { (dataSnapshot) in
+            guard let data = dataSnapshot.children.allObjects as? [DataSnapshot] else {
+                return
+            }
+            
+            for cardData in data {
+                let fileName = cardData.childSnapshot(forPath: "fileName").value as? String
+                //                    print(fileName!)
+                let fileType = cardData.childSnapshot(forPath: "fileType").value as? String
+                let playedBy = cardData.childSnapshot(forPath: "playedBy").value as? String
+                let cardKey = cardData.childSnapshot(forPath: "cardKey").value as? String
+                let isRevealed = cardData.childSnapshot(forPath: "isRevealed").value as? Bool
+                
+                let card = MemeCard(cardKey: cardKey!, fileName: fileName!, fileType: fileType!, playedBy: playedBy, cardType: "meme", isRevealed: isRevealed ?? false)
+                //                    print(card)
+                responses.append(card)
+            }
+            if responses.isEmpty != true {
+                let returnedCard = responses.randomElement()!
+                    completion(returnedCard)
+                print("retunedCard \(returnedCard.cardKey) ")
+                    
+                }
+                }
+            }
+        
+
+    func returnPromptForMeme(cardkey:String) {
+    
+        let ref = REF_GAMES.child("MaTxp6YIfDkhcRzVyJx")
+        let query = ref.queryOrdered(byChild: cardkey)
+        query.getData { returnedError, snapshot in
+            print(snapshot.value, 2)
+            print(returnedError, 1)
+        }
+    
+}
     
     func returnResponses(gameKey:String, completion: @escaping (([MemeCard]) -> ())) {
         var responses:[MemeCard] = []
