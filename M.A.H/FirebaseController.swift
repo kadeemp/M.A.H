@@ -14,7 +14,7 @@ let DB_BASE = Database.database().reference()
 
 
 class FirebaseController {
-    
+    //MARK:-
     static let instance = FirebaseController()
     
     private var _REF_BASE = DB_BASE
@@ -245,12 +245,13 @@ class FirebaseController {
     func returnFirstName(completion: @escaping (String) -> ()) {
         guard let user = Auth.auth().currentUser else { return }
         REF_USERS.child(user.uid).child("firstName").observeSingleEvent(of: .value) { (dataSnapshot) in
-            
+
             if dataSnapshot.exists() {
                 let name = dataSnapshot.value as! String
                 completion(name)
                // print("name is \(name)")
             } else {
+                print(dataSnapshot)
                 fatalError()
             }
         }

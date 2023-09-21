@@ -37,6 +37,7 @@
 		F45DACDF22C5D25B004090C1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F45DACDD22C5D25B004090C1 /* LaunchScreen.storyboard */; };
 		F465139823CE3CFE003D2DAA /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F465139723CE3CFE003D2DAA /* RootViewController.swift */; };
 		F467514529E73FC0001B8AC5 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F467514429E73FC0001B8AC5 /* TestViewController.swift */; };
+		F47213B929FDB3DC00E83F01 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47213B829FDB3DC00E83F01 /* SettingsViewController.swift */; };
 		F478243B2378ECDD00E843E9 /* WinningCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F478243A2378ECDD00E843E9 /* WinningCardView.swift */; };
 		F47FA14A2374A36600A7F0E9 /* PlayedCardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47FA1492374A36600A7F0E9 /* PlayedCardCollectionViewCell.swift */; };
 		F483A3D422E39AC000D099BE /* FirebaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F483A3D322E39AC000D099BE /* FirebaseController.swift */; };
@@ -89,6 +90,7 @@
 		F45DACE022C5D25B004090C1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F465139723CE3CFE003D2DAA /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		F467514429E73FC0001B8AC5 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
+		F47213B829FDB3DC00E83F01 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		F478243A2378ECDD00E843E9 /* WinningCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinningCardView.swift; sourceTree = "<group>"; };
 		F47FA1492374A36600A7F0E9 /* PlayedCardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayedCardCollectionViewCell.swift; sourceTree = "<group>"; };
 		F483A3D322E39AC000D099BE /* FirebaseController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseController.swift; sourceTree = "<group>"; };
@@ -177,6 +179,7 @@
 				F438B3AE22EB6782008314AE /* InvitePlayersViewController.swift */,
 				F4F32B95280DECE7009DB7B4 /* MenuController.swift */,
 				F467514429E73FC0001B8AC5 /* TestViewController.swift */,
+				F47213B829FDB3DC00E83F01 /* SettingsViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -374,6 +377,7 @@
 				F45DACD422C5D25A004090C1 /* LoginViewController.swift in Sources */,
 				F48D8A7C23207C630043402E /* Extention + String.swift in Sources */,
 				F438B39D22E933C9008314AE /* Extension+UIImageView.swift in Sources */,
+				F47213B929FDB3DC00E83F01 /* SettingsViewController.swift in Sources */,
 				F494AE4223E50503005F3BBA /* CardCollectionViewCell2.swift in Sources */,
 				F41DCC0B230259C70018C3D9 /* PromptCard.swift in Sources */,
 				F40832AF23D2693600CEFF81 /* ScoreboardCollectionViewCell.swift in Sources */,
@@ -568,7 +572,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.palacios.M-A-H";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -594,7 +598,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.palacios.M-A-H";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

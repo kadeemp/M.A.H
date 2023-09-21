@@ -19,35 +19,7 @@ class StartGameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         //TODO- update this to use user defaults based on uid
-        FirebaseController.instance.returnFirstName { (name) in
-//            self.greetingLabel.layer.opacity = 0
-//            DispatchQueue.main.async {
-//                UIView.animate(withDuration: 1) {
-//                    self.greetingLabel.text = "Signed in: \(name)"
-//                    self.greetingLabel.layer.opacity = 0.7
-//
-//                }
-//            }
-            
-            
-            //            //TODO:- REMOVE THIS
-            //            if let displayName = Auth.auth().currentUser?.displayName {
-            //             print("displayname already created")
-            //            } else {
-            //                print("displayname adding")
-            //                let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
-            //                changeRequest?.displayName = name
-            //                changeRequest?.commitChanges(completion: { (error) in
-            //                    if error != nil {
-            //                        print(error)
-            //                        print("error commiting profile changes")
-            //                    }
-            //                    print("done")
-            //                })
-            //            }
-        }
-        
-        
+
         // Do any additional setup after loading the view.
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -147,13 +119,7 @@ class StartGameViewController: UIViewController {
     }
     @IBAction func signOutPressed(_ sender: Any) {
         
-        do {
-            try Auth.auth().signOut()
-        }
-        catch {
-            print(error)
-        }
-        AppDelegate.shared.loadLoadLoginScreen(window: AppDelegate.shared.window!)
+
     }
     
     /*
